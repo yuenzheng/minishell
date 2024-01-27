@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:26:42 by ychng             #+#    #+#             */
-/*   Updated: 2024/01/23 18:19:30 by ychng            ###   ########.fr       */
+/*   Updated: 2024/01/27 16:34:25 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,9 @@ static void	insert_word(char **split_str, const char *str, const char *delim)
 		while (str[i] && ft_strchr(delim, str[i]) == NULL)
 			i++;
 	}
-	split_str[j] = 0;
+	if (j == 0)
+		split_str[j++] = (char *)str;
+	split_str[j] = NULL;
 }
 
 char	**ft_split(const char *str, const char *delim)
