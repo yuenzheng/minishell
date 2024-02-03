@@ -6,31 +6,39 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:18:23 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/01 16:19:43 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/03 18:35:55 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static void	complete_nesting_section(int *nesting_level, char *open_char)
+static void	handle_open_delim_closure(char *open_delim, int *nesting_lvl)
 {
-	if (*nesting_level == 0)
-		*open_char = '\0';
-	else if (*nesting_level > 0)
-		(*nesting_level)--;
+	if (*nesting_lvl == 0)
+		*open_delim = '\0';
+	else if (*nesting_lvl > 0)
+		(*nesting_lvl)--;
 }
 
-void	process_non_whitespace_char(
-	char *user_input, char *open_char, int *nesting_level, int *i)
+// condition for the nested condition
+// only if open delimiter has a value
+// and is not a quote
+// then check if its nested delimiter
+void	process_char_in_token(
+	char current_char,
+	char *open_delim,
+	int *nesting_lvl,
+	int *i
+)
 {
-	if (!(*open_char) && is_open_char(user_input[*i], user_input[*i + 1]))
-		*open_char = user_input[*i];
-	else if (*open_char == '$' && can_be_nested_char(
-			user_input[*i], user_input[*i + 1]))
-		(*nesting_level)++;
-	else if (*open_char && is_matching_close_char(user_input[*i], *open_char))
-		complete_nesting_section(nesting_level, open_char);
-	else if (is_escape_char(user_input[*i], user_input[*i + 1]))
+	if (!(*open_delim) && is_open_delim(current_char))
+		*open_delim = current_char;
+	else if (*open_delim && !is_quote_char(*open_delim)
+		&& is_nested_delim(current_char))
+		(*nesting_lvl)++;
+	else if (is_close_delim(current_char, *open_delim))
+		handle_open_delim_closure(open_delim, nesting_lvl);
+	else if (is_escaped_char(current_char))
 		(*i)++;
 	(*i)++;
 }

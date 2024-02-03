@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 04:45:59 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/01 16:37:09 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/03 18:03:00 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ static int	count_num_of_tokens(char *user_input)
 {
 	int		i;
 	int		token_count;
-	int		nesting_level;
+	int		nesting_lvl;
 	char	open_char;
 
 	i = 0;
 	token_count = 0;
-	nesting_level = 0;
+	nesting_lvl = 0;
 	open_char = '\0';
 	while (user_input[i])
 	{
@@ -30,10 +30,7 @@ static int	count_num_of_tokens(char *user_input)
 		if (user_input[i] && !open_char)
 			token_count++;
 		while (user_input[i] && !is_whitespace_char(user_input[i]))
-		{
-			process_non_whitespace_char(
-				user_input, &open_char, &nesting_level, &i);
-		}
+			process_char_in_token(user_input[i], &open_char, &nesting_lvl, &i);
 	}
 	return (token_count);
 }
@@ -41,17 +38,14 @@ static int	count_num_of_tokens(char *user_input)
 static int	count_token_len(char *user_input)
 {
 	int		i;
-	int		nesting_level;
+	int		nesting_lvl;
 	char	open_char;
 
 	i = 0;
-	nesting_level = 0;
+	nesting_lvl = 0;
 	open_char = '\0';
 	while (user_input[i] && (!is_whitespace_char(user_input[i]) || open_char))
-	{
-		process_non_whitespace_char(
-			user_input, &open_char, &nesting_level, &i);
-	}
+		process_char_in_token(user_input[i], &open_char, &nesting_lvl, &i);
 	return (i);
 }
 
@@ -79,12 +73,12 @@ static void	add_tokens(char **tokens, char *user_input)
 {
 	int		i;
 	int		j;
-	int		nesting_level;
+	int		nesting_lvl;
 	char	open_char;
 
 	i = 0;
 	j = 0;
-	nesting_level = 0;
+	nesting_lvl = 0;
 	open_char = '\0';
 	while (user_input[i])
 	{
@@ -93,10 +87,7 @@ static void	add_tokens(char **tokens, char *user_input)
 		if (user_input[i] && !open_char)
 			tokens[j++] = get_single_token(user_input + i);
 		while (user_input[i] && !is_whitespace_char(user_input[i]))
-		{
-			process_non_whitespace_char(
-				user_input, &open_char, &nesting_level, &i);
-		}
+			process_char_in_token(user_input[i], &open_char, &nesting_lvl, &i);
 	}
 	tokens[j] = NULL;
 }
