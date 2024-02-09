@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 04:45:59 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/03 18:03:00 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/09 18:18:48 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char	*get_single_token(char *user_input)
 	return (token);
 }
 
-static void	add_tokens(char **tokens, char *user_input)
+static void	fill_tokens(char **tokens, char *user_input)
 {
 	int		i;
 	int		j;
@@ -104,7 +104,7 @@ char	**tokenize_user_input(char *user_input)
 		printf("malloc failed for tokens\n");
 		exit(-1);
 	}
-	add_tokens(tokens, user_input);
+	fill_tokens(tokens, user_input);
 	return (tokens);
 }
 

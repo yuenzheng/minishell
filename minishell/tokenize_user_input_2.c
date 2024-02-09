@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:18:23 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/03 18:35:55 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/09 17:18:36 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	process_char_in_token(
 		(*nesting_lvl)++;
 	else if (is_close_delim(current_char, *open_delim))
 		handle_open_delim_closure(open_delim, nesting_lvl);
-	else if (is_escaped_char(current_char))
+	else if (is_escaped_char(current_char, *open_delim))
 		(*i)++;
 	(*i)++;
 }
