@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 04:45:59 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/09 18:18:48 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/10 15:55:04 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,20 @@ static int	count_num_of_tokens(char *user_input)
 	int		i;
 	int		token_count;
 	int		nesting_lvl;
-	char	open_char;
+	char	open_delim;
 
 	i = 0;
 	token_count = 0;
 	nesting_lvl = 0;
-	open_char = '\0';
+	open_delim = '\0';
 	while (user_input[i])
 	{
 		while (is_whitespace_char(user_input[i]))
 			i++;
-		if (user_input[i] && !open_char)
+		if (user_input[i] && !open_delim)
 			token_count++;
 		while (user_input[i] && !is_whitespace_char(user_input[i]))
-			process_char_in_token(user_input[i], &open_char, &nesting_lvl, &i);
+			process_char_in_token(user_input, &open_delim, &nesting_lvl, &i);
 	}
 	return (token_count);
 }
@@ -39,13 +39,13 @@ static int	count_token_len(char *user_input)
 {
 	int		i;
 	int		nesting_lvl;
-	char	open_char;
+	char	open_delim;
 
 	i = 0;
 	nesting_lvl = 0;
-	open_char = '\0';
-	while (user_input[i] && (!is_whitespace_char(user_input[i]) || open_char))
-		process_char_in_token(user_input[i], &open_char, &nesting_lvl, &i);
+	open_delim = '\0';
+	while (user_input[i] && (!is_whitespace_char(user_input[i]) || open_delim))
+		process_char_in_token(user_input, &open_delim, &nesting_lvl, &i);
 	return (i);
 }
 
@@ -74,20 +74,20 @@ static void	fill_tokens(char **tokens, char *user_input)
 	int		i;
 	int		j;
 	int		nesting_lvl;
-	char	open_char;
+	char	open_delim;
 
 	i = 0;
 	j = 0;
 	nesting_lvl = 0;
-	open_char = '\0';
+	open_delim = '\0';
 	while (user_input[i])
 	{
 		while (is_whitespace_char(user_input[i]))
 			i++;
-		if (user_input[i] && !open_char)
+		if (user_input[i] && !open_delim)
 			tokens[j++] = get_single_token(user_input + i);
 		while (user_input[i] && !is_whitespace_char(user_input[i]))
-			process_char_in_token(user_input[i], &open_char, &nesting_lvl, &i);
+			process_char_in_token(user_input, &open_delim, &nesting_lvl, &i);
 	}
 	tokens[j] = NULL;
 }

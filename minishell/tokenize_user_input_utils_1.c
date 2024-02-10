@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:14:58 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/09 17:48:32 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/10 15:52:35 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool	is_close_delim(char current_char, char open_delim)
 	return (false);
 }
 
-bool	is_escaped_char(char current_char, char open_delim)
+bool	is_escaped_char(char current_char, char next_char, char open_delim)
 {
-	return (open_delim != '\'' && current_char == '\\');
+	return (open_delim != '\'' && current_char == '\\' && next_char != '\0');
 }

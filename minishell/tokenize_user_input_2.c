@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:18:23 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/09 17:18:36 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/10 15:58:07 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,17 @@ static void	handle_open_delim_closure(char *open_delim, int *nesting_lvl)
 // and is not a quote
 // then check if its nested delimiter
 void	process_char_in_token(
-	char current_char,
+	char *user_input,
 	char *open_delim,
 	int *nesting_lvl,
 	int *i
 )
 {
+	char	current_char;
+	char	next_char;
+
+	current_char = user_input[*i];
+	next_char = user_input[*i + 1];
 	if (!(*open_delim) && is_open_delim(current_char))
 		*open_delim = current_char;
 	else if (*open_delim && !is_quote_char(*open_delim)
@@ -38,7 +43,7 @@ void	process_char_in_token(
 		(*nesting_lvl)++;
 	else if (is_close_delim(current_char, *open_delim))
 		handle_open_delim_closure(open_delim, nesting_lvl);
-	else if (is_escaped_char(current_char, *open_delim))
+	else if (is_escaped_char(current_char, next_char, *open_delim))
 		(*i)++;
 	(*i)++;
 }
