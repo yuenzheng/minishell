@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 12:26:05 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/10 22:02:10 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/11 16:53:37 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,14 @@
 
 bool	should_escape_in_double_quotes(char character)
 {
-	return (character == '\\' || character == '\"' || character == '$'
-			|| character == '`');
+	if (character == '$')
+		return (true);
+	else if (character == '`')
+		return (true);
+	else if (character == '\\')
+		return (true);
+	else if (character == '\"')
+		return (true);
 }
 
 void	expand_quotes(char *token)
@@ -86,7 +92,6 @@ void	expand_quotes(char *token)
 	token[j] = '\0';
 }
 
-// [hi, "  hi", "", 'hi  ']
 char	**expand_tokens(char **tokens)
 {
 	int	i;
