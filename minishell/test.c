@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 13:50:35 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/12 19:48:47 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/12 23:05:26 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,6 @@ void	process_right_parenthesis_token(
 	free(pop_node(opstack));
 }
 
-// {"91", "+", "23", "*", "(", }
 void	process_infix_token(char *token, t_stack *postfix, t_stack *opstack)
 {
 	if (is_number(token))
@@ -162,6 +161,85 @@ void	process_infix_token(char *token, t_stack *postfix, t_stack *opstack)
 		process_left_parenthesis_token(token, opstack);
 	else if (ft_strcmp(token, ")") == 0)
 		process_right_parenthesis_token(token, postfix, opstack);
+}
+
+int	power(int base, int exponent)
+{
+	int	result;
+
+	result = 1;
+	while (exponent > 0)
+	{
+		result *= base;
+		exponent--;
+	}
+	return (result);
+}
+
+void	push_operand(t_stack *stack, char *operand)
+{
+	push_node(stack, create_node(ft_strdup(operand)));
+}
+
+// Function to pop a token from the stack, free its memory, and convert it to an integer
+int	pop_and_convert_token_to_integer(t_stack *stack)
+{
+	char	*token;
+	int		value;
+
+	token = pop_node(stack)->token;
+	value = ft_atoi(token);
+	free(token);
+	return (value);
+}
+
+int	evaluate_operation(int operand1, int operand2, char *operator)
+{
+	if (ft_strcmp(operator, "+") == 0)
+		return (operand1 + operand2);
+	else if (ft_strcmp(operator, "-") == 0)
+		return (operand1 - operand2);
+	else if (ft_strcmp(operator, "*") == 0)
+		return (operand1 * operand2);
+	else if (ft_strcmp(operator, "/") == 0)
+		return (operand1 / operand2);
+	else if (ft_strcmp(operator, "%") == 0)
+		return (operand1 % operand2);
+	else if (ft_strcmp(operator, "**") == 0)
+		return (power(operand1, operand2));
+	return (0);
+}
+
+void	evaluate_operator(t_stack *stack, char *operator)
+{
+	int		operand2;
+	int		operand1;
+	int		result;
+
+	operand2 = pop_and_convert_token_to_integer(stack);
+	operand1 = pop_and_convert_token_to_integer(stack);
+	result = evaluate_operation(operand1, operand2, operator);
+	push_node(stack, create_node(ft_itoa(result)));
+}
+
+int	evaluate_postfix(t_stack *postfix)
+{
+	t_stack	stack;
+	t_node	*current;
+	int		final_result;
+
+	stack = (t_stack){0};
+	current = postfix->tail;
+	while (current)
+	{
+		if (!is_operator(current->token))
+			push_operand(&stack, current->token);
+		else
+			evaluate_operator(&stack, current->token);
+		current = current->prev;
+	}
+	final_result = pop_and_convert_token_to_integer(&stack);
+	return (final_result);
 }
 
 void	to_postfix(char **tokens)
@@ -177,20 +255,11 @@ void	to_postfix(char **tokens)
 		process_infix_token(tokens[i], &postfix, &opstack);
 	while (opstack.tail != NULL)
 		push_node(&postfix, pop_node(&opstack));
-
-
-	t_node	*temp;
-
-	temp = postfix.tail;
-	while (temp)
-	{
-		printf("%s\n", temp->token);
-		temp = temp->prev;
-	}
+	printf("%d\n", evaluate_postfix(&postfix));
 }
 
 int main(void)
 {
-	char *postfixExpr[] = { "(", "(", "3", "*", "4", ")", "+", "(", "5", "/", "2", ")", ")", "%", "6", "+", "(", "2", "**", "2", ")", NULL};
+	char *postfixExpr[] = { "(", "15", "*", "3", "+", "7", ")", "-", "(", "2", "*", "4", ")", "/", "10", NULL};
 	to_postfix(postfixExpr);
 }
