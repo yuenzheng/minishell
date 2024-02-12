@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/10 15:56:36 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/12 16:17:21 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,18 @@
 
 # include "sys_headers.h"
 # include "libft.h"
+
+typedef struct s_node
+{
+	char			*token;
+	struct s_node	*next;
+}	t_node;
+
+typedef struct s_stack
+{
+	t_node	*head;
+	t_node	*tail;
+}	t_stack;
 
 // tokenize_user_input_2.c
 void	process_char_in_token(
