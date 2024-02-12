@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 13:50:35 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/12 18:38:08 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/12 19:48:47 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_node	*create_node(char *token)
 	}
 	node->token = token;
 	node->next = NULL;
+	node->prev = NULL;
 	return (node);
 }
 
@@ -38,33 +39,29 @@ void	push_node(t_stack *stack, t_node *node)
 	}
 	else
 	{
-		stack->tail->next = node;
-		stack->tail = node;
+		node->next = stack->head;
+		stack->head->prev = node;
+		stack->head = node;
 	}
 }
 
 t_node	*pop_node(t_stack *stack)
 {
-	t_node	*last_node;
-	t_node	*current;
+	t_node	*top_node;
 
 	if (stack == NULL || stack->head == NULL)
 		return (NULL);
-	last_node = stack->tail;
+	top_node = stack->head;
 	if (stack->head == stack->tail)
 	{
 		stack->head = NULL;
 		stack->tail = NULL;
-		return (last_node);
+		return (top_node);
 	}
-	current = stack->head;
-	while (current->next != NULL)
-	{
-		stack->tail = current;
-		current = current->next;
-	}
-	stack->tail->next = NULL;
-	return (last_node);
+	stack->head = stack->head->next;
+	stack->head->prev = NULL;
+	top_node->next = NULL;
+	return (top_node);
 }
 
 bool	is_number(char *token)
@@ -124,11 +121,14 @@ void	process_number_token(char *token, t_stack *postfix)
 void	process_operator_token(
 	char *token, t_stack *postfix, t_stack *opstack)
 {
-	t_node	*top;
+	t_node	*top_node;
 
-	top = opstack->tail;
-	while (top && precedence(top->token) >= precedence(token))
+	top_node = opstack->head;
+	while (top_node && precedence(top_node->token) >= precedence(token))
+	{
 		push_node(postfix, pop_node(opstack));
+		top_node = opstack->head;
+	}
 	push_node(opstack, create_node(token));
 }
 
@@ -140,8 +140,14 @@ void	process_left_parenthesis_token(char *token, t_stack *opstack)
 void	process_right_parenthesis_token(
 	char *token, t_stack *postfix, t_stack *opstack)
 {
-	while (opstack->tail && ft_strcmp(opstack->tail->token, "(") != 0)
+	t_node	*top_node;
+
+	top_node = opstack->head;
+	while (top_node && ft_strcmp(top_node->token, "(") != 0)
+	{
 		push_node(postfix, pop_node(opstack));
+		top_node = opstack->head;
+	}
 	free(pop_node(opstack));
 }
 
@@ -171,18 +177,20 @@ void	to_postfix(char **tokens)
 		process_infix_token(tokens[i], &postfix, &opstack);
 	while (opstack.tail != NULL)
 		push_node(&postfix, pop_node(&opstack));
+
+
 	t_node	*temp;
 
-	temp = postfix.head;
-	while (temp != NULL)
+	temp = postfix.tail;
+	while (temp)
 	{
 		printf("%s\n", temp->token);
-		temp = temp->next;
+		temp = temp->prev;
 	}
 }
 
 int main(void)
 {
-	char *postfixExpr[] = { "2","+","(","3","*","(","8","-","4",")",")", NULL };
+	char *postfixExpr[] = { "(", "(", "3", "*", "4", ")", "+", "(", "5", "/", "2", ")", ")", "%", "6", "+", "(", "2", "**", "2", ")", NULL};
 	to_postfix(postfixExpr);
 }
