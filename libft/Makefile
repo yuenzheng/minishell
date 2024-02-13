@@ -17,6 +17,7 @@ SRCS :=	ft_atoi.c \
 		ft_strncmp.c \
 		ft_strchr.c \
 		ft_strdup.c \
+		ft_substr.c \
 		ft_strjoin.c \
 		ft_strtok.c \
 		ft_split.c
