@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 13:50:35 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/13 17:56:35 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/13 18:04:15 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,9 +175,9 @@ void	process_infix_token(char *token, t_stack *postfix, t_stack *opstack)
 		process_right_parenthesis_token(token, postfix, opstack);
 }
 
-int	power(int base, int exponent)
+long long	power(long long base, long long exponent)
 {
-	int	result;
+	long long	result;
 
 	result = 1;
 	while (exponent > 0)
@@ -194,18 +194,19 @@ void	push_operand(t_stack *stack, char *operand)
 }
 
 // Function to pop a token from the stack, free its memory, and convert it to an integer
-int	pop_and_convert_token_to_integer(t_stack *stack)
+long long	pop_and_convert_token_to_integer(t_stack *stack)
 {
-	char	*token;
-	int		value;
+	char		*token;
+	long long	value;
 
 	token = pop_node(stack)->token;
-	value = ft_atoi(token);
+	value = ft_atoll(token);
 	free(token);
 	return (value);
 }
 
-int	evaluate_operation(int operand1, int operand2, char *operator)
+long long	evaluate_operation(
+	long long operand1, long long operand2, char *operator)
 {
 	if (ft_strcmp(operator, "|") == 0)
 		return (operand1 | operand2);
@@ -230,21 +231,21 @@ int	evaluate_operation(int operand1, int operand2, char *operator)
 
 void	evaluate_operator(t_stack *stack, char *operator)
 {
-	int		operand2;
-	int		operand1;
-	int		result;
+	long long	operand2;
+	long long	operand1;
+	long long	result;
 
 	operand2 = pop_and_convert_token_to_integer(stack);
 	operand1 = pop_and_convert_token_to_integer(stack);
 	result = evaluate_operation(operand1, operand2, operator);
-	push_node(stack, create_node(ft_itoa(result)));
+	push_node(stack, create_node(ft_lltoa(result)));
 }
 
-int	evaluate_postfix(t_stack *postfix)
+long long	evaluate_postfix(t_stack *postfix)
 {
-	t_stack	stack;
-	t_node	*current;
-	int		final_result;
+	t_stack		stack;
+	t_node		*current;
+	long long	final_result;
 
 	stack = (t_stack){0};
 	current = postfix->tail;
@@ -273,7 +274,7 @@ void	to_postfix(char **tokens)
 		process_infix_token(tokens[i], &postfix, &opstack);
 	while (opstack.tail != NULL)
 		push_node(&postfix, pop_node(&opstack));
-	printf("%d\n", evaluate_postfix(&postfix));
+	printf("%lld\n", evaluate_postfix(&postfix));
 }
 
 int main(void)

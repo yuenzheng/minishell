@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   ft_lltoa.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/01 00:57:40 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/13 18:18:28 by ychng            ###   ########.fr       */
+/*   Created: 2024/02/13 18:04:29 by ychng             #+#    #+#             */
+/*   Updated: 2024/02/13 18:10:19 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-static void	add_into_buffer(long n, char *buffer)
+static void	add_into_buffer(long long n, char *buffer)
 {
-	int		i;
-	long	temp;
+	int			i;
+	long long	temp;
 
 	i = 0;
 	temp = n;
@@ -45,9 +45,9 @@ static void	ft_reverse(char *buffer, char *result)
 	result[i] = '\0';
 }
 
-char	*ft_itoa(int n)
+char	*ft_lltoa(long long n)
 {
-	char	buffer[12];
+	char	buffer[21];
 	char	*result;
 
 	add_into_buffer(n, buffer);
