@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 13:50:35 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/13 17:25:53 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/13 17:56:35 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ bool	is_operator(char *token)
 
 	if (ft_strcmp(token, "|") == 0)
 		return (true);
+	else if (ft_strcmp(token, "^") == 0)
+		return (true);
 	else if (ft_strcmp(token, "&") == 0)
 		return (true);
 	else if (ft_strcmp(token, "+") == 0)
@@ -104,20 +106,22 @@ int	precedence(char *token)
 {
 	if (ft_strcmp(token, "|") == 0)
 		return (0);
-	else if (ft_strcmp(token, "&") == 0)
+	else if (ft_strcmp(token, "^") == 0)
 		return (1);
+	else if (ft_strcmp(token, "&") == 0)
+		return (2);
 	else if (ft_strcmp(token, "+") == 0)
-		return (2);
+		return (3);
 	else if (ft_strcmp(token, "-") == 0)
-		return (2);
+		return (3);
 	else if (ft_strcmp(token, "*") == 0)
-		return (3);
-	else if (ft_strcmp(token, "/") == 0)
-		return (3);
-	else if (ft_strcmp(token, "%") == 0)
-		return (3);
-	else if (ft_strcmp(token, "**") == 0)
 		return (4);
+	else if (ft_strcmp(token, "/") == 0)
+		return (4);
+	else if (ft_strcmp(token, "%") == 0)
+		return (4);
+	else if (ft_strcmp(token, "**") == 0)
+		return (5);
 	return (-1);
 }
 
@@ -205,6 +209,8 @@ int	evaluate_operation(int operand1, int operand2, char *operator)
 {
 	if (ft_strcmp(operator, "|") == 0)
 		return (operand1 | operand2);
+	else if (ft_strcmp(operator, "^") == 0)
+		return (operand1 ^ operand2);
 	else if (ft_strcmp(operator, "&") == 0)
 		return (operand1 & operand2);
 	else if (ft_strcmp(operator, "+") == 0)
@@ -272,6 +278,6 @@ void	to_postfix(char **tokens)
 
 int main(void)
 {
-	char *postfixExpr[] = { "4", "+", "(", "3", "&", "2", ")", "+", "2", NULL};
+	char *postfixExpr[] = { "4", "^", "2", NULL};
 	to_postfix(postfixExpr);
 }
