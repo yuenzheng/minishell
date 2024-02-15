@@ -6,90 +6,71 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 12:26:05 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/11 16:53:37 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/15 19:08:41 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-// int	count_num_of_non_empty_tokens(char **tokens)
-// {
-// 	int		i;
-// 	int		j;
-// 	int		token_count;
-// 	bool	only_quotes;
-
-// 	i = 0;
-// 	token_count = 0;
-// 	while (tokens[i])
-// 	{
-// 		j = 0;
-// 		only_quotes = true;
-// 		while (tokens[i][j])
-// 		{
-// 			if (tokens[i][j] != '\'' && tokens[i][j] != '\"')
-// 			{
-// 				only_quotes = false;
-// 				break ;
-// 			}
-// 			j++;
-// 		}
-// 		if (!only_quotes)
-// 			token_count++;
-// 		i++;
-// 	}
-// 	return (token_count);
-// }
-
-bool	should_escape_in_double_quotes(char character)
+bool	is_alphabet(char character)
 {
-	if (character == '$')
-		return (true);
-	else if (character == '`')
-		return (true);
-	else if (character == '\\')
-		return (true);
-	else if (character == '\"')
-		return (true);
+	return (character >= 'A' && character <= 'Z'
+		|| (character >= 'a' && character <= 'z'));
 }
 
-void	expand_quotes(char *token)
+int	get_env_value_len(char *token, int *i)
+{
+	int		j;
+	char	*env;
+	char	*env_value;
+
+	j = *i + 1;
+	while (token[j] && is_alphabet(token[j]))
+		j++;
+	env = ft_substr(token, *i + 1, j - *i - 1);
+	env_value = getenv(env);
+	free(env);
+	*i = j;
+	return (ft_strlen(env_value));
+}
+
+void	handle_quotes(
+	char character, bool *in_single_quote, bool *in_double_quote)
+{
+	if (character == '\'' && !(*in_double_quote))
+		*in_single_quote = !(*in_single_quote);
+	else if (character == '\"' && !(*in_single_quote))
+		*in_double_quote = !(*in_double_quote);
+}
+
+int	get_expanded_token_len(char *token)
 {
 	int		i;
-	int		j;
-	bool	escaped;
-	bool	in_single_quote;
 	bool	in_double_quote;
+	bool	in_single_quote;
+	int		new_token_len;
 
 	i = 0;
-	j = 0;
-	escaped = false;
 	in_single_quote = false;
 	in_double_quote = false;
+	new_token_len = 0;
 	while (token[i])
 	{
-		if (!escaped)
+		handle_quotes(token[i], &in_single_quote, &in_double_quote);
+		if (token[i] == '$' && !in_single_quote)
 		{
-			if (token[i] == '\\' && !in_single_quote)
-				escaped = true;
-			else if (token[i] == '\'' && !in_double_quote)
-				in_single_quote = !in_single_quote;
-			else if (token[i] == '\"' && !in_single_quote)
-				in_double_quote = !in_double_quote;
-			else
-				token[j++] = token[i];
+			new_token_len += get_env_value_len(token, &i);
+			continue ;
 		}
-		else
+		else if (token[i] == '\\' && token[i + 1] != '\0')
 		{
-			if (in_double_quote && should_escape_in_double_quotes(token[i]))
-				token[j++] = token[i];
-			else if (!in_single_quote || !in_double_quote)
-				token[j++] = token[i];
-			escaped = false;
+			new_token_len++;
+			i++;
 		}
+		new_token_len++;
 		i++;
 	}
-	token[j] = '\0';
+	return (new_token_len);
 }
 
 char	**expand_tokens(char **tokens)
@@ -98,7 +79,8 @@ char	**expand_tokens(char **tokens)
 
 	i = -1;
 	while (tokens[++i])
-		expand_quotes(tokens[i]);
+		printf("%d\n", get_expanded_token_len(tokens[i]));
+	return (NULL);
 }
 
 int main(void)
@@ -110,7 +92,7 @@ int main(void)
 	user_input = readline("> ");
 	tokens = tokenize_user_input(user_input);
 	expand_tokens(tokens);
-	i = -1;
-	while (tokens[++i])
-		printf("%s\n", tokens[i]);
+	// i = -1;
+	// while (tokens[++i])
+	// 	printf("%s\n", tokens[i]);
 }
