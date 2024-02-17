@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 20:20:20 by ychng             #+#    #+#             */
-/*   Updated: 2024/01/23 20:21:14 by ychng            ###   ########.fr       */
+/*   Created: 2024/02/17 17:56:25 by ychng             #+#    #+#             */
+/*   Updated: 2024/02/17 17:56:44 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int	main(int argc, char **argv)
+int main(void)
 {
-	return (0);
+    return (0);
 }

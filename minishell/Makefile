@@ -9,11 +9,7 @@ LIBFT_PATH := ../libft/
 OBJS_PATH := ./objs/
 
 # Source files
-SRCS := minishell.c \
-		tokenize_user_input_1.c \
-		tokenize_user_input_2.c \
-		tokenize_user_input_utils_1.c \
-		tokenize_user_input_utils_2.c \
+SRCS := minishell.c
 
 # Object files
 OBJS := $(addprefix $(OBJS_PATH), $(SRCS:.c=.o))
