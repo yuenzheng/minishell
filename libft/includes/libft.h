@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 18:00:36 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/13 21:00:07 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/17 17:50:06 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ char		*ft_lltoa(long long n);
 
 // String Manipulation Functions
 int			ft_strlen(const char *str);
+int         ft_strspn(const char *str, const char *accept);
 int			ft_strcmp(const char *s1, const char *s2);
 int			ft_strncmp(const char *s1, const char *s2, int n);
 char		*ft_strchr(const char *str, int c);
+char        *ft_strcat(char *dest, const char *src);
 char		*ft_strdup(const char *str);
 char		*ft_substr(const char *str, int start, int len);
 char		*ft_strjoin(const char *s1, const char *s2, const char *delim);

@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcat.c                                        :+:      :+:    :+:   */
+/*   ft_strspn.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/16 19:41:15 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/17 17:46:29 by ychng            ###   ########.fr       */
+/*   Created: 2024/02/17 17:33:57 by ychng             #+#    #+#             */
+/*   Updated: 2024/02/17 17:53:33 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-char	*ft_strcat(char *dest, const char *src)
+int	ft_strspn(const char *str, const char *accept)
 {
-	int	i;
-	int	j;
+	int	span_len;
 
-	if (!dest || !src)
-		return (dest);
-	i = 0;
-	while (dest[i])
-		i++;
-	j = 0;
-	while (src[j])
-		dest[i++] = src[j++];
-	dest[i] = '\0';
-	return (dest);
+	if (!str || !accept)
+		return (0);
+	span_len = 0;
+	while (str[span_len] && ft_strchr(accept, str[span_len]))
+		span_len++;
+	return (span_len);
 }

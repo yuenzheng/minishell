@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 15:00:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/01/23 18:20:36 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/17 17:50:16 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strchr(const char *str, int c)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == (char)c)
 			return ((char *)str + i);

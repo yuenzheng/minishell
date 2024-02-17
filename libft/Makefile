@@ -13,9 +13,11 @@ SRCS :=	ft_atoi.c \
 		ft_itoa.c \
 		ft_lltoa.c \
 		ft_strlen.c \
+		ft_strspn.c \
 		ft_strcmp.c \
 		ft_strncmp.c \
 		ft_strchr.c \
+		ft_strcat.c \
 		ft_strdup.c \
 		ft_substr.c \
 		ft_strjoin.c \
