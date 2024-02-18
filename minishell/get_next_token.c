@@ -6,57 +6,18 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 18:04:09 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/18 18:23:35 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/18 18:51:42 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-char	*skip_delimeters(char *str, char *delim)
+static char	*skip_delimeters(char *str, char *delim)
 {
 	return (str + ft_strspn(str, delim));
 }
 
-bool	is_backslash(char c)
-{
-	return (c == '\\');
-}
-
-bool	is_single_quote(char c)
-{
-	return (c == '\'');
-}
-
-bool	is_double_quote(char c)
-{
-	return (c == '\"');
-}
-
-bool	is_quote(char c)
-{
-	return (is_single_quote(c) || is_double_quote(c));
-}
-
-void	toggle_in_quote(char c, bool *in_quote, char *quote_type)
-{
-	if (*in_quote == false)
-	{
-		*in_quote = true;
-		*quote_type = c;
-	}
-	else if (c == *quote_type)
-	{
-		*in_quote = false;
-		*quote_type = '\0';
-	}
-}
-
-bool	is_delim(char c, char *delim)
-{
-	return (ft_strchr(delim, c));
-}
-
-char	*find_token_end(char *remaining_input, char *delim)
+static char	*find_token_end(char *remaining_input, char *delim)
 {
 	bool		escaped;
 	bool		in_quote;
@@ -80,7 +41,7 @@ char	*find_token_end(char *remaining_input, char *delim)
 	return (remaining_input);
 }
 
-char	*advance_to_next_token(char *remaining_input)
+static char	*advance_to_next_token(char *remaining_input)
 {
 	if (*remaining_input)
 	{

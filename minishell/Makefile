@@ -9,7 +9,10 @@ LIBFT_PATH := ../libft/
 OBJS_PATH := ./objs/
 
 # Source files
-SRCS := minishell.c
+SRCS := character_check.c \
+		quote_handling.c \
+		get_next_token.c \
+		minishell.c
 
 # Object files
 OBJS := $(addprefix $(OBJS_PATH), $(SRCS:.c=.o))
