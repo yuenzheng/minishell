@@ -6,11 +6,14 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/17 17:56:06 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/17 19:18:57 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# include "sys_headers.h"
+# include "libft.h"
 
 #endif
