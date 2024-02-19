@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 18:04:09 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/18 18:51:42 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/20 03:16:30 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*get_next_token(char *input, char *delim)
 
 	if (input != NULL)
 		remaining_input = input;
-	if (*remaining_input == '\0')
+	if (!remaining_input || *remaining_input == '\0')
 		return (NULL);
 	remaining_input = skip_delimeters(remaining_input, delim);
 	token = remaining_input;
