@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 21:41:34 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/18 22:04:12 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/20 03:47:56 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_strncpy(char *dest, const char *src, int n)
 	start = dest;
 	while (*src && n--)
 		*dest++ = *src++;
-	while (n--)
+	while (n-- > 0)
 		*dest++ = '\0';
-	return (start);		
+	return (start);
 }
