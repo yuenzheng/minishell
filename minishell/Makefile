@@ -9,9 +9,13 @@ LIBFT_PATH := ../libft/
 OBJS_PATH := ./objs/
 
 # Source files
-SRCS := character_check.c \
+SRCS := character_check_1.c \
+		character_check_2.c \
+		character_check_3.c \
 		quote_handling.c \
-		get_next_token.c \
+		custom_strtok.c \
+		env_var_check.c \
+		get_next_env.c \
 		minishell.c
 
 # Object files

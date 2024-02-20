@@ -6,89 +6,13 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/20 03:54:57 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/20 13:25:53 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-bool	is_underscore(char c)
-{
-	return (c == '_');
-}
-
-bool	is_hash(char c)
-{
-	return (c == '#');
-}
-
-bool	is_dollar_sign(char c)
-{
-	return (c == '$');
-}
-
-bool	is_asterisk(char c)
-{
-	return (c == '*');
-}
-
-bool	is_ampersand(char c)
-{
-	return (c == '@');
-}
-
-bool	is_question_mark(char c)
-{
-	return (c == '?');
-}
-
-bool	is_exclamation(char c)
-{
-	return (c == '!');
-}
-
-bool	is_number(char c)
-{
-	return (c >= '0' && c <= '9');
-}
-
-bool	is_uppercase(char c)
-{
-	return (c >= 'A' && c <= 'Z');
-}
-
-bool	is_lowercase(char c)
-{
-	return (c >= 'a' && c <= 'z');
-}
-
-bool	is_special_env_name(char c)
-{
-	return (is_number(c)
-		|| (is_hash(c))
-		|| (is_asterisk(c))
-		|| (is_ampersand(c))
-		|| (is_dollar_sign(c))	
-		|| (is_exclamation(c))
-		|| (is_question_mark(c)));
-}
-
-bool	is_valid_env_name(char c)
-{
-	return (is_underscore(c)
-		|| (is_uppercase(c))
-		|| (is_lowercase(c))
-		|| (is_number(c)));
-}
-
-bool	is_env_var(char *remaining_input)
-{
-	return ((is_dollar_sign(*remaining_input))
-		&& (is_valid_env_name(*(remaining_input + 1))
-		|| is_special_env_name(*(remaining_input + 1))));
-}
-
-char	*find_env_start(char *remaining_token)
+static char	*find_env_start(char *remaining_token)
 {
 	bool	escaped;
 	bool	in_quote;
@@ -113,7 +37,7 @@ char	*find_env_start(char *remaining_token)
 	return (remaining_token);
 }
 
-char	*skip_env_name(char *remaining_token)
+static char	*skip_env_name(char *remaining_token)
 {
 	if (is_dollar_sign(*remaining_token))
 	{
@@ -129,7 +53,7 @@ char	*skip_env_name(char *remaining_token)
 	return (remaining_token);
 }
 
-char	*duplicate_env_var(char *env, char *remaining_token)
+static char	*duplicate_env_var(char *env, char *remaining_token)
 {
 	int	len;
 

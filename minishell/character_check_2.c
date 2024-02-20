@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   character_check.c                                  :+:      :+:    :+:   */
+/*   character_check_2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/18 18:41:55 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/18 18:46:05 by ychng            ###   ########.fr       */
+/*   Created: 2024/02/20 13:20:37 by ychng             #+#    #+#             */
+/*   Updated: 2024/02/20 13:22:13 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-bool	is_backslash(char c)
+bool	is_underscore(char c)
 {
-	return (c == '\\');
+	return (c == '_');
 }
 
-bool	is_single_quote(char c)
+bool	is_hash(char c)
 {
-	return (c == '\'');
+	return (c == '#');
 }
 
-bool	is_double_quote(char c)
+bool	is_dollar_sign(char c)
 {
-	return (c == '\"');
+	return (c == '$');
 }
 
-bool	is_quote(char c)
+bool	is_asterisk(char c)
 {
-	return (is_single_quote(c) || is_double_quote(c));
+	return (c == '*');
 }
 
-bool	is_delim(char c, char *delim)
+bool	is_ampersand(char c)
 {
-	return (ft_strchr(delim, c));
+	return (c == '@');
 }

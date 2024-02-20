@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_token.c                                   :+:      :+:    :+:   */
+/*   custom_strtok.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 18:04:09 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/20 03:16:30 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/20 13:43:17 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static char	*skip_delimeters(char *str, char *delim)
 	return (str + ft_strspn(str, delim));
 }
 
+// The 'in_quote' variable is just created for the function toggle_in_quote()
 static char	*find_token_end(char *remaining_input, char *delim)
 {
 	bool		escaped;
@@ -51,7 +52,7 @@ static char	*advance_to_next_token(char *remaining_input)
 	return (remaining_input);
 }
 
-char	*get_next_token(char *input, char *delim)
+char	*custom_strtok(char *input, char *delim)
 {
 	static char	*remaining_input;
 	char		*token;
