@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 18:00:36 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/20 15:02:08 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/21 06:54:09 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int			ft_strcspn(const char *str, const char *reject);
 int			ft_strcmp(const char *s1, const char *s2);
 int			ft_strncmp(const char *s1, const char *s2, int n);
 char		*ft_strchr(const char *str, int c);
+char		*ft_strstr(const char *haystack, const char *needle);
 char        *ft_strcat(char *dest, const char *src);
 char		*ft_strcpy(char *dest, const char *src);
 char		*ft_strncpy(char *dest, const char *src, int n);
@@ -37,5 +38,7 @@ char		*ft_substr(const char *str, int start, int len);
 char		*ft_strjoin(const char *s1, const char *s2, const char *delim);
 char		*ft_strtok(char *str, const char *delim);
 char		**ft_split(const char *str, const char *delim);
+
+
 
 #endif
