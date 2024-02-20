@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/20 13:37:36 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/20 19:50:26 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,8 @@ bool	is_env_var(char *remaining_input);
 
 // get_next_env.c
 char	*get_next_env(char *token);
+
+// get_input_line.c
+char	*get_input_line(void);
 
 #endif

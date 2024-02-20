@@ -16,6 +16,7 @@ SRCS := character_check_1.c \
 		custom_strtok.c \
 		env_var_check.c \
 		get_next_env.c \
+		get_input_line.c \
 		minishell.c
 
 # Object files
