@@ -19,6 +19,7 @@ SRCS :=	ft_atoi.c \
 		ft_strncmp.c \
 		ft_strchr.c \
 		ft_strcat.c \
+		ft_strcpy.c \
 		ft_strncpy.c \
 		ft_strdup.c \
 		ft_strndup.c \
