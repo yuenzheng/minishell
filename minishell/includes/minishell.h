@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/21 06:22:52 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/21 20:03:30 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ char	*get_next_env(char *token);
 
 // get_input_line.c
 char	*get_input_line(void);
+
+// expand_env_utils.c
+int		count_len_until_env(char *token, char *env);
+int		count_env_value_len(char *env);
+int		skip_env(char *env);
+int		count_remaining_len(char *token);
+char	*append_env_value(char *result, char *env);
 
 // expand_env.c
 char	*expand_env(char *token);
