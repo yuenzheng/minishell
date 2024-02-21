@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/20 13:25:53 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/21 13:03:29 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static char	*find_env_start(char *remaining_token)
 		else if (!escaped && is_quote(*remaining_token))
 			toggle_in_quote(*remaining_token, &in_quote, &quote_type);
 		else if (!escaped && !is_single_quote(quote_type)
-				&& is_env_var(remaining_token))
-				break ;
+			&& is_env_var(remaining_token))
+			break ;
 		else
 			escaped = false;
 		remaining_token++;

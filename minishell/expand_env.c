@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 06:18:41 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/21 07:26:15 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/21 13:08:18 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,9 @@
 
 char	*custom_strjoin()
 {
-	
 }
 
 // hi$HOME,$USER
-
-
 char	*expand_env(char *token)
 {
 	char	*env;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_var_check.c                                    :+:      :+:    :+:   */
+/*   env_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 13:23:55 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/20 13:25:30 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/21 13:07:24 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ bool	is_special_env_name(char c)
 		|| (is_hash(c))
 		|| (is_asterisk(c))
 		|| (is_ampersand(c))
-		|| (is_dollar_sign(c))	
+		|| (is_dollar_sign(c))
 		|| (is_exclamation(c))
 		|| (is_question_mark(c)));
 }
@@ -35,5 +35,5 @@ bool	is_env_var(char *remaining_input)
 {
 	return ((is_dollar_sign(*remaining_input))
 		&& (is_valid_env_name(*(remaining_input + 1))
-		|| is_special_env_name(*(remaining_input + 1))));
+			|| is_special_env_name(*(remaining_input + 1))));
 }
