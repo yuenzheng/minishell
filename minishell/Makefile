@@ -20,6 +20,7 @@ SRCS := character_check_1.c \
 		get_input_line.c \
 		expand_env_utils.c \
 		expand_env.c \
+		expand_tilde.c \
 		minishell.c
 
 # Object files

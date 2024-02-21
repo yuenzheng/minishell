@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/21 20:21:47 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/21 21:08:52 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,8 @@ char	*append_env_value(char *result, char *env);
 
 // expand_env.c
 char	*expand_env(char *token);
+
+// expand_tidle.c
+char	*expand_tilde(char *token);
 
 #endif
