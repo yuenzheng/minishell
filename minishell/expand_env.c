@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   expand_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/17 17:56:25 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/21 06:20:56 by ychng            ###   ########.fr       */
+/*   Created: 2024/02/21 06:18:41 by ychng             #+#    #+#             */
+/*   Updated: 2024/02/21 07:26:15 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int main(void)
+char	*custom_strjoin()
 {
-	char	*input;
-	char	*token;
+	
+}
 
-	while (1)
+// hi$HOME,$USER
+
+
+char	*expand_env(char *token)
+{
+	char	*env;
+
+	env = get_next_env(token);
+	while (env)
 	{
-		input = get_input_line();
-		token = custom_strtok(input, " ");
-		while (token)
-		{
-			expand_env(token);
-			token = custom_strtok(NULL, " ");
-		}
-		free(input);
+		
+		free(env);
+		env = get_next_env(NULL);
 	}
 }
