@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/22 17:43:52 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/22 19:21:54 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,7 @@ static char	*readline_until_no_open_quote(char *input)
 			free(final_input);
 			exit(-1);
 		}
-		if (*temp_input == '\0')
-			current_input = " ";
-		else
-			current_input = temp_input;
+		current_input = normalize_input(temp_input);
 		final_input = custom_strjoin(final_input, current_input);
 		if (current_input == temp_input)
 			free(current_input);
@@ -64,5 +61,6 @@ char	*get_input_line(void)
 
 	input = readline_until_has_character();
 	input = readline_until_no_open_quote(input);
+	add_history(input);
 	return (input);
 }
