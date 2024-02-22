@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 20:11:50 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/22 19:20:54 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/22 19:55:33 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ bool	has_open_quote(char *final_input)
 char	*normalize_input(char *temp_input)
 {
 	if (*temp_input == '\0')
-		return ("\n");
+		return ("\n\n");
 	return (temp_input);
 }
