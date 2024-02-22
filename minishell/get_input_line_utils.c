@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 20:11:50 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/21 20:12:36 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/22 17:37:11 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,4 @@ bool	has_open_quote(char *final_input)
 		final_input++;
 	}
 	return (in_quote);
-}
-
-// The result string has to be null-terminated
-// if not the first while loop in ft_strcat()
-// will run with garbage value
-// which will cause unexpected result
-char	*custom_strjoin(char *final_input, char *current_input)
-{
-	int		joined_len;
-	char	*result;
-
-	if (*current_input == '\0')
-		current_input = " ";
-	joined_len = ft_strlen(final_input) + ft_strlen(current_input);
-	result = malloc(sizeof(char) * (joined_len + 1));
-	if (!result)
-	{
-		printf("malloc failed for result\n");
-		exit(1);
-	}
-	*result = '\0';
-	ft_strcpy(result, final_input);
-	ft_strcat(result, current_input);
-	free(final_input);
-	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/21 21:08:52 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/22 17:52:39 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,11 @@ bool	is_env_var(char *remaining_input);
 // get_next_env.c
 char	*get_next_env(char *token);
 
+// string_utils.c
+char	*custom_strjoin(char *s1, char *s2);
+
 // get_input_line_utils.c
 bool	has_open_quote(char *final_input);
-char	*custom_strjoin(char *final_input, char *current_input);
 
 // get_input_line.c
 char	*get_input_line(void);
@@ -70,5 +72,12 @@ char	*expand_env(char *token);
 
 // expand_tidle.c
 char	*expand_tilde(char *token);
+
+// get_next_line_utils.c
+bool	contains_newline(char *remaining_line);
+int		read_and_check(int fd, char *buffer, int buffer_size);
+
+// get_next_line.c
+char	*get_next_line(int fd);
 
 #endif

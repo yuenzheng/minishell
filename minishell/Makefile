@@ -16,10 +16,13 @@ SRCS := character_check_1.c \
 		custom_strtok.c \
 		env_check.c \
 		get_next_env.c \
+		string_utils.c \
 		get_input_line_utils.c \
 		get_input_line.c \
 		expand_env_utils.c \
 		expand_env.c \
+		get_next_line_utils.c \
+		get_next_line.c \
 		expand_tilde.c \
 		minishell.c
 

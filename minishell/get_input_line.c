@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/21 20:12:25 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/22 17:43:52 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,26 @@ static char	*readline_until_has_character(void)
 static char	*readline_until_no_open_quote(char *input)
 {
 	char	*final_input;
+	char	*temp_input;
 	char	*current_input;
 
 	final_input = input;
 	while (has_open_quote(final_input))
 	{
-		current_input = readline("join> ");
-		if (!current_input)
+		temp_input = readline("join> ");
+		if (!temp_input)
 		{
 			printf("Ctrl+D was pressed\n");
 			free(final_input);
 			exit(-1);
 		}
+		if (*temp_input == '\0')
+			current_input = " ";
+		else
+			current_input = temp_input;
 		final_input = custom_strjoin(final_input, current_input);
-		free(current_input);
+		if (current_input == temp_input)
+			free(current_input);
 	}
 	return (final_input);
 }
