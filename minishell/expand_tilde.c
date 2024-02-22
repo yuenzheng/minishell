@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 20:28:13 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/23 04:19:59 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/23 04:26:15 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ char	*find_user_directory(char *user)
 	return (directory);	
 }
 
-bool	is_whitespace(char c)
+bool	is_newline(char c)
 {
-	return (c == ' ' || c == '\n');
+	return (c == '\n');
 }
 
 char	*extract_until_delim(char *user, char *delim)
@@ -80,7 +80,7 @@ char	*extract_until_delim(char *user, char *delim)
 	int	user_len;
 
 	user_len = ft_strcspn(user, delim);
-	if (is_backslash(user[user_len]) && !is_whitespace(user[user_len + 1]))
+	if (is_backslash(user[user_len]) && !is_newline(user[user_len + 1]))
 		user_len++;
 	return (ft_strndup(user, user_len));
 }
