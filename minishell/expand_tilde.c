@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 20:28:13 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/23 03:55:55 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/23 04:19:59 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,28 +34,6 @@ int	open_passwd_file(void)
 	}
 	return (fd);
 }
-
-// char	*find_directory(char *line, char *user)
-// {
-// 	char	*field;
-// 	int		field_count;
-
-// 	field = ft_strtok(line, ":");
-// 	if (field && ft_strcmp(field, user) == 0)
-// 	{
-// 		field_count = 0;
-// 		while (field_count < 5)
-// 		{
-// 			field = ft_strtok(NULL, ":");
-// 			if (!field)
-// 				return (NULL);
-// 			field_count++;
-// 		}
-// 	}
-// 	else
-// 		return (NULL);
-// 	return (ft_strdup(field));
-// }
 
 char	*find_directory(char *line, char *user)
 {
@@ -92,11 +70,18 @@ char	*find_user_directory(char *user)
 	return (directory);	
 }
 
-char	*extract_until_space_or_slash(char *user)
+bool	is_whitespace(char c)
+{
+	return (c == ' ' || c == '\n');
+}
+
+char	*extract_until_delim(char *user, char *delim)
 {
 	int	user_len;
 
-	user_len = ft_strcspn(user, " /");
+	user_len = ft_strcspn(user, delim);
+	if (is_backslash(user[user_len]) && !is_whitespace(user[user_len + 1]))
+		user_len++;
 	return (ft_strndup(user, user_len));
 }
 
@@ -108,7 +93,7 @@ char	*get_directory(char *user)
 	home_directory = getenv("HOME");
 	if (*user == '\0')
 		return (ft_strdup(home_directory));
-	user = extract_until_space_or_slash(user);
+	user = extract_until_delim(user, " /\\");
 	directory = find_user_directory(user);
 	free(user);
 	return (directory);
@@ -120,7 +105,7 @@ char	*expand_tilde_in_token(char *directory, char *token)
 	int		joined_len;
 	
 	if (directory)
-		token += ft_strcspn(token, " /");
+		token += ft_strcspn(token, " /\\");
 	joined_len = ft_strlen(directory) + ft_strlen(token);
 	result = malloc(sizeof(char) * (joined_len + 1));
 	if (!result)
