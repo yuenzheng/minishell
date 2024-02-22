@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 20:28:13 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/21 21:36:10 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/22 19:18:01 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,6 @@
 
 char	*expand_tilde(char *token)
 {
-	char buffer[1000];
-    chdir("/");
-    getcwd(buffer, 1000);
-    printf("Root directory: %s\n", buffer);
+	(void)token;
 	return (NULL);
 }
