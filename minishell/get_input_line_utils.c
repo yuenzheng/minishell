@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 20:11:50 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/22 20:14:28 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/23 19:02:54 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ bool	has_open_quote(char *final_input)
 	quote_type = '\0';
 	while (*final_input)
 	{
-		if (!escaped && is_backslash(*final_input))
+		if (!escaped && !is_single_quote(quote_type)
+			&& is_backslash(*final_input))
 			escaped = true;
 		else if (!escaped && is_quote(*final_input))
 			toggle_in_quote(*final_input, &in_quote, &quote_type);
