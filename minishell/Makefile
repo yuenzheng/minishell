@@ -12,6 +12,7 @@ OBJS_PATH := ./objs/
 SRCS := character_check_1.c \
 		character_check_2.c \
 		character_check_3.c \
+		character_check_4.c \
 		quote_handling.c \
 		custom_strtok.c \
 		env_check.c \
@@ -23,6 +24,7 @@ SRCS := character_check_1.c \
 		expand_env.c \
 		get_next_line_utils.c \
 		get_next_line.c \
+		expand_tilde_utils.c \
 		expand_tilde.c \
 		minishell.c
 

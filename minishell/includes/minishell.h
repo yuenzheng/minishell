@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/22 19:21:21 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/23 14:42:13 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ bool	is_exclamation(char c);
 bool	is_number(char c);
 bool	is_uppercase(char c);
 bool	is_lowercase(char c);
+
+// character_check_4.c
+bool	is_tilde(char c);
+bool	is_newline(char c);
 
 // quote_handling.c
 void	toggle_in_quote(char c, bool *in_quote, char *quote_type);
@@ -70,6 +74,10 @@ char	*append_env_value(char *result, char *env);
 
 // expand_env.c
 char	*expand_env(char *token);
+
+// expand_tilde_utils.c
+char	*extract_until_delim(char *user, char *delim);
+char	*find_user_directory(char *user);
 
 // expand_tidle.c
 char	*expand_tilde(char *token);
