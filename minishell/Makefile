@@ -24,7 +24,8 @@ SRCS := character_check_1.c \
 		expand_env.c \
 		get_next_line_utils.c \
 		get_next_line.c \
-		expand_tilde_utils.c \
+		expand_tilde_utils_1.c \
+		expand_tilde_utils_2.c \
 		expand_tilde.c \
 		minishell.c
 

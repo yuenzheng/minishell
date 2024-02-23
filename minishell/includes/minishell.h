@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/23 14:42:13 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/23 16:39:30 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,13 @@ char	*append_env_value(char *result, char *env);
 // expand_env.c
 char	*expand_env(char *token);
 
-// expand_tilde_utils.c
+// expand_tilde_utils_1.c
 char	*extract_until_delim(char *user, char *delim);
 char	*find_user_directory(char *user);
+
+// expand_tilde_utils_2.c
+DIR		*open_users_directory(void);
+char	*find_home_directory(char *entry_name, char *user);
 
 // expand_tidle.c
 char	*expand_tilde(char *token);

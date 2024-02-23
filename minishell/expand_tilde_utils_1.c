@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_tilde_utils.c                               :+:      :+:    :+:   */
+/*   expand_tilde_utils_1.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 14:39:27 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/23 14:43:33 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/23 16:48:38 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,6 @@ static int	open_passwd_file(void)
 	int	fd;
 
 	fd = open("/etc/passwd", O_RDONLY);
-	if (fd == -1)
-	{
-		printf("open failed for fd\n");
-		exit(-1);
-	}
 	return (fd);
 }
 
@@ -53,19 +48,22 @@ char	*find_user_directory(char *user)
 {
 	int		fd;
 	char	*line;
-	char	*directory;
+	char	*user_directory;
 
+	user_directory = NULL;
 	fd = open_passwd_file();
+	if (fd == -1)
+		return (NULL);
 	line = get_next_line(fd);
 	while (line)
 	{
-		directory = find_directory(line, user);
-		if (directory != NULL)
+		user_directory = find_directory(line, user);
+		if (user_directory != NULL)
 			break ;
 		free(line);
 		line = get_next_line(fd);
 	}
 	close(fd);
 	free(line);
-	return (directory);
+	return (user_directory);
 }
