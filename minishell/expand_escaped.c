@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:47:42 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/23 20:53:08 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/24 00:39:16 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static void	expand_escaped_chars(char *result, char *token)
 			escaped = false;
 		*result++ = *token++;
 	}
+	*result = '\0';
 }
 
 char	*expand_escaped(char *token)
