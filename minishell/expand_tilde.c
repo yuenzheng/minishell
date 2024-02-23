@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 20:28:13 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/23 16:59:41 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/24 00:59:45 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static char	*get_directory_from_env(char *user)
 		home_directory = getenv("HOME");
 		return (ft_strdup(home_directory));
 	}
+	free(user);
 	return (NULL);
 }
 
@@ -45,7 +46,10 @@ static char	*get_directory_from_users(char *user)
 	home_directory = NULL;
 	users_directory = open_users_directory();
 	if (!users_directory)
+	{
+		free(user);
 		return (NULL);
+	}
 	entry = readdir(users_directory);
 	while (entry)
 	{
@@ -55,6 +59,7 @@ static char	*get_directory_from_users(char *user)
 		entry = readdir(users_directory);
 	}
 	closedir(users_directory);
+	free(user);
 	return (home_directory);
 }
 
