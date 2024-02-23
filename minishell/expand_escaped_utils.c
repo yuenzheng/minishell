@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   character_check_4.c                                :+:      :+:    :+:   */
+/*   expand_escaped_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/23 14:37:12 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/23 19:54:07 by ychng            ###   ########.fr       */
+/*   Created: 2024/02/23 20:29:04 by ychng             #+#    #+#             */
+/*   Updated: 2024/02/23 20:53:15 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-bool	is_tilde(char c)
+bool	should_escape(char quote_type, char *token)
 {
-	return (c == '~');
+	return (!is_single_quote(quote_type) && is_backslash(*token)
+		&& needs_escaping(quote_type, *(token + 1)));
 }
 
-bool	is_newline(char c)
+bool	needs_escaping(char quote_type, char next_c)
 {
-	return (c == '\n');
-}
-
-bool	is_escapable(char c)
-{
-	return (is_backslash(c)
-		|| (is_double_quote(c))
-		|| (is_newline(c)));
+	return ((is_double_quote(quote_type) && is_escapable(next_c))
+		|| (!is_double_quote(quote_type)));
 }

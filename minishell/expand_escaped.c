@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:47:42 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/23 18:59:22 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/23 20:53:08 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	count_expanded_escaped_len(char *token)
 	quote_type = '\0';
 	while (*token)
 	{
-		if (!escaped && !is_single_quote(quote_type) && is_backslash(*token))
+		if (!escaped && should_escape(quote_type, token))
 		{
 			escaped = true;
 			token++;
@@ -52,7 +52,7 @@ static void	expand_escaped_chars(char *result, char *token)
 	quote_type = '\0';
 	while (*token)
 	{
-		if (!escaped && !is_single_quote(quote_type) && is_backslash(*token))
+		if (!escaped && should_escape(quote_type, token))
 		{
 			escaped = true;
 			token++;

@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/23 18:43:35 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/23 20:53:25 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ bool	is_lowercase(char c);
 // character_check_4.c
 bool	is_tilde(char c);
 bool	is_newline(char c);
+bool	is_escapable(char c);
 
 // quote_handling.c
 void	toggle_in_quote(char c, bool *in_quote, char *quote_type);
@@ -92,6 +93,10 @@ int		read_and_check(int fd, char *buffer, int buffer_size);
 
 // get_next_line.c
 char	*get_next_line(int fd);
+
+// expand_escaped_utils.c
+bool	should_escape(char quote_type, char *token);
+bool	needs_escaping(char quote_type, char next_c);
 
 // expand_escaped.c
 char	*expand_escaped(char *token);
