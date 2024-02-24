@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/24 17:18:34 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/24 18:58:34 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ char	*get_next_line(int fd);
 
 // expand_escaped_utils.c
 bool	should_escape(char quote_type, char *token);
-bool	needs_escaping(char quote_type, char next_c);
 
 // expand_escaped.c
 char	*expand_escaped(char *token);

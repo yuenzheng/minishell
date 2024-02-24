@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 20:29:04 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/23 20:53:15 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/24 18:58:23 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 
 bool	should_escape(char quote_type, char *token)
 {
-	return (!is_single_quote(quote_type) && is_backslash(*token)
-		&& needs_escaping(quote_type, *(token + 1)));
-}
-
-bool	needs_escaping(char quote_type, char next_c)
-{
-	return ((is_double_quote(quote_type) && is_escapable(next_c))
-		|| (!is_double_quote(quote_type)));
+	if (is_single_quote(quote_type) || !is_backslash(*token))
+		return (false);
+	if (is_double_quote(quote_type) && is_escapable(*(token + 1)))
+		return (true);
+	if (!is_double_quote(quote_type))
+		return (true);
+	return (false);
 }
