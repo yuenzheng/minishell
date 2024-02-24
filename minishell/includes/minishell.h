@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/23 20:53:25 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/24 15:08:11 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,18 @@
 
 # include "sys_headers.h"
 # include "libft.h"
+
+typedef struct s_token_node
+{
+	char				*token;
+	struct s_token_node	*next;
+}	t_token_node;
+
+typedef struct s_token_list
+{
+	t_token_node	*head;
+	t_token_node	*tail;
+}	t_token_list;
 
 // character_check_1.c
 bool	is_backslash(char c);
@@ -41,6 +53,15 @@ bool	is_lowercase(char c);
 bool	is_tilde(char c);
 bool	is_newline(char c);
 bool	is_escapable(char c);
+bool	is_space(char c);
+
+// builtins/echo_utils.c
+char	*skip_n_options(char *token);
+void	print_first_token(t_token_node *params);
+void	print_rest_of_tokens(t_token_node *params);
+
+// builtins/echo.c
+int		echo(t_token_node *params);
 
 // quote_handling.c
 void	toggle_in_quote(char c, bool *in_quote, char *quote_type);

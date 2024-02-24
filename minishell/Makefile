@@ -7,6 +7,7 @@ NAME := minishell
 SYS_HEADERS_PATH := ../
 LIBFT_PATH := ../libft/
 OBJS_PATH := ./objs/
+BUILTINS_PATH := ./builtins/
 
 # Source files
 SRCS := character_check_1.c \
@@ -31,8 +32,13 @@ SRCS := character_check_1.c \
 		expand_escaped.c \
 		minishell.c
 
+BUILTINS_SRCS := echo_utils.c \
+				 echo.c
+
 # Object files
-OBJS := $(addprefix $(OBJS_PATH), $(SRCS:.c=.o))
+SRCS_OBJS := $(addprefix $(OBJS_PATH), $(SRCS:.c=.o))
+BUILTINS_OBJS := $(addprefix $(OBJS_PATH), $(BUILTINS_SRCS:.c=.o))
+OBJS := $(SRCS_OBJS) $(BUILTINS_OBJS)
 
 # Run the make tool in another directory
 LIBFT_MAKE := $(MAKE) -C$(LIBFT_PATH)
@@ -63,6 +69,9 @@ $(NAME): $(OBJS)
 
 # Pattern rule to compile .c files into .o files
 $(OBJS_PATH)%.o: %.c
+	@$(CC) $(CFLAGS) $(INCLUDE_SYS_HEADERS) $(INCLUDE_LIBFT) -c $< -o $@
+
+$(OBJS_PATH)%.o: $(BUILTINS_PATH)%.c
 	@$(CC) $(CFLAGS) $(INCLUDE_SYS_HEADERS) $(INCLUDE_LIBFT) -c $< -o $@
 
 # Remove all object files
