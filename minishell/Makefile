@@ -34,7 +34,9 @@ SRCS := character_check_1.c \
 
 BUILTINS_SRCS := echo_utils.c \
 				 echo.c \
-				 pwd.c
+				 pwd.c \
+				 exit_utils.c \
+				 exit.c
 
 # Object files
 SRCS_OBJS := $(addprefix $(OBJS_PATH), $(SRCS:.c=.o))
