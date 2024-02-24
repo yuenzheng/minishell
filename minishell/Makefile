@@ -33,7 +33,8 @@ SRCS := character_check_1.c \
 		minishell.c
 
 BUILTINS_SRCS := echo_utils.c \
-				 echo.c
+				 echo.c \
+				 pwd.c
 
 # Object files
 SRCS_OBJS := $(addprefix $(OBJS_PATH), $(SRCS:.c=.o))

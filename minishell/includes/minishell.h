@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/24 15:08:11 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/24 17:18:34 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ void	print_rest_of_tokens(t_token_node *params);
 
 // builtins/echo.c
 int		echo(t_token_node *params);
+
+// builtins/pwd.c
+int		pwd(void);
 
 // quote_handling.c
 void	toggle_in_quote(char c, bool *in_quote, char *quote_type);
