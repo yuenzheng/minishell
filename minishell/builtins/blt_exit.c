@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:49:09 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/25 16:12:42 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/25 18:32:41 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	process_exit_args(t_token_node *params)
 	free(dup_token);
 }
 
-void	exit(t_token_node *params)
+void	blt_exit(t_token_node *params)
 {
 	if (params == NULL || count_exit_args(params) == 0)
 		exit(0);

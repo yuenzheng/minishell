@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   blt_echo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 01:02:22 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/24 14:43:30 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/25 18:36:04 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static bool	n_option_present(char *token)
 	return (token != skip_n_options(token));
 }
 
-int	echo(t_token_node *params)
+int	blt_echo(t_token_node *params)
 {
 	if (params == NULL)
 	{
@@ -49,5 +49,5 @@ int	echo(t_token_node *params)
 // 	first.token = "-nna -nnna";
 // 	second.token = "-nnnnnn ya,";
 // 	third.token = "so what";
-// 	echo(NULL);
+// 	blt_echo(NULL);
 // }

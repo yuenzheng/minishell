@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/25 04:52:42 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/25 18:35:26 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,25 @@ bool	is_newline(char c);
 bool	is_escapable(char c);
 bool	is_space(char c);
 
-// builtins/echo_utils.c
+// builtins/blt_echo_utils.c
 char	*skip_n_options(char *token);
 void	print_first_token(t_token_node *params);
 void	print_rest_of_tokens(t_token_node *params);
 
-// builtins/echo.c
-int		echo(t_token_node *params);
+// builtins/blt_echo.c
+int		blt_echo(t_token_node *params);
 
-// builtins/pwd.c
-int		pwd(void);
+// builtins/blt_pwd.c
+int		blt_pwd(void);
 
-// builtins/exit_utils.c
+// builtins/blt_exit_utils.c
 bool	contain_only_numbers(char *first_arg);
 int		normalize_exit_code(char *first_arg);
 void	handle_numeric_exit(char *first_arg, char *dup_token);
 void	handle_non_numeric_exit(char *dup_token);
 
-// builtins/exit.c
-void	exit(t_token_node *params);
+// builtins/blt_exit.c
+void	blt_exit(t_token_node *params);
 
 // quote_handling.c
 void	toggle_in_quote(char c, bool *in_quote, char *quote_type);

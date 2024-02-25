@@ -6,13 +6,13 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 17:04:16 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/24 17:17:42 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/25 18:32:56 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	pwd(void)
+int	blt_pwd(void)
 {
 	char	*current_directory;
 

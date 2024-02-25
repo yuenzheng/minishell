@@ -32,11 +32,11 @@ SRCS := character_check_1.c \
 		expand_escaped.c \
 		minishell.c
 
-BUILTINS_SRCS := echo_utils.c \
-				 echo.c \
-				 pwd.c \
-				 exit_utils.c \
-				 exit.c
+BUILTINS_SRCS := blt_echo_utils.c \
+				 blt_echo.c \
+				 blt_pwd.c \
+				 blt_exit_utils.c \
+				 blt_exit.c
 
 # Object files
 SRCS_OBJS := $(addprefix $(OBJS_PATH), $(SRCS:.c=.o))
