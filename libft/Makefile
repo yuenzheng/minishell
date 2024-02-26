@@ -14,6 +14,7 @@ SRCS :=	ft_atoi.c \
 		ft_lltoa.c \
 		ft_strlen.c \
 		ft_strspn.c \
+		ft_rstrspn.c \
 		ft_strcspn.c \
 		ft_strcmp.c \
 		ft_strncmp.c \
