@@ -15,6 +15,8 @@ SRCS := character_check_1.c \
 		character_check_3.c \
 		character_check_4.c \
 		quote_handling.c \
+		get_next_token_utils.c \
+		get_next_token.c \
 		custom_strtok.c \
 		env_check.c \
 		get_next_env.c \
