@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/26 18:00:35 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/26 18:13:20 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	blt_exit(t_token_node *params);
 void	toggle_in_quote(char c, bool *in_quote, char *quote_type);
 
 // get_next_token_utils.c
-bool	is_logical_operator(char *remaining_input);
+bool	is_control_operator(char *remaining_input);
 
 // get_next_token.c
 char	*get_next_token(char *input);
