@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/23 19:03:20 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/26 17:49:00 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*get_next_env(char *token)
 
 	if (token != NULL)
 		remaining_token = token;
-	if (!remaining_token && *remaining_token == '\0')
+	if (!remaining_token || *remaining_token == '\0')
 		return (NULL);
 	remaining_token = find_env_start(remaining_token);
 	env = remaining_token;
