@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/26 18:13:20 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/27 15:13:52 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 # include "sys_headers.h"
 # include "libft.h"
 
+typedef struct s_subtoken_node
+{
+	char					*token;
+	struct s_subtoken_node	*next;
+}	t_subtoken_node;
+
 typedef struct s_token_node
 {
-	char				*token;
+	t_subtoken_node		*subtoken_list;
 	struct s_token_node	*next;
 }	t_token_node;
-
-typedef struct s_token_list
-{
-	t_token_node	*head;
-	t_token_node	*tail;
-}	t_token_list;
 
 // character_check_1.c
 bool	is_backslash(char c);
