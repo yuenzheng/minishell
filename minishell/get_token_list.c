@@ -6,13 +6,13 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 10:44:19 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/29 11:27:41 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/29 11:39:14 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static t_subtoken_node	*get_subtoken_list(char *token)
+static t_subtoken_list	*get_subtoken_list(char *token)
 {
 	t_subtoken_list	*subtoken_list;
 	t_subtoken_node	*subtoken_node;
@@ -23,7 +23,7 @@ static t_subtoken_node	*get_subtoken_list(char *token)
 	while (subtoken)
 	{
 		subtoken_node = create_subtoken_node(subtoken);
-		link_subtoken_node(subtoken_node, &subtoken_list);
+		link_subtoken_node(subtoken_node, subtoken_list);
 		free(subtoken);
 		subtoken = get_next_subtoken(NULL);
 	}

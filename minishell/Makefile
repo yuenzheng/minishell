@@ -34,6 +34,8 @@ SRCS := character_check_1.c \
 		expand_tilde.c \
 		expand_escaped_utils.c \
 		expand_escaped.c \
+		subtoken_linked_list.c \
+		token_linked_list.c \
 		get_token_list_utils.c \
 		get_token_list.c \
 		free_token_list.c \
