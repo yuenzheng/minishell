@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 17:56:25 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/23 18:56:59 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/29 11:26:20 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,14 @@
 
 int	main(void)
 {
-	char	*input;
-	char	*token;
+	char			*input;
+	t_token_list	*token_list;
 
 	while (1)
 	{
 		input = get_input_line();
-		token = custom_strtok(input, " ");
-		while (token)
-		{
-			// expand_tilde(token);
-			// expand_env(token);
-			printf("%s\n", expand_escaped(token));
-			token = custom_strtok(NULL, " ");
-		}
+		token_list = get_token_list(input);
 		free(input);
+		free_token_list(token_list);
 	}
 }

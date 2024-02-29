@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/28 12:51:44 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/29 11:28:29 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,27 @@
 
 typedef struct s_subtoken_node
 {
-	char					*token;
+	char					*subtoken;
 	struct s_subtoken_node	*next;
 }	t_subtoken_node;
 
+typedef struct s_subtoken_list
+{
+	t_subtoken_node	*head;
+	t_subtoken_node	*tail;
+}	t_subtoken_list;
+
 typedef struct s_token_node
 {
-	t_subtoken_node		*subtoken_list;
+	t_subtoken_list		*subtoken_list;
 	struct s_token_node	*next;
 }	t_token_node;
+
+typedef struct s_token_list
+{
+	t_token_node	*head;
+	t_token_node	*tail;
+}	t_token_list;
 
 // character_check_1.c
 bool	is_backslash(char c);
@@ -144,5 +156,15 @@ bool	should_escape(char quote_type, char *token);
 
 // expand_escaped.c
 char	*expand_escaped(char *token);
+
+// get_token_list_utils.c
+t_subtoken_list	*create_subtoken_list(void);
+t_token_list	*create_token_list(void);
+
+// get_token_list.c
+t_token_list	*get_token_list(char *input);
+
+// free_token_list.c
+void			free_token_list(t_token_list *token_list);
 
 #endif

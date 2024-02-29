@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:06:38 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/27 15:28:06 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/29 11:06:21 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,16 @@ t_token_node	*create_token_node(t_subtoken_node *subtoken_list)
 	return (token_node);
 }
 
-void	link_token_list(t_token_node *token_list, t_token_node *token_node)
+void	link_token_node(t_token_node *token_node, t_token_list *token_list)
 {
-	t_token_node	*temp;
-
-	if (token_list == NULL)
+	if (token_list->head == NULL)
 	{
-		token_list = token_node;
-		temp = token_node;
+		token_list->head = token_node;
+		token_list->tail = token_node;
 	}
 	else
 	{
-		temp->next = token_node;
-		temp = token_node;
+		token_list->tail->next = token_node;
+		token_list->tail = token_node;
 	}
 }
