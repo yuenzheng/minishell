@@ -6,13 +6,13 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/26 17:49:00 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/29 16:57:58 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static char	*find_env_start(char *remaining_token)
+static char	*find_env_start(char *remaining_subtoken)
 {
 	bool	escaped;
 	bool	in_quote;
@@ -21,71 +21,71 @@ static char	*find_env_start(char *remaining_token)
 	escaped = false;
 	in_quote = false;
 	quote_type = '\0';
-	while (*remaining_token)
+	while (*remaining_subtoken)
 	{
 		if (!escaped && !is_single_quote(quote_type)
-			&& is_backslash(*remaining_token))
+			&& is_backslash(*remaining_subtoken))
 			escaped = true;
-		else if (!escaped && is_quote(*remaining_token))
-			toggle_in_quote(*remaining_token, &in_quote, &quote_type);
+		else if (!escaped && is_quote(*remaining_subtoken))
+			toggle_in_quote(*remaining_subtoken, &in_quote, &quote_type);
 		else if (!escaped && !is_single_quote(quote_type)
-			&& is_env_var(remaining_token))
+			&& is_env_var(remaining_subtoken))
 			break ;
 		else
 			escaped = false;
-		remaining_token++;
+		remaining_subtoken++;
 	}
-	return (remaining_token);
+	return (remaining_subtoken);
 }
 
-static char	*skip_env_name(char *remaining_token)
+static char	*skip_env_name(char *remaining_subtoken)
 {
-	if (is_dollar_sign(*remaining_token))
+	if (is_dollar_sign(*remaining_subtoken))
 	{
-		remaining_token++;
-		if (is_special_env_name(*remaining_token))
+		remaining_subtoken++;
+		if (is_special_env_name(*remaining_subtoken))
 		{
-			remaining_token++;
-			return (remaining_token);
+			remaining_subtoken++;
+			return (remaining_subtoken);
 		}
-		while (*remaining_token && is_valid_env_name(*remaining_token))
-			remaining_token++;
+		while (*remaining_subtoken && is_valid_env_name(*remaining_subtoken))
+			remaining_subtoken++;
 	}
-	return (remaining_token);
+	return (remaining_subtoken);
 }
 
-static char	*duplicate_env_var(char *env, char *remaining_token)
+static char	*duplicate_env_var(char *env, char *remaining_subtoken)
 {
 	int	len;
 
-	len = remaining_token - env;
+	len = remaining_subtoken - env;
 	if (len == 0)
 		return (NULL);
 	return (ft_strndup(env, len));
 }
 
-char	*get_next_env(char *token)
+char	*get_next_env(char *subtoken)
 {
-	static char	*remaining_token;
+	static char	*remaining_subtoken;
 	char		*env;
 
-	if (token != NULL)
-		remaining_token = token;
-	if (!remaining_token || *remaining_token == '\0')
+	if (subtoken != NULL)
+		remaining_subtoken = subtoken;
+	if (!remaining_subtoken || *remaining_subtoken == '\0')
 		return (NULL);
-	remaining_token = find_env_start(remaining_token);
-	env = remaining_token;
-	remaining_token = skip_env_name(remaining_token);
-	return (duplicate_env_var(env, remaining_token));
+	remaining_subtoken = find_env_start(remaining_subtoken);
+	env = remaining_subtoken;
+	remaining_subtoken = skip_env_name(remaining_subtoken);
+	return (duplicate_env_var(env, remaining_subtoken));
 }
 
 // int	main(void)
 // {
-// 	char	*token;
+// 	char	*subtoken;
 // 	char	*env;
 
-// 	token = readline("> ");
-// 	env = get_next_env(token);
+// 	subtoken = readline("> ");
+// 	env = get_next_env(subtoken);
 // 	while (env)
 // 	{
 // 		printf("%s\n", env);

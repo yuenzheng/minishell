@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/29 11:39:58 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/29 17:01:15 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ bool	is_valid_env_name(char c);
 bool	is_env_var(char *remaining_input);
 
 // get_next_env.c
-char	*get_next_env(char *token);
+char	*get_next_env(char *subtoken);
 
 // string_utils.c
 char	*custom_strjoin(char *s1, char *s2);
@@ -124,14 +124,14 @@ char	*normalize_input(char *temp_input);
 char	*get_input_line(void);
 
 // expand_env_utils.c
-int		count_len_until_env(char *token, char *env);
+int		count_len_until_env(char *subtoken, char *env);
 char	*get_env_value(char *env);
 int		count_env_value_len(char *env);
 int		skip_env(char *env);
 char	*append_env_value(char *result, char *env);
 
 // expand_env.c
-char	*expand_env(char *token);
+char	*expand_env(char *subtoken);
 
 // expand_tilde_utils_1.c
 char	*extract_until_delim(char *user, char *delim);
@@ -142,7 +142,7 @@ DIR		*open_users_directory(void);
 char	*find_home_directory(char *entry_name, char *user);
 
 // expand_tidle.c
-char	*expand_tilde(char *token);
+char	*expand_tilde(char *subtoken);
 
 // get_next_line_utils.c
 bool	contains_newline(char *remaining_line);
@@ -152,10 +152,10 @@ int		read_and_check(int fd, char *buffer, int buffer_size);
 char	*get_next_line(int fd);
 
 // expand_escaped_utils.c
-bool	should_escape(char quote_type, char *token);
+bool	should_escape(char quote_type, char *subtoken);
 
 // expand_escaped.c
-char	*expand_escaped(char *token);
+char	*expand_escaped(char *subtoken);
 
 // subtoken_linked_list.c
 t_subtoken_node	*create_subtoken_node(char *subtoken);

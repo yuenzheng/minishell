@@ -6,21 +6,21 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:57:25 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/21 20:20:28 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/29 16:58:29 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int	count_len_until_env(char *token, char *env)
+int	count_len_until_env(char *subtoken, char *env)
 {
 	int	len;
 
 	len = 0;
-	while (*token && token == ft_strstr(token, env))
+	while (*subtoken && subtoken == ft_strstr(subtoken, env))
 	{
 		len++;
-		token++;
+		subtoken++;
 	}
 	return (len);
 }

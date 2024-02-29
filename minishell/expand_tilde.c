@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 20:28:13 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/24 00:59:45 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/29 17:10:20 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,14 @@ static char	*get_directory_from_users(char *user)
 	return (home_directory);
 }
 
-static char	*expand_tilde_in_token(char *directory, char *token)
+static char	*expand_tilde_in_subtoken(char *directory, char *subtoken)
 {
 	char	*result;
 	int		joined_len;
 
 	if (directory)
-		token += ft_strcspn(token, " /\\");
-	joined_len = ft_strlen(directory) + ft_strlen(token);
+		subtoken += ft_strcspn(subtoken, " /\\");
+	joined_len = ft_strlen(directory) + ft_strlen(subtoken);
 	result = malloc(sizeof(char) * (joined_len + 1));
 	if (!result)
 	{
@@ -79,27 +79,28 @@ static char	*expand_tilde_in_token(char *directory, char *token)
 	}
 	*result = '\0';
 	ft_strcpy(result, directory);
-	ft_strcat(result, token);
+	ft_strcat(result, subtoken);
 	free(directory);
 	return (result);
 }
 
-char	*expand_tilde(char *token)
+char	*expand_tilde(char *subtoken)
 {
 	char	*directory;
 	char	*result;
 
 	directory = NULL;
-	if (is_tilde(*token))
+	if (is_tilde(*subtoken))
 	{
 		if (directory == NULL)
-			directory = get_directory_from_env(token + 1);
+			directory = get_directory_from_env(subtoken + 1);
 		if (directory == NULL)
-			directory = get_directory_from_passwd(token + 1);
+			directory = get_directory_from_passwd(subtoken + 1);
 		if (directory == NULL)
-			directory = get_directory_from_users(token + 1);
-		result = expand_tilde_in_token(directory, token);
+			directory = get_directory_from_users(subtoken + 1);
+		result = expand_tilde_in_subtoken(directory, subtoken);
+		free(subtoken);
 		return (result);
 	}
-	return (token);
+	return (subtoken);
 }
