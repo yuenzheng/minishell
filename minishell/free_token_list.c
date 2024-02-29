@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 10:49:34 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/29 11:23:59 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/29 12:00:24 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	free_subtoken_node(t_subtoken_node *subtoken_node)
 	if (subtoken_node == NULL)
 		return ;
 	free_subtoken_node(subtoken_node->next);
+	free(subtoken_node->subtoken);
 	free(subtoken_node);
 }
 

@@ -6,12 +6,15 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 10:44:19 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/29 11:39:14 by ychng            ###   ########.fr       */
+/*   Updated: 2024/02/29 12:02:33 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
+// Don't need to free subtoken in here,
+// Becase i'm passing it as a pointer for subtoken_node->subtoken
+// So it will be freed in free_token_list.c instead
 static t_subtoken_list	*get_subtoken_list(char *token)
 {
 	t_subtoken_list	*subtoken_list;
@@ -24,7 +27,7 @@ static t_subtoken_list	*get_subtoken_list(char *token)
 	{
 		subtoken_node = create_subtoken_node(subtoken);
 		link_subtoken_node(subtoken_node, subtoken_list);
-		free(subtoken);
+		// free(subtoken);
 		subtoken = get_next_subtoken(NULL);
 	}
 	return (subtoken_list);
