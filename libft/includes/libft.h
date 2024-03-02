@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 18:00:36 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/26 12:39:37 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/03 01:47:23 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define LIBFT_H
 
 # include "sys_headers.h"
+
+// Memory Manipulation Functions
+void		*ft_memcpy(void *dest, const char *src, size_t n);
+void		*ft_realloc(void *ptr, size_t original_size, size_t new_size);
 
 // Conversion Functions
 int			ft_atoi(const char *str);

@@ -8,7 +8,9 @@ SYS_HEADERS_PATH := ../
 OBJS_PATH := ./objs/
 
 # Source files
-SRCS :=	ft_atoi.c \
+SRCS :=	ft_memcpy.c \
+		ft_realloc.c \
+		ft_atoi.c \
 		ft_atoll.c \
 		ft_itoa.c \
 		ft_lltoa.c \
