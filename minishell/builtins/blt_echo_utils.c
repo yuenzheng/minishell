@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:38:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/03 02:27:19 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/03 04:31:54 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,19 @@
 
 char	*skip_n_options(char *subtoken)
 {
-	char	*flag;
+	char	*n_option;
 	char	*start;
 
-	flag = "-n";
+	n_option = "-n";
 	start = subtoken;
-	while (ft_strncmp(subtoken, flag, 2) == 0)
-	{
-		subtoken += ft_strlen(flag);
-		subtoken += ft_strspn(subtoken, "n");
-		if (is_space(*subtoken) || (*subtoken == '\0'))
-		{
-			subtoken += ft_strspn(subtoken, " ");
-			start = subtoken;
-		}
-	}
-	return (start);
+	if (ft_strncmp(start, n_option, 2) != 0)
+		return (start);
+	subtoken += ft_strlen(n_option);
+	subtoken += ft_strspn(subtoken, "n");
+	subtoken += ft_strspn(subtoken, " ");
+	if (ft_strncmp(start, n_option, 2) == 0)
+		return (start);
+	return (skip_n_options(subtoken));
 }
 
 void	print_first_subtoken(t_subtoken_node *params)
