@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 14:37:12 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/24 14:39:46 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/03 02:55:55 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,9 @@ bool	is_escapable(char c)
 bool	is_space(char c)
 {
 	return (c == ' ');
+}
+
+bool	is_sign(char c)
+{
+	return (c == '+' || c == '-');
 }
