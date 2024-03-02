@@ -6,13 +6,13 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 20:36:38 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/03 02:06:31 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/03 03:55:07 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-static int	calc_total_len(char *s1, char *s2, char *delim)
+static int	calc_total_len(const char *s1, const char *s2, const char *delim)
 {
 	return (ft_strlen(s1) + ft_strlen(s2) + ft_strlen(delim));
 }
