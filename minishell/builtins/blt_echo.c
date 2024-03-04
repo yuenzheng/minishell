@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 01:02:22 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/03 02:28:16 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/04 18:08:46 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,23 @@
 
 static void	print_subtokens(t_subtoken_node *params)
 {
-	print_first_subtoken(params);
-	print_remaining_subtokens(params);
+	params = find_first_non_option(params);
+	while (params)
+	{
+		printf("%s", params->subtoken);
+		if (params->next != NULL)
+			printf(" ");
+		params = params->next;
+	}
 }
 
-static bool	n_option_present(char *subtoken)
+static void	print_newline(t_subtoken_node *params)
 {
-	return (subtoken != skip_n_options(subtoken));
+	t_subtoken_node	*first_non_option;
+
+	first_non_option = find_first_non_option(params);
+	if (first_non_option == params)
+		printf("\n");
 }
 
 int	blt_echo(t_subtoken_node *params)
@@ -31,8 +41,7 @@ int	blt_echo(t_subtoken_node *params)
 		return (0);
 	}
 	print_subtokens(params);
-	if (!n_option_present(params->subtoken))
-		printf("\n");
+	print_newline(params);
 	return (0);
 }
 
@@ -46,8 +55,8 @@ int	blt_echo(t_subtoken_node *params)
 // 	second.next = &third;
 // 	third.next = NULL;
 
-// 	first.token = "-nna -nnna";
-// 	second.token = "-nnnnnn ya,";
-// 	third.token = "so what";
-// 	blt_echo(NULL);
+// 	first.subtoken = "-nnnnnnnnnnnn";
+// 	second.subtoken = "-nnnm";
+// 	third.subtoken = "so what";
+// 	blt_echo(&first);
 // }

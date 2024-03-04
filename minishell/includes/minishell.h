@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/03 03:02:46 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/04 17:51:14 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,8 @@ bool			is_sign(char c);
 bool			is_redirection(char *str);
 
 // builtins/blt_echo_utils.c
-char			*skip_n_options(char *subtoken);
-void			print_first_subtoken(t_subtoken_node *params);
-void			print_remaining_subtokens(t_subtoken_node *params);
+bool			is_n_options(char *subtoken);
+t_subtoken_node	*find_first_non_option(t_subtoken_node *params);
 
 // builtins/blt_echo.c
 int				blt_echo(t_subtoken_node *params);
