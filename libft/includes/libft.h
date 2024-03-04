@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 18:00:36 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/04 22:42:13 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/05 01:57:13 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "sys_headers.h"
 
 // Memory Manipulation Functions
+void		*ft_memset(void *dest, int c, size_t n);
 void		*ft_memcpy(void *dest, const void *src, size_t n);
 void		*ft_realloc(void *ptr, size_t original_size, size_t new_size);
 
