@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 19:10:05 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/05 01:41:27 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/05 03:40:55 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	count_envp_size(char **envp)
 	envp_size = 0;
 	while (envp[envp_size])
 		envp_size++;
-	return (envp_size);	
+	return (envp_size);
 }
 
 void	copy_envp_contents(char **envp, char **envp_copy)
@@ -55,6 +55,15 @@ char	**copy_envp(char **envp)
 	return (envp_copy);
 }
 
+bool	validate_env_name(char *subtoken)
+{
+	if (is_special_env_name(*subtoken))
+		return (false);
+	while (*subtoken && is_valid_env_name(*subtoken))
+		subtoken++;
+	return (*subtoken == '\0');
+}
+
 int	count_params_size(t_subtoken_node *params, char **envp)
 {
 	int	export_envp_size;
@@ -62,8 +71,7 @@ int	count_params_size(t_subtoken_node *params, char **envp)
 	export_envp_size = 0;
 	while (params)
 	{
-		if ((is_special_env_name(*params->subtoken))
-			|| !is_valid_env_name(*params->subtoken))
+		if (!validate_env_name(params->subtoken))
 			break ;
 		if (getenv(params->subtoken) == NULL)
 			export_envp_size++;
@@ -72,23 +80,21 @@ int	count_params_size(t_subtoken_node *params, char **envp)
 	return (export_envp_size);
 }
 
-void	copy_envp_to_export_envp(t_subtoken_node *params, char **envp, char **export_envp)
+void	copy_envp_to_export_envp(char **envp, char **export_envp)
 {
-	int	i;
-
-	i = -1;
-	while (envp[++i])
-		export_envp[i] = ft_strdup(envp[i]);
+	while (*envp)
+		*export_envp++ = ft_strdup(*envp++);
 }
 
 void	copy_params_to_export_envp(t_subtoken_node *params, char **export_envp, int i)
 {
 	while (params)
 	{
+		if (!validate_env_name(params->subtoken))
+			return ;	
 		export_envp[i++] = ft_strdup(params->subtoken);
-		params = params->next;
+		params = params->next;	
 	}
-	export_envp[i] = NULL;
 }
 
 int	get_max_len(char **export_envp)
@@ -109,17 +115,25 @@ int	get_max_len(char **export_envp)
 
 void	pad_entries(char **export_envp, int max_len)
 {
-	int	len;
-	int	pad_len;
+	int		len;
+	int		pad_len;
+	char	*padded_entry;
 
 	while (*export_envp)
 	{
-		len = ft_strlen(export_envp);
+		len = ft_strlen(*export_envp);
 		if (len < max_len)
 		{
 			pad_len = max_len - len;
-			
-		
+			padded_entry = ft_realloc(*export_envp, len + 1, max_len + 1);
+			if (!padded_entry)
+			{
+				printf("ft_realloc failed for padded_entry\n");
+				exit(-1);
+			}
+			ft_memset(padded_entry + len, ' ', pad_len);
+			padded_entry[len + pad_len] = '\0';
+			*export_envp = padded_entry;
 		}
 		export_envp++;
 	}
@@ -147,9 +161,16 @@ int	blt_export(t_subtoken_node *params, char **envp)
 		printf("malloc failed for export_envp\n");
 		exit(-1);
 	}
-	copy_envp_to_export_envp(params, envp, export_envp);
+	copy_envp_to_export_envp(envp, export_envp);
 	copy_params_to_export_envp(params, export_envp, envp_size);
+	export_envp[envp_size + params_size] = NULL;
 	pad_export_envp(export_envp);
+	while(*export_envp)
+	{
+		printf("%s\n", *export_envp);
+		free(*export_envp);
+		export_envp++;
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -162,8 +183,8 @@ int	main(int argc, char **argv, char **envp)
 	sec.next = &thi;
 	thi.next = NULL;
 
-	fir.subtoken = "";
-	sec.subtoken = ".";
+	fir.subtoken = "hithere";
+	sec.subtoken = "ya12";
 	thi.subtoken = "_7";
 	blt_export(&fir, envp);
 }
