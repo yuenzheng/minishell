@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 19:10:05 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/05 03:40:55 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/06 02:21:49 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,18 +86,19 @@ void	copy_envp_to_export_envp(char **envp, char **export_envp)
 		*export_envp++ = ft_strdup(*envp++);
 }
 
-void	copy_params_to_export_envp(t_subtoken_node *params, char **export_envp, int i)
+void	copy_params_to_export_envp(t_subtoken_node *params, \
+			char **export_envp, int i)
 {
 	while (params)
 	{
 		if (!validate_env_name(params->subtoken))
-			return ;	
+			return ;
 		export_envp[i++] = ft_strdup(params->subtoken);
-		params = params->next;	
+		params = params->next;
 	}
 }
 
-int	get_max_len(char **export_envp)
+int	get_max_name_len(char **export_envp)
 {
 	int	max_len;
 	int	len;
@@ -105,7 +106,7 @@ int	get_max_len(char **export_envp)
 	max_len = 0;
 	while (*export_envp)
 	{
-		len = ft_strlen(*export_envp);
+		len = ft_strcspn(*export_envp, "=");
 		if (max_len < len)
 			max_len = len;
 		export_envp++;
@@ -113,38 +114,43 @@ int	get_max_len(char **export_envp)
 	return (max_len);
 }
 
-void	pad_entries(char **export_envp, int max_len)
+char	*pad_name(char *entry, int max_name_len)
 {
-	int		len;
-	int		pad_len;
-	char	*padded_entry;
+	int		name_len;
+	char	*padded_name;
+	char	*remaining_entry;
+	char	*new_entry;
 
-	while (*export_envp)
+	name_len = ft_strcspn(entry, "=");
+	if (name_len < max_name_len)
 	{
-		len = ft_strlen(*export_envp);
-		if (len < max_len)
+		padded_name = ft_strndup(entry, name_len);
+		padded_name = ft_realloc(padded_name, name_len + 1, max_name_len + 1);
+		if (!padded_name)
 		{
-			pad_len = max_len - len;
-			padded_entry = ft_realloc(*export_envp, len + 1, max_len + 1);
-			if (!padded_entry)
-			{
-				printf("ft_realloc failed for padded_entry\n");
-				exit(-1);
-			}
-			ft_memset(padded_entry + len, ' ', pad_len);
-			padded_entry[len + pad_len] = '\0';
-			*export_envp = padded_entry;
+			printf("malloc failed for padded_name\n");
+			exit(-1);
 		}
-		export_envp++;
+		ft_memset(padded_name + name_len, ' ', max_name_len - name_len);
+		padded_name[max_name_len] = '\0';
+		remaining_entry = ft_strchr(entry, '=');
+		new_entry = custom_strjoin(padded_name, remaining_entry);
+		free(entry);
+		return (new_entry);
 	}
+	return (entry);
 }
 
 void	pad_export_envp(char **export_envp)
 {
 	int	max_len;
 
-	max_len = get_max_len(export_envp);
-	pad_entries(export_envp, max_len);
+	max_len = get_max_name_len(export_envp);
+	while (*export_envp)
+	{
+		*export_envp = pad_name(*export_envp, max_len);
+		export_envp++;
+	}	
 }
 
 int	blt_export(t_subtoken_node *params, char **envp)
