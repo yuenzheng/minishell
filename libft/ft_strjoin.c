@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 20:36:38 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/04 12:26:41 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/06 01:00:17 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strjoin(const char *s1, const char *s2, const char *delim)
 	int		total_len;
 	char	*result;
 
-	if (!s1 || !s2)
+	if (!s1 && !s2 && !delim)
 		return (NULL);
 	total_len = calc_total_len(s1, s2, delim);
 	result = malloc(total_len + 1);
