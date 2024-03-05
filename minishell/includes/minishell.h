@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/04 17:51:14 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/06 04:04:28 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,18 @@ int				blt_echo(t_subtoken_node *params);
 
 // builtins/blt_pwd.c
 int				blt_pwd(void);
+
+// builtins/blt_export_utils_1.c
+int				count_envp_size(char **envp);
+bool			validate_env_name(char *subtoken);
+int				count_params_size(t_subtoken_node *params);
+int				get_max_name_len(char **export_envp);
+
+// builtins/blt_export_utils_2.c
+char			*pad_name(char *entry, int max_name_len);
+
+// builtins/blt_export.c
+int				blt_export(t_subtoken_node *params, char **envp);
 
 // builtins/blt_exit_utils.c
 bool			contain_only_digits(char *first_arg);
