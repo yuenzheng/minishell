@@ -38,7 +38,7 @@ SRCS := character_check_1.c \
 		token_linked_list.c \
 		get_token_list_utils.c \
 		get_token_list.c \
-		free_token_list.c \
+		free_linked_list.c \
 		minishell.c
 
 BUILTINS_SRCS := blt_echo_utils.c \

@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 02:56:23 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 04:00:30 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,8 @@ t_token_list	*create_token_list(void);
 // get_token_list.c
 t_token_list	*get_token_list(char *input);
 
-// free_token_list.c
+// free_linked_list.c
+void			free_subtoken_list(t_subtoken_list *subtoken_list);
 void			free_token_list(t_token_list *token_list);
 
 #endif

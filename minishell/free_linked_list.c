@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_token_list.c                                  :+:      :+:    :+:   */
+/*   free_linked_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 10:49:34 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/29 12:00:24 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 03:59:52 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	free_subtoken_node(t_subtoken_node *subtoken_node)
 	free(subtoken_node);
 }
 
-static void	free_subtoken_list(t_subtoken_list *subtoken_list)
+void	free_subtoken_list(t_subtoken_list *subtoken_list)
 {
 	if (subtoken_list == NULL)
 		return ;
