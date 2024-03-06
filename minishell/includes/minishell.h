@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 04:00:30 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 05:43:31 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,9 @@ void			radix_sort(char **export_envp);
 
 // builtins/blt_export_utils_2.c
 t_subtoken_node	*filter_params(t_subtoken_node *params);
-char			**create_envp_copy(char **envp, t_subtoken_node *valid_params);
+char			**create_valid_envp(char **envp, t_subtoken_node *valid_params);
 void			print_export_envp(char **export_envp);
-void			free_export_envp(char **export_envp);
+void			free_envp(char **envp);
 
 // builtins/blt_export_utils_3.c
 int				count_envp_size(char **envp);
@@ -111,7 +111,7 @@ bool			validate_entry_name(char *subtoken);
 char			**create_output(int export_envp_size);
 
 // builtins/blt_export.c
-int				blt_export(char **envp, t_subtoken_node *params);
+int				blt_export(char ***envp, t_subtoken_node *params);
 
 // builtins/blt_exit_utils.c
 bool			contain_only_digits(char *first_arg);
@@ -207,6 +207,7 @@ t_token_list	*create_token_list(void);
 t_token_list	*get_token_list(char *input);
 
 // free_linked_list.c
+void			free_subtoken_node(t_subtoken_node *subtoken_node);
 void			free_subtoken_list(t_subtoken_list *subtoken_list);
 void			free_token_list(t_token_list *token_list);
 

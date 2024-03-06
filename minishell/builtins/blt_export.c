@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:15:48 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 03:03:40 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 06:01:17 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,63 +32,69 @@ static char	**create_export_envp(char **envp, t_subtoken_list *params_list)
 	return (export_envp);
 }
 
-static void	update_envp(char **envp, t_subtoken_node *params)
+static char	**update_envp(char **envp, t_subtoken_node *params)
 {
 	t_subtoken_node	*valid_params;
-	char			**envp_copy;
+	char			**valid_envp;
 	int				total_size;
 
 	valid_params = filter_params(params);
-	envp_copy = create_envp_copy(envp, valid_params);
-	copy_to_dest(envp_copy, envp, valid_params);
+	valid_envp = create_valid_envp(envp, valid_params);
+	copy_to_dest(valid_envp, envp, valid_params);
 	total_size = count_envp_size(envp) + count_params_size(valid_params);
-	ft_memcpy(envp, envp_copy, sizeof(char *) * (total_size + 1));
+	free_subtoken_node(valid_params);
+	free_envp(envp);
+	return (valid_envp);
 }
 
-int	blt_export(char **envp, t_subtoken_node *params)
+int	blt_export(char ***envp, t_subtoken_node *params)
 {
 	static t_subtoken_list	*params_list;
 	char					**export_envp;
 
 	params_list = update_params_list(params, params_list);
-	export_envp = create_export_envp(envp, params_list);
+	export_envp = create_export_envp(*envp, params_list);
 	if (params == NULL)
 		print_export_envp(export_envp);
-	free_export_envp(export_envp);
-	update_envp(envp, params);
+	free_envp(export_envp);
+	if (params != NULL)
+		*envp = update_envp(*envp, params);
 	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void)argc;
-	(void)argv;
-	t_subtoken_node	fir;
-	t_subtoken_node	sec;
-	t_subtoken_node	thi;
+	char	**temp;
 
-	fir.next = &sec;
-	sec.next = &thi;
-	thi.next = NULL;
+	temp = envp;
+	envp = malloc(sizeof(char *) * (count_envp_size(envp) + 1));
+	from_envp(envp, temp);
 
-	fir.subtoken = "Ahithere=";
-	sec.subtoken = "ya12";
-	thi.subtoken = "_7=";
+	t_subtoken_node	first;
+	t_subtoken_node	second;
+	t_subtoken_node	third;
+	t_subtoken_node	fourth;
+	t_subtoken_node	fifth;
 
-	blt_export(envp, &fir);
-	t_subtoken_node fou;
-	t_subtoken_node fiv;
+	first.next = &second;
+	second.next = &third;
+	third.next = NULL;
+	fourth.next = &fifth;;
+	fifth.next = NULL;
 
-	fou.next = &fiv;
-	fiv.next = NULL;
-	fou.subtoken = "mml";
-	fiv.subtoken = "ABC";
-	blt_export(envp, &fou);
+	first.subtoken = "hi";
+	second.subtoken = "bye";
+	third.subtoken = "=";
+	fourth.subtoken = "ABC=";
+	fifth.subtoken = "NAME=MAX";
 
-	while (*envp)
-	{
-		printf("%s\n", *envp);
-		// free(*envp);
-		envp++;
-	}
+	blt_export(&envp, NULL);
+	blt_export(&envp, &fourth);
+
+	int	i;
+
+	i = -1;
+	while (envp[++i])
+		printf("%s\n",envp[i]);
+	free_envp(envp);
 }

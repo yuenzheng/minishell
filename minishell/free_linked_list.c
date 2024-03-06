@@ -6,13 +6,13 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 10:49:34 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 03:59:52 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 04:03:27 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static void	free_subtoken_node(t_subtoken_node *subtoken_node)
+void	free_subtoken_node(t_subtoken_node *subtoken_node)
 {
 	if (subtoken_node == NULL)
 		return ;

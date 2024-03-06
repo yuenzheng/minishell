@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:39:01 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 02:49:39 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 04:20:47 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_subtoken_node	*filter_params(t_subtoken_node *params)
 	{
 		if (ft_strchr(params->subtoken, '='))
 		{
-			subtoken_node = create_subtoken_node(params->subtoken);
+			subtoken_node = create_subtoken_node(ft_strdup(params->subtoken));
 			link_subtoken_node(subtoken_node, &valid_params_list);
 		}
 		params = params->next;
@@ -30,21 +30,21 @@ t_subtoken_node	*filter_params(t_subtoken_node *params)
 	return (valid_params_list.head);
 }
 
-char	**create_envp_copy(char **envp, t_subtoken_node *valid_params)
+char	**create_valid_envp(char **envp, t_subtoken_node *valid_params)
 {
 	int		envp_size;
 	int		params_size;
-	char	**envp_copy;
+	char	**valid_envp;
 
 	envp_size = count_envp_size(envp);
 	params_size = count_params_size(valid_params);
-	envp_copy = malloc(sizeof(char *) * (envp_size + params_size + 1));
-	if (!envp_copy)
+	valid_envp = malloc(sizeof(char *) * (envp_size + params_size + 1));
+	if (!valid_envp)
 	{
-		printf("malloc failed for envp_copy\n");
+		printf("malloc failed for valid_envp\n");
 		exit(-1);
 	}
-	return (envp_copy);
+	return (valid_envp);
 }
 
 void	print_export_envp(char **export_envp)
@@ -76,12 +76,12 @@ void	print_export_envp(char **export_envp)
 	}
 }
 
-void	free_export_envp(char **export_envp)
+void	free_envp(char **envp)
 {
 	int	i;
 
 	i = -1;
-	while (export_envp[++i])
-		free(export_envp[i]);
-	free(export_envp);
+	while (envp[++i])
+		free(envp[i]);
+	free(envp);
 }
