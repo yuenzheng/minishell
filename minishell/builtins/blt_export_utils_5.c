@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 03:40:06 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 02:48:18 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 06:16:49 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 bool	validate_entry_name(char *subtoken)
 {
 	if (is_special_env_name(*subtoken))
+		return (false);
+	if (is_equal(*subtoken) && *(subtoken + 1) == '\0')
 		return (false);
 	while (*subtoken && is_valid_env_name(*subtoken))
 		subtoken++;

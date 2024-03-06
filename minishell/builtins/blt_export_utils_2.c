@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:39:01 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 04:20:47 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 06:07:23 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_subtoken_node	*filter_params(t_subtoken_node *params)
 	valid_params_list = (t_subtoken_list){0};		
 	while (params)
 	{
-		if (ft_strchr(params->subtoken, '='))
+		if (validate_entry_name(params->subtoken) && ft_strchr(params->subtoken, '='))
 		{
 			subtoken_node = create_subtoken_node(ft_strdup(params->subtoken));
 			link_subtoken_node(subtoken_node, &valid_params_list);

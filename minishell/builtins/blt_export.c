@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:15:48 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 06:01:17 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 06:08:23 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	main(int argc, char **argv, char **envp)
 	fourth.subtoken = "ABC=";
 	fifth.subtoken = "NAME=MAX";
 
-	blt_export(&envp, NULL);
+	blt_export(&envp, &first);
 	blt_export(&envp, &fourth);
 
 	int	i;
