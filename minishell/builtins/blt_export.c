@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 19:10:05 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/06 20:54:21 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/06 21:36:17 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	copy_params_to_export_envp(t_subtoken_node *params, \
 	export_envp += count_envp_size(export_envp);
 	while (params)
 	{
-		if (!validate_env_name(params->subtoken))
+		if (!validate_entry_name(params->subtoken))
 			return ;
 		*export_envp++ = ft_strdup(params->subtoken);
 		params = params->next;
@@ -116,11 +116,19 @@ void	print_export_envp(char **export_envp)
 
 	while (*export_envp)
 	{
+		if (is_underscore(**export_envp) && *(*export_envp + 1) == ' ')
+		{
+			export_envp++;
+			continue ;
+		}
 		entry_copy = ft_strdup(*export_envp);
 		name = ft_strtrim(ft_strtok(entry_copy, "="), " ");
-		value = ft_strchr(*export_envp, '=') + 1;
+		value = ft_strchr(*export_envp, '=');
 		if (value)
+		{
+			value++;
 			printf("declare -x %s=\"%s\"\n", name, value);
+		}
 		else
 			printf("declare -x %s\n", name);
 		free(entry_copy);

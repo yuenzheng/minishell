@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 03:40:06 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/06 04:03:59 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/06 21:15:40 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	count_envp_size(char **envp)
 	return (envp_size);
 }
 
-bool	validate_env_name(char *subtoken)
+bool	validate_entry_name(char *subtoken)
 {
 	if (is_special_env_name(*subtoken))
 		return (false);
@@ -38,7 +38,7 @@ int	count_params_size(t_subtoken_node *params)
 	export_envp_size = 0;
 	while (params)
 	{
-		if (!validate_env_name(params->subtoken))
+		if (!validate_entry_name(params->subtoken))
 			break ;
 		if (getenv(params->subtoken) == NULL)
 			export_envp_size++;
