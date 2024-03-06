@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 03:40:06 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/06 21:15:40 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/06 23:06:07 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,43 +22,42 @@ int	count_envp_size(char **envp)
 	return (envp_size);
 }
 
-bool	validate_entry_name(char *subtoken)
+int	count_params_size(t_subtoken_list *params_list)
 {
-	if (is_special_env_name(*subtoken))
-		return (false);
-	while (*subtoken && is_valid_env_name(*subtoken))
-		subtoken++;
-	return (*subtoken == '\0');
-}
-
-int	count_params_size(t_subtoken_node *params)
-{
-	int	export_envp_size;
+	int				export_envp_size;
+	t_subtoken_node	*current;
 
 	export_envp_size = 0;
-	while (params)
+	current = params_list->head;
+	while (current)
 	{
-		if (!validate_entry_name(params->subtoken))
+		if (!validate_entry_name(current->subtoken))
 			break ;
-		if (getenv(params->subtoken) == NULL)
+		if (getenv(current->subtoken) == NULL)
 			export_envp_size++;
-		params = params->next;
+		current = current->next;
 	}
 	return (export_envp_size);
 }
 
-int	get_max_name_len(char **export_envp)
+void	from_envp(char **export_envp, char **envp)
 {
-	int	max_len;
-	int	len;
+	while (*envp)
+		*export_envp++ = ft_strdup(*envp++);
+	*export_envp = NULL;
+}
 
-	max_len = 0;
-	while (*export_envp)
+void	from_params(char **export_envp, t_subtoken_list *params_list)
+{
+	t_subtoken_node	*current;
+
+	current = params_list->head;
+	while (current)
 	{
-		len = ft_strcspn(*export_envp, "=");
-		if (max_len < len)
-			max_len = len;
-		export_envp++;
+		if (!validate_entry_name(current->subtoken))
+			return ;
+		*export_envp++ = ft_strdup(current->subtoken);
+		current = current->next;
 	}
-	return (max_len);
+	*export_envp = NULL;
 }

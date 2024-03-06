@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/06 21:15:50 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/06 23:27:13 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ bool			is_sign(char c);
 
 // operator_check.c
 bool			is_redirection(char *str);
+bool			is_equal(char c);
 
 // builtins/blt_echo_utils.c
 bool			is_n_options(char *subtoken);
@@ -83,15 +84,20 @@ int				blt_pwd(void);
 
 // builtins/blt_export_utils_1.c
 int				count_envp_size(char **envp);
-bool			validate_entry_name(char *subtoken);
-int				count_params_size(t_subtoken_node *params);
-int				get_max_name_len(char **export_envp);
+int				count_params_size(t_subtoken_list *params_list);
+void			from_envp(char **export_envp, char **envp);
+void			from_params(char **export_envp, t_subtoken_list *params_list);
 
 // builtins/blt_export_utils_2.c
+bool			validate_entry_name(char *subtoken);
+int				get_max_name_len(char **export_envp);
 char			*pad_name(char *entry, int max_name_len);
 
+// builtins/blt_export_helper.c
+void			radix_sort(char **export_envp);
+
 // builtins/blt_export.c
-int				blt_export(t_subtoken_node *params, char **envp);
+int				blt_export(char **envp, t_subtoken_node *params);
 
 // builtins/blt_exit_utils.c
 bool			contain_only_digits(char *first_arg);

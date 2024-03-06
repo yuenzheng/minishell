@@ -6,11 +6,36 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 03:53:03 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/06 03:54:00 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/06 23:25:45 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+bool	validate_entry_name(char *subtoken)
+{
+	if (is_special_env_name(*subtoken))
+		return (false);
+	while (*subtoken && is_valid_env_name(*subtoken))
+		subtoken++;
+	return (is_equal(*subtoken) || *subtoken == '\0');
+}
+
+int	get_max_name_len(char **export_envp)
+{
+	int	max_len;
+	int	len;
+
+	max_len = 0;
+	while (*export_envp)
+	{
+		len = ft_strcspn(*export_envp, "=");
+		if (max_len < len)
+			max_len = len;
+		export_envp++;
+	}
+	return (max_len);
+}
 
 char	*pad_name(char *entry, int max_name_len)
 {
