@@ -50,6 +50,7 @@ BUILTINS_SRCS := blt_echo_utils.c \
 				 blt_export_utils_4.c \
 				 blt_export_utils_5.c \
 				 blt_export.c \
+				 blt_unset.c \
 				 blt_exit_utils.c \
 				 blt_exit.c
 
