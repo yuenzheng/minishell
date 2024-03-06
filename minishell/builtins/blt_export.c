@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 19:10:05 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/06 19:34:16 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/06 20:54:21 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,27 @@ void	radix_sort(char **export_envp)
 		count_sort(export_envp, count_envp_size(export_envp), pos);
 }
 
+void	print_export_envp(char **export_envp)
+{
+	char	*entry_copy;
+	char	*name;
+	char	*value;
+
+	while (*export_envp)
+	{
+		entry_copy = ft_strdup(*export_envp);
+		name = ft_strtrim(ft_strtok(entry_copy, "="), " ");
+		value = ft_strchr(*export_envp, '=') + 1;
+		if (value)
+			printf("declare -x %s=\"%s\"\n", name, value);
+		else
+			printf("declare -x %s\n", name);
+		free(entry_copy);
+		free(name);
+		export_envp++;
+	}
+}
+
 int	blt_export(t_subtoken_node *params, char **envp)
 {
 	char	**export_envp;
@@ -117,9 +138,10 @@ int	blt_export(t_subtoken_node *params, char **envp)
 	copy_params_to_export_envp(params, export_envp);
 	pad_export_envp(export_envp);
 	radix_sort(export_envp);
+	print_export_envp(export_envp);
 	while(*export_envp)
 	{
-		printf("%s\n", *export_envp);
+		// printf("%s\n", *export_envp);
 		free(*export_envp);
 		export_envp++;
 	}
@@ -141,5 +163,5 @@ int	main(int argc, char **argv, char **envp)
 	fir.subtoken = "hithere";
 	sec.subtoken = "ya12";
 	thi.subtoken = "_7";
-	blt_export(&fir, envp);
+	blt_export(NULL, envp);
 }
