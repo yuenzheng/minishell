@@ -5,59 +5,68 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/06 03:40:06 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/06 23:06:07 by ychng            ###   ########.fr       */
+/*   Created: 2024/03/07 02:33:57 by ychng             #+#    #+#             */
+/*   Updated: 2024/03/07 02:38:37 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	count_envp_size(char **envp)
+t_subtoken_list	*create_params_list(void)
 {
-	int	envp_size;
+	t_subtoken_list	*params_list;
 
-	envp_size = 0;
-	while (envp[envp_size])
-		envp_size++;
-	return (envp_size);
-}
-
-int	count_params_size(t_subtoken_list *params_list)
-{
-	int				export_envp_size;
-	t_subtoken_node	*current;
-
-	export_envp_size = 0;
-	current = params_list->head;
-	while (current)
+	params_list = malloc(sizeof(t_subtoken_list));
+	if (!params_list)
 	{
-		if (!validate_entry_name(current->subtoken))
-			break ;
-		if (getenv(current->subtoken) == NULL)
-			export_envp_size++;
-		current = current->next;
+		printf("malloc failed for params_list\n");
+		exit(-1);
 	}
-	return (export_envp_size);
+	params_list->head = NULL;
+	params_list->tail = NULL;
+	return (params_list);
 }
 
-void	from_envp(char **export_envp, char **envp)
+char	**alloc_export_envp(char **envp, t_subtoken_node *params)
 {
-	while (*envp)
-		*export_envp++ = ft_strdup(*envp++);
-	*export_envp = NULL;
-}
+	int		envp_size;
+	int		params_size;
+	char	**export_envp;
 
-void	from_params(char **export_envp, t_subtoken_list *params_list)
-{
-	t_subtoken_node	*current;
-
-	current = params_list->head;
-	while (current)
+	envp_size = count_envp_size(envp);
+	params_size = count_params_size(params);
+	export_envp = malloc(sizeof(char *) * (envp_size + params_size + 1));
+	if (!export_envp)
 	{
-		if (!validate_entry_name(current->subtoken))
-			return ;
-		*export_envp++ = ft_strdup(current->subtoken);
-		current = current->next;
+		printf("malloc failed for export_envp\n");
+		exit(-1);
 	}
-	*export_envp = NULL;
+	return (export_envp);
+}
+
+void	copy_to_dest(char **dest, char **envp, t_subtoken_node *params)
+{
+	from_envp(dest, envp);
+	from_params(dest + count_envp_size(envp), params);
+}
+
+void	pad_export_envp(char **export_envp)
+{
+	int	max_len;
+
+	max_len = get_max_name_len(export_envp);
+	while (*export_envp)
+	{
+		*export_envp = pad_name(*export_envp, max_len);
+		export_envp++;
+	}
+}
+
+void	radix_sort(char **export_envp)
+{
+	int	pos;
+
+	pos = get_max_name_len(export_envp);
+	while (pos--)
+		count_sort(export_envp, count_envp_size(export_envp), pos);
 }

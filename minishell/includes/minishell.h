@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 01:00:21 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 02:56:23 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,22 +83,32 @@ int				blt_echo(t_subtoken_node *params);
 int				blt_pwd(void);
 
 // builtins/blt_export_utils_1.c
-int				count_envp_size(char **envp);
-int				count_params_size(t_subtoken_list *params_list);
-void			from_envp(char **export_envp, char **envp);
-void			from_params(char **export_envp, t_subtoken_list *params_list);
-
-// builtins/blt_export_utils_2.c
-bool			validate_entry_name(char *subtoken);
-int				get_max_name_len(char **export_envp);
-char			*pad_name(char *entry, int max_name_len);
-char			**create_output(int export_envp_size);
-
-// builtins/blt_export_helper.c
+t_subtoken_list	*create_params_list(void);
+char			**alloc_export_envp(char **envp, t_subtoken_node *params);
+void			copy_to_dest(char **dest, char **envp, t_subtoken_node *params);
 void			pad_export_envp(char **export_envp);
 void			radix_sort(char **export_envp);
+
+// builtins/blt_export_utils_2.c
+t_subtoken_node	*filter_params(t_subtoken_node *params);
+char			**create_envp_copy(char **envp, t_subtoken_node *valid_params);
 void			print_export_envp(char **export_envp);
 void			free_export_envp(char **export_envp);
+
+// builtins/blt_export_utils_3.c
+int				count_envp_size(char **envp);
+int				count_params_size(t_subtoken_node *params);
+void			from_envp(char **export_envp, char **envp);
+void			from_params(char **export_envp, t_subtoken_node *params);
+int				get_max_name_len(char **export_envp);
+
+// builtins/blt_export_utils_4.c
+char			*pad_name(char *entry, int max_name_len);
+void			count_sort(char **export_envp, int export_envp_size, int pos);
+
+// builtins/blt_export_utils_5.c
+bool			validate_entry_name(char *subtoken);
+char			**create_output(int export_envp_size);
 
 // builtins/blt_export.c
 int				blt_export(char **envp, t_subtoken_node *params);

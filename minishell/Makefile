@@ -46,7 +46,9 @@ BUILTINS_SRCS := blt_echo_utils.c \
 				 blt_pwd.c \
 				 blt_export_utils_1.c \
 				 blt_export_utils_2.c \
-				 blt_export_helper.c \
+				 blt_export_utils_3.c \
+				 blt_export_utils_4.c \
+				 blt_export_utils_5.c \
 				 blt_export.c \
 				 blt_exit_utils.c \
 				 blt_exit.c
