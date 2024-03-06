@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:39:01 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 06:07:23 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 06:55:04 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ char	**create_valid_envp(char **envp, t_subtoken_node *valid_params)
 	return (valid_envp);
 }
 
+// else if (name), is for unset
+// so that if I change the subtoken to an empty str
+// it will not print anything
 void	print_export_envp(char **export_envp)
 {
 	char	*entry_copy;
@@ -68,7 +71,7 @@ void	print_export_envp(char **export_envp)
 			value++;
 			printf("declare -x %s=\"%s\"\n", name, value);
 		}
-		else
+		else if (name)
 			printf("declare -x %s\n", name);
 		free(entry_copy);
 		free(name);
