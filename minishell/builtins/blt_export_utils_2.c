@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 03:53:03 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/06 23:25:45 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 00:58:05 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,17 @@ char	*pad_name(char *entry, int max_name_len)
 		return (new_entry);
 	}
 	return (entry);
+}
+
+char	**create_output(int export_envp_size)
+{
+	char	**output;
+
+	output = malloc(sizeof(char *) * export_envp_size);
+	if (!output)
+	{
+		printf("malloc failed for output\n");
+		exit(-1);
+	}
+	return (output);
 }

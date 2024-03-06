@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:25:10 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/29 11:40:19 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 00:49:23 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	link_subtoken_node(t_subtoken_node *subtoken_node, \
 	}
 	else
 	{
+		while (subtoken_list->tail->next)
+			subtoken_list->tail = subtoken_list->tail->next;
 		subtoken_list->tail->next = subtoken_node;
 		subtoken_list->tail = subtoken_node;
 	}

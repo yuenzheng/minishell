@@ -6,23 +6,22 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 22:41:33 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/06 23:10:13 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 00:58:20 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	**create_output(int export_envp_size)
+void	pad_export_envp(char **export_envp)
 {
-	char	**output;
+	int	max_len;
 
-	output = malloc(sizeof(char *) * export_envp_size);
-	if (!output)
+	max_len = get_max_name_len(export_envp);
+	while (*export_envp)
 	{
-		printf("malloc failed for output\n");
-		exit(-1);
+		*export_envp = pad_name(*export_envp, max_len);
+		export_envp++;
 	}
-	return (output);
 }
 
 static void	count_sort(char **export_envp, int export_envp_size, int pos)
@@ -56,4 +55,43 @@ void	radix_sort(char **export_envp)
 	pos = get_max_name_len(export_envp);
 	while (pos--)
 		count_sort(export_envp, count_envp_size(export_envp), pos);
+}
+
+void	print_export_envp(char **export_envp)
+{
+	char	*entry_copy;
+	char	*name;
+	char	*value;
+
+	while (*export_envp)
+	{
+		if (is_underscore(**export_envp) && *(*export_envp + 1) == ' ')
+		{
+			export_envp++;
+			continue ;
+		}
+		entry_copy = ft_strdup(*export_envp);
+		name = ft_strtrim(ft_strtok(entry_copy, "="), " ");
+		value = ft_strchr(*export_envp, '=');
+		if (value)
+		{
+			value++;
+			printf("declare -x %s=\"%s\"\n", name, value);
+		}
+		else
+			printf("declare -x %s\n", name);
+		free(entry_copy);
+		free(name);
+		export_envp++;
+	}
+}
+
+void	free_export_envp(char **export_envp)
+{
+	int	i;
+
+	i = -1;
+	while (export_envp[++i])
+		free(export_envp[i]);
+	free(export_envp);
 }

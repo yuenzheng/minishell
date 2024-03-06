@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/06 23:27:13 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 01:00:21 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,13 @@ void			from_params(char **export_envp, t_subtoken_list *params_list);
 bool			validate_entry_name(char *subtoken);
 int				get_max_name_len(char **export_envp);
 char			*pad_name(char *entry, int max_name_len);
+char			**create_output(int export_envp_size);
 
 // builtins/blt_export_helper.c
+void			pad_export_envp(char **export_envp);
 void			radix_sort(char **export_envp);
+void			print_export_envp(char **export_envp);
+void			free_export_envp(char **export_envp);
 
 // builtins/blt_export.c
 int				blt_export(char **envp, t_subtoken_node *params);
