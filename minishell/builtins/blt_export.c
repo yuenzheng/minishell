@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 19:10:05 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/06 04:05:12 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/06 19:34:16 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,53 @@ static void	pad_export_envp(char **export_envp)
 	{
 		*export_envp = pad_name(*export_envp, max_len);
 		export_envp++;
-	}	
+	}
+}
+
+char	**create_output(int export_envp_size)
+{
+	char	**output;
+
+	output = malloc(sizeof(char *) * export_envp_size);
+	if (!output)
+	{
+		printf("malloc failed for output\n");
+		exit(-1);
+	}
+	return (output);
+}
+
+void	count_sort(char **export_envp, int export_envp_size, int pos)
+{
+	int		i;
+	int		count[256];
+	char	**output;
+
+	ft_bzero(count, sizeof(int) * 256);
+	i = 0;
+	while (i < export_envp_size)
+		count[export_envp[i++][pos]]++;
+	i = 1;
+	while (i < 256)
+	{
+		count[i] += count[i - 1];
+		i++;
+	}
+	output = create_output(export_envp_size);
+	i = export_envp_size;
+	while (i--)
+		output[--count[export_envp[i][pos]]] = export_envp[i];
+	ft_memcpy(export_envp, output, sizeof(char *) * export_envp_size);
+	free(output);
+}
+
+void	radix_sort(char **export_envp)
+{
+	int	pos;
+
+	pos = get_max_name_len(export_envp);
+	while (pos--)
+		count_sort(export_envp, count_envp_size(export_envp), pos);
 }
 
 int	blt_export(t_subtoken_node *params, char **envp)
@@ -70,6 +116,7 @@ int	blt_export(t_subtoken_node *params, char **envp)
 	copy_envp_to_export_envp(envp, export_envp);
 	copy_params_to_export_envp(params, export_envp);
 	pad_export_envp(export_envp);
+	radix_sort(export_envp);
 	while(*export_envp)
 	{
 		printf("%s\n", *export_envp);
