@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:15:48 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 19:43:41 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 19:49:03 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,10 @@ static char	**update_envp(char **envp, t_subtoken_node *params)
 {
 	t_subtoken_node	*valid_params;
 	char			**valid_envp;
-	int				total_size;
 
 	valid_params = filter_params(params);
 	valid_envp = create_valid_envp(envp, valid_params);
 	copy_to_dest(valid_envp, envp, valid_params);
-	total_size = count_envp_size(envp) + count_params_size(valid_params);
 	free_subtoken_node(valid_params);
 	free_envp(envp);
 	return (valid_envp);
