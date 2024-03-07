@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 19:38:37 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 19:44:15 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ bool			validate_entry_name(char *subtoken);
 char			**create_output(int export_envp_size);
 
 // builtins/blt_export.c
-int				blt_export(char ***envp, t_subtoken_node *params);
+int				blt_export(char ***envp, t_subtoken_node *params, \
+					t_subtoken_list *params_list);
 
 // builtins/blt_unset.c
 int				blt_unset(char **envp, t_subtoken_list *params_list, \

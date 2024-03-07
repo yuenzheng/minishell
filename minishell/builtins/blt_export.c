@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:15:48 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 06:08:23 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/07 19:43:41 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,13 @@ static char	**update_envp(char **envp, t_subtoken_node *params)
 	return (valid_envp);
 }
 
-int	blt_export(char ***envp, t_subtoken_node *params)
+// My export works on static to store the all args that you have used
+// It also ignored empty string, so that is easier to implement unset
+// Remeber to pass a static to params_list before the call
+int	blt_export(char ***envp, t_subtoken_node *params, \
+		t_subtoken_list *params_list)
 {
-	static t_subtoken_list	*params_list;
+	// static t_subtoken_list	*params_list;
 	char					**export_envp;
 
 	params_list = update_params_list(params, params_list);
@@ -62,39 +66,39 @@ int	blt_export(char ***envp, t_subtoken_node *params)
 	return (0);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	char	**temp;
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	char	**temp;
 
-	temp = envp;
-	envp = malloc(sizeof(char *) * (count_envp_size(envp) + 1));
-	from_envp(envp, temp);
+// 	temp = envp;
+// 	envp = malloc(sizeof(char *) * (count_envp_size(envp) + 1));
+// 	from_envp(envp, temp);
 
-	t_subtoken_node	first;
-	t_subtoken_node	second;
-	t_subtoken_node	third;
-	t_subtoken_node	fourth;
-	t_subtoken_node	fifth;
+// 	t_subtoken_node	first;
+// 	t_subtoken_node	second;
+// 	t_subtoken_node	third;
+// 	t_subtoken_node	fourth;
+// 	t_subtoken_node	fifth;
 
-	first.next = &second;
-	second.next = &third;
-	third.next = NULL;
-	fourth.next = &fifth;;
-	fifth.next = NULL;
+// 	first.next = &second;
+// 	second.next = &third;
+// 	third.next = NULL;
+// 	fourth.next = &fifth;;
+// 	fifth.next = NULL;
 
-	first.subtoken = "hi";
-	second.subtoken = "bye";
-	third.subtoken = "=";
-	fourth.subtoken = "ABC=";
-	fifth.subtoken = "NAME=MAX";
+// 	first.subtoken = "hi";
+// 	second.subtoken = "bye";
+// 	third.subtoken = "=";
+// 	fourth.subtoken = "ABC=";
+// 	fifth.subtoken = "NAME=MAX";
 
-	blt_export(&envp, &first);
-	blt_export(&envp, &fourth);
+// 	blt_export(&envp, &first);
+// 	blt_export(&envp, &fourth);
 
-	int	i;
+// 	int	i;
 
-	i = -1;
-	while (envp[++i])
-		printf("%s\n",envp[i]);
-	free_envp(envp);
-}
+// 	i = -1;
+// 	while (envp[++i])
+// 		printf("%s\n",envp[i]);
+// 	free_envp(envp);
+// }
