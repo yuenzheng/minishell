@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:44:37 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 19:48:04 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/11 13:17:07 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ void	count_sort(char **export_envp, int export_envp_size, int pos)
 	ft_bzero(count, sizeof(int) * 256);
 	i = 0;
 	while (i < export_envp_size)
-		count[(unsigned char)export_envp[i++][pos]]++;
+	{
+		count[(unsigned char)export_envp[i][pos]]++;
+		i++;
+	}
 	i = 1;
 	while (i < 256)
 	{

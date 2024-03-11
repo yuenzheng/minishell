@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:15:48 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 19:49:03 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/11 13:13:59 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ static char	**update_envp(char **envp, t_subtoken_node *params)
 int	blt_export(char ***envp, t_subtoken_node *params, \
 		t_subtoken_list *params_list)
 {
-	// static t_subtoken_list	*params_list;
-	char					**export_envp;
+	char	**export_envp;
 
 	params_list = update_params_list(params, params_list);
 	export_envp = create_export_envp(*envp, params_list);

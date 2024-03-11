@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 11:27:06 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 21:55:49 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/11 13:19:38 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*expand_subtoken(char *subtoken, bool expand_heredoc)
 		subtoken = expand_env(subtoken);
 		subtoken = expand_escaped(subtoken);
 	}
-	return (subtoken);	
+	return (subtoken);
 }
 
 t_subtoken_list	*create_subtoken_list(void)

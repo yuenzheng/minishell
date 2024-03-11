@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 14:58:45 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/03 03:54:36 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/11 13:19:20 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ char	*ft_strtok(char *str, const char *delim)
 	remaining_str += skip_leading_delims(remaining_str, delim);
 	token = remaining_str;
 	remaining_str += find_end_of_token(remaining_str, delim);
-	remaining_str = terminate_and_move(remaining_str);	
+	remaining_str = terminate_and_move(remaining_str);
 	return (token);
 }
