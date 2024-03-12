@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 21:56:06 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/12 20:59:51 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,13 @@ bool			is_escapable(char c);
 bool			is_space(char c);
 bool			is_sign(char c);
 
+// character_check_5.c
+bool			is_equal(char c);
+
 // operator_check.c
+bool			is_control_operator(char *remaining_input);
 bool			is_redirection(char *str);
 bool			is_heredoc(char *str);
-bool			is_equal(char c);
 
 // builtins/blt_echo_utils.c
 bool			is_n_options(char *subtoken);
@@ -133,9 +136,6 @@ void			blt_exit(t_subtoken_node *params);
 
 // quote_handling.c
 void			toggle_in_quote(char c, bool *in_quote, char *quote_type);
-
-// get_next_token_utils.c
-bool			is_control_operator(char *remaining_input);
 
 // get_next_token.c
 char			*get_next_token(char *input);

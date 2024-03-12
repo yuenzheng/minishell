@@ -14,9 +14,9 @@ SRCS := character_check_1.c \
 		character_check_2.c \
 		character_check_3.c \
 		character_check_4.c \
+		character_check_5.c \
 		operator_check.c \
 		quote_handling.c \
-		get_next_token_utils.c \
 		get_next_token.c \
 		get_next_subtoken.c \
 		custom_strtok.c \
