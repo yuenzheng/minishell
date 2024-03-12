@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/12 20:59:51 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/13 00:26:29 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ bool			is_sign(char c);
 bool			is_equal(char c);
 
 // operator_check.c
-bool			is_control_operator(char *remaining_input);
+bool			is_control_operator(char *str);
 bool			is_redirection(char *str);
 bool			is_heredoc(char *str);
 
@@ -139,6 +139,10 @@ void			toggle_in_quote(char c, bool *in_quote, char *quote_type);
 
 // get_next_token.c
 char			*get_next_token(char *input);
+
+// get_next_subtoken_utils.c
+int				len_of_redirection(char *subtoken);
+bool			is_space_or_redirection(char *subtoken);
 
 // get_next_subtoken.c
 char			*get_next_subtoken(char *token);

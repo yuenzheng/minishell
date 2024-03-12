@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 10:44:19 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/11 13:17:35 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/13 00:25:04 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,23 @@ static t_subtoken_list	*get_subtoken_list(char *token)
 	bool			expand_heredoc;
 
 	subtoken_list = create_subtoken_list();
-	subtoken = get_next_subtoken(token);
-	expand_heredoc = false;
-	while (subtoken)
+	if (is_control_operator(token))
 	{
-		subtoken = expand_subtoken(subtoken, expand_heredoc);
-		if (is_heredoc(subtoken) || expand_heredoc == true)
-			expand_heredoc = !expand_heredoc;
+		subtoken = ft_strdup(token);
 		link_subtoken_node(create_subtoken_node(subtoken), subtoken_list);
-		subtoken = get_next_subtoken(NULL);
+	}
+	else
+	{
+		subtoken = get_next_subtoken(token);
+		expand_heredoc = false;
+		while (subtoken)
+		{
+			subtoken = expand_subtoken(subtoken, expand_heredoc);
+			if (is_heredoc(subtoken) || expand_heredoc == true)
+				expand_heredoc = !expand_heredoc;
+			link_subtoken_node(create_subtoken_node(subtoken), subtoken_list);
+			subtoken = get_next_subtoken(NULL);
+		}
 	}
 	return (subtoken_list);
 }
