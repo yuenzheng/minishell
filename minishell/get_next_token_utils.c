@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:58:20 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/26 18:12:27 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/12 19:35:02 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,5 @@ bool	is_control_operator(char *remaining_input)
 {
 	return (ft_strncmp(remaining_input, "|&", 2) == 0
 		|| (ft_strncmp(remaining_input, "||", 2) == 0)
-		|| (ft_strncmp(remaining_input, "&&", 2) == 0)
-		|| (ft_strncmp(remaining_input, "|", 1) == 0));
+		|| (ft_strncmp(remaining_input, "&&", 2) == 0));
 }
