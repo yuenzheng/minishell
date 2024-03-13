@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 23:53:19 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/13 00:11:02 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/14 01:23:17 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ int	len_of_redirection(char *subtoken)
 
 bool	is_space_or_redirection(char *subtoken)
 {
-	return (is_space(*subtoken) || is_redirection(subtoken));
+	return (is_space(*subtoken) || is_redirection_n(subtoken));
 }

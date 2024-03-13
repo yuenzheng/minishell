@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   character_check_5.c                                :+:      :+:    :+:   */
+/*   get_next_token_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/12 20:57:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/14 01:44:02 by ychng            ###   ########.fr       */
+/*   Created: 2024/03/14 01:32:15 by ychng             #+#    #+#             */
+/*   Updated: 2024/03/14 01:39:38 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-bool	is_equal(char c)
+int	len_of_operator(char *remaining_input)
 {
-	return (c == '=');
+	if (is_bracket(*remaining_input))
+		return (1);
+	if (is_logical_operator_n(remaining_input))
+		return (2);
+	return (0);
 }
 
-bool	is_left_bracket(char c)
+bool	is_bracket_or_logical_operator(char *remaining_input)
 {
-	return (c == '(');
-}
-
-bool	is_right_bracket(char c)
-{
-	return (c == ')');
-}
-
-bool	is_bracket(char c)
-{
-	return (is_left_bracket(c) || is_right_bracket(c));
+	return (is_bracket(*remaining_input)
+		|| (is_logical_operator_n(remaining_input)));
 }

@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 18:51:28 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/13 20:16:58 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/14 01:46:15 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ static void	process_infix(t_token_list *infix, t_token_list *postfix, \
 				link_token_list(pop_token_list(opstack), postfix);
 			link_token_list(pop_token_list(infix), opstack);
 		}
-		else if (ft_strcmp(get_first_subtoken(infix->head), "(") == 0)
-			link_token_list(pop_token_list(infix), opstack);
-		else if (ft_strcmp(get_first_subtoken(infix->head), ")") == 0)
-		{
-			while (ft_strcmp(get_first_subtoken(opstack->head), "(") != 0)
-				link_token_list(pop_token_list(opstack), postfix);
-			free_token_node(pop_token_list(infix));
-			free_token_node(pop_token_list(opstack));
-		}
+		// else if (ft_strcmp(get_first_subtoken(infix->head), "(") == 0)
+		// 	link_token_list(pop_token_list(infix), opstack);
+		// else if (ft_strcmp(get_first_subtoken(infix->head), ")") == 0)
+		// {
+		// 	while (ft_strcmp(get_first_subtoken(opstack->head), "(") != 0)
+		// 		link_token_list(pop_token_list(opstack), postfix);
+		// 	free_token_node(pop_token_list(infix));
+		// 	free_token_node(pop_token_list(opstack));
+		// }
 	}
 }
 

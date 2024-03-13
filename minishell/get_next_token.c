@@ -6,18 +6,20 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:39:19 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/13 18:48:52 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/14 01:38:45 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static char	*find_cmd_end(char *remaining_input)
+static char	*find_token_end(char *remaining_input)
 {
 	bool	escaped;
 	bool	in_quote;
 	char	quote_type;
 
+	if (is_bracket_or_logical_operator(remaining_input))
+		return (remaining_input + len_of_operator(remaining_input));
 	escaped = false;
 	in_quote = false;
 	quote_type = '\0';
@@ -28,22 +30,14 @@ static char	*find_cmd_end(char *remaining_input)
 			escaped = true;
 		else if (!escaped && is_quote(*remaining_input))
 			toggle_in_quote(*remaining_input, &in_quote, &quote_type);
-		else if (!escaped && !in_quote && is_logical_operator_n(remaining_input))
+		else if (!escaped && !in_quote && \
+				is_bracket_or_logical_operator(remaining_input))
 			break ;
 		else
 			escaped = false;
 		remaining_input++;
 	}
-	return (remaining_input);
-}
-
-static char	*find_logical_operator_end(char *remaining_input)
-{
-	if (ft_strncmp(remaining_input, "|&", 2) == 0
-		|| (ft_strncmp(remaining_input, "||", 2) == 0)
-		|| (ft_strncmp(remaining_input, "&&", 2) == 0))
-		remaining_input += 2;
-	return (remaining_input);
+	return (remaining_input);	
 }
 
 static char	*duplicate_token(char *token, char *remaining_input)
@@ -64,8 +58,6 @@ char	*get_next_token(char *input)
 	if (!remaining_input || *remaining_input == '\0')
 		return (NULL);
 	token = remaining_input;
-	remaining_input = find_cmd_end(remaining_input);
-	if (token == remaining_input)
-		remaining_input = find_logical_operator_end(remaining_input);
+	remaining_input = find_token_end(remaining_input);
 	return (duplicate_token(token, remaining_input));
 }

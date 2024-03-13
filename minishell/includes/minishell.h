@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/13 20:06:23 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/14 01:44:32 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,14 @@ bool			is_sign(char c);
 
 // character_check_5.c
 bool			is_equal(char c);
+bool			is_left_bracket(char c);
+bool			is_right_bracket(char c);
+bool			is_bracket(char c);
 
 // operator_check.c
 bool			is_logical_operator(char *str);
 bool			is_logical_operator_n(char *str);
-bool			is_redirection(char *str);
+bool			is_redirection_n(char *str);
 bool			is_heredoc(char *str);
 
 // builtins/blt_echo_utils.c
@@ -138,6 +141,10 @@ void			blt_exit(t_subtoken_node *params);
 
 // quote_handling.c
 void			toggle_in_quote(char c, bool *in_quote, char *quote_type);
+
+// get_next_token_utils.c
+int				len_of_operator(char *remaining_input);
+bool			is_bracket_or_logical_operator(char *remaining_input);
 
 // get_next_token.c
 char			*get_next_token(char *input);

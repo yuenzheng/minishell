@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:44:03 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/13 00:17:07 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/14 01:23:17 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	skip_leading_spaces(char *remaining_token)
 	return (ft_strspn(remaining_token, " "));
 }
 
-// The if is_redirection, is for strs that has multiple subtokens
+// The if is_redirection_n, is for strs that has multiple subtokens
 // like "hi there|", see how the 'there' has '|' sticking together?
 // so what the len_of_redirection will do is return the len of '|'
 // which will increment the address of subtoken from '|' with 1
@@ -28,7 +28,7 @@ static char	*move_to_subtoken_end(char *subtoken)
 	bool	in_quote;
 	char	quote_type;
 
-	if (is_redirection(subtoken))
+	if (is_redirection_n(subtoken))
 		return (subtoken + len_of_redirection(subtoken));
 	escaped = false;
 	in_quote = false;

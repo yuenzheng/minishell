@@ -17,6 +17,7 @@ SRCS := character_check_1.c \
 		character_check_5.c \
 		operator_check.c \
 		quote_handling.c \
+		get_next_token_utils.c \
 		get_next_token.c \
 		get_next_subtoken_utils.c \
 		get_next_subtoken.c \
@@ -67,7 +68,7 @@ LIBFT_MAKE := $(MAKE) -C$(LIBFT_PATH)
 
 # Compiler and flags
 CC := cc
-CFLAGS := -Wall -Werror -Wextra $(if $(FSANITIZE), -fsanitize=$(FSANITIZE)) -w
+CFLAGS := -Wall -Werror -Wextra $(if $(FSANITIZE), -fsanitize=$(FSANITIZE))
 
 # Include flags, for the compiler to find additional header files
 INCLUDE_SYS_HEADERS := -I$(SYS_HEADERS_PATH)
