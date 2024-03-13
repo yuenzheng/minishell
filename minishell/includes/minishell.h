@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/13 18:48:31 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/13 20:06:23 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_token_node
 {
 	t_subtoken_list		*subtoken_list;
 	struct s_token_node	*next;
+	struct s_token_node	*prev;
 }	t_token_node;
 
 typedef struct s_token_list
@@ -203,27 +204,33 @@ bool			should_escape(char quote_type, char *subtoken);
 // expand_escaped.c
 char			*expand_escaped(char *subtoken);
 
-// subtoken_linked_list.c
+// subtoken_list_utils.c
 t_subtoken_node	*create_subtoken_node(char *subtoken);
-void			link_subtoken_node(t_subtoken_node *subtoken_node, \
+t_subtoken_list	*create_subtoken_list(void);
+void			link_subtoken_list(t_subtoken_node *subtoken_node, \
 					t_subtoken_list *subtoken_list);
 
-// token_linked_list.c
+// token_list_utils.c
 t_token_node	*create_token_node(t_subtoken_list *subtoken_list);
-void			link_token_node(t_token_node *token_node, \
+t_token_list	*create_token_list(void);
+t_token_node	*pop_token_list(t_token_list *token_list);
+void			link_token_list(t_token_node *token_node, \
 					t_token_list *token_list);
+int				count_token_list(t_token_list *token_list);
 
 // get_token_list_utils.c
 char			*expand_subtoken(char *subtoken, bool expand_heredoc);
-t_subtoken_list	*create_subtoken_list(void);
-t_token_list	*create_token_list(void);
 
 // get_token_list.c
 t_token_list	*get_token_list(char *input);
 
-// free_linked_list.c
+// infix_to_postfix.c
+t_token_list	*infix_to_postfix(t_token_list *infix);
+
+// free_list.c
 void			free_subtoken_node(t_subtoken_node *subtoken_node);
 void			free_subtoken_list(t_subtoken_list *subtoken_list);
+void			free_token_node(t_token_node *token_node);
 void			free_token_list(t_token_list *token_list);
 
 #endif

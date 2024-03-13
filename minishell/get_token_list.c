@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 10:44:19 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/13 18:44:14 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/13 19:25:15 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static t_subtoken_list	*get_subtoken_list(char *token)
 	if (is_logical_operator(token))
 	{
 		subtoken = ft_strdup(token);
-		link_subtoken_node(create_subtoken_node(subtoken), subtoken_list);
+		link_subtoken_list(create_subtoken_node(subtoken), subtoken_list);
 	}
 	else
 	{
@@ -36,7 +36,7 @@ static t_subtoken_list	*get_subtoken_list(char *token)
 			subtoken = expand_subtoken(subtoken, expand_heredoc);
 			if (is_heredoc(subtoken) || expand_heredoc == true)
 				expand_heredoc = !expand_heredoc;
-			link_subtoken_node(create_subtoken_node(subtoken), subtoken_list);
+			link_subtoken_list(create_subtoken_node(subtoken), subtoken_list);
 			subtoken = get_next_subtoken(NULL);
 		}
 	}
@@ -54,7 +54,7 @@ t_token_list	*get_token_list(char *input)
 	while (token)
 	{
 		token_node = create_token_node(get_subtoken_list(token));
-		link_token_node(token_node, token_list);
+		link_token_list(token_node, token_list);
 		free(token);
 		token = get_next_token(NULL);
 	}

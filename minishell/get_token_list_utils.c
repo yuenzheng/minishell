@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 11:27:06 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/11 13:19:38 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/13 19:55:18 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,34 +25,4 @@ char	*expand_subtoken(char *subtoken, bool expand_heredoc)
 		subtoken = expand_escaped(subtoken);
 	}
 	return (subtoken);
-}
-
-t_subtoken_list	*create_subtoken_list(void)
-{
-	t_subtoken_list	*subtoken_list;
-
-	subtoken_list = malloc(sizeof(t_subtoken_list));
-	if (!subtoken_list)
-	{
-		printf("malloc failed for subtoken_list\n");
-		exit(-1);
-	}
-	subtoken_list->head = NULL;
-	subtoken_list->tail = NULL;
-	return (subtoken_list);
-}
-
-t_token_list	*create_token_list(void)
-{
-	t_token_list	*token_list;
-
-	token_list = malloc(sizeof(t_token_list));
-	if (!token_list)
-	{
-		printf("malloc failed for token_list\n");
-		exit(-1);
-	}
-	token_list->head = NULL;
-	token_list->tail = NULL;
-	return (token_list);
 }

@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:39:01 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/11 13:16:13 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/13 19:25:15 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_subtoken_node	*filter_params(t_subtoken_node *params)
 			&& ft_strchr(params->subtoken, '='))
 		{
 			subtoken_node = create_subtoken_node(ft_strdup(params->subtoken));
-			link_subtoken_node(subtoken_node, &valid_params_list);
+			link_subtoken_list(subtoken_node, &valid_params_list);
 		}
 		params = params->next;
 	}

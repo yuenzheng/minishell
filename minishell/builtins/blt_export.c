@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:15:48 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/11 13:13:59 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/13 19:25:15 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_subtoken_list	*update_params_list(t_subtoken_node *params, \
 {
 	if (params_list == NULL)
 		params_list = create_params_list();
-	link_subtoken_node(params, params_list);
+	link_subtoken_list(params, params_list);
 	return (params_list);
 }
 

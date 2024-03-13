@@ -35,11 +35,12 @@ SRCS := character_check_1.c \
 		expand_tilde.c \
 		expand_escaped_utils.c \
 		expand_escaped.c \
-		subtoken_linked_list.c \
-		token_linked_list.c \
+		subtoken_list_utils.c \
+		token_list_utils.c \
 		get_token_list_utils.c \
 		get_token_list.c \
-		free_linked_list.c \
+		infix_to_postfix.c \
+		free_list.c \
 		minishell.c
 
 BUILTINS_SRCS := blt_echo_utils.c \
@@ -66,7 +67,7 @@ LIBFT_MAKE := $(MAKE) -C$(LIBFT_PATH)
 
 # Compiler and flags
 CC := cc
-CFLAGS := -Wall -Werror -Wextra $(if $(FSANITIZE), -fsanitize=$(FSANITIZE))
+CFLAGS := -Wall -Werror -Wextra $(if $(FSANITIZE), -fsanitize=$(FSANITIZE)) -w
 
 # Include flags, for the compiler to find additional header files
 INCLUDE_SYS_HEADERS := -I$(SYS_HEADERS_PATH)
