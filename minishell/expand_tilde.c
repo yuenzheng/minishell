@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 20:28:13 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/29 17:10:20 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/13 11:43:02 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static char	*get_directory_from_env(char *user)
 	user = extract_until_delim(user, " /\\");
 	if (*user == '\0')
 	{
+		free(user);
 		home_directory = getenv("HOME");
 		return (ft_strdup(home_directory));
 	}
