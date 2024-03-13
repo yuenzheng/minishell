@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:39:19 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/13 18:44:46 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/13 18:48:52 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*find_cmd_end(char *remaining_input)
 			escaped = true;
 		else if (!escaped && is_quote(*remaining_input))
 			toggle_in_quote(*remaining_input, &in_quote, &quote_type);
-		else if (!escaped && !in_quote && is_logical_operator(remaining_input))
+		else if (!escaped && !in_quote && is_logical_operator_n(remaining_input))
 			break ;
 		else
 			escaped = false;
