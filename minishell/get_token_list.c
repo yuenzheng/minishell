@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 10:44:19 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/13 19:25:15 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/14 03:58:49 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,11 @@ t_token_list	*get_token_list(char *input)
 	token = get_next_token(input);
 	while (token)
 	{
-		token_node = create_token_node(get_subtoken_list(token));
-		link_token_list(token_node, token_list);
+		if (ft_strspn(token, " ") != ft_strlen(token))
+		{
+			token_node = create_token_node(get_subtoken_list(token));
+			link_token_list(token_node, token_list);
+		}
 		free(token);
 		token = get_next_token(NULL);
 	}
