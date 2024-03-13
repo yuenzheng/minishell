@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/13 00:26:29 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/13 18:44:14 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ bool			is_sign(char c);
 bool			is_equal(char c);
 
 // operator_check.c
-bool			is_control_operator(char *str);
+bool			is_logical_operator(char *str);
 bool			is_redirection(char *str);
 bool			is_heredoc(char *str);
 

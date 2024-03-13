@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:39:19 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/12 19:35:29 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/13 18:44:46 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*find_cmd_end(char *remaining_input)
 			escaped = true;
 		else if (!escaped && is_quote(*remaining_input))
 			toggle_in_quote(*remaining_input, &in_quote, &quote_type);
-		else if (!escaped && !in_quote && is_control_operator(remaining_input))
+		else if (!escaped && !in_quote && is_logical_operator(remaining_input))
 			break ;
 		else
 			escaped = false;
@@ -37,7 +37,7 @@ static char	*find_cmd_end(char *remaining_input)
 	return (remaining_input);
 }
 
-static char	*find_control_operator_end(char *remaining_input)
+static char	*find_logical_operator_end(char *remaining_input)
 {
 	if (ft_strncmp(remaining_input, "|&", 2) == 0
 		|| (ft_strncmp(remaining_input, "||", 2) == 0)
@@ -66,6 +66,6 @@ char	*get_next_token(char *input)
 	token = remaining_input;
 	remaining_input = find_cmd_end(remaining_input);
 	if (token == remaining_input)
-		remaining_input = find_control_operator_end(remaining_input);
+		remaining_input = find_logical_operator_end(remaining_input);
 	return (duplicate_token(token, remaining_input));
 }
