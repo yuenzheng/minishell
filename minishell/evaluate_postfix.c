@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:33:20 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/15 02:01:56 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/15 02:46:38 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,33 @@ pid_t	create_fork(void)
 	return (pid);
 }
 
+void	run_execve(char **envp, t_subtoken_list *cmd_list)
+{
+	(void)envp;
+	(void)cmd_list;
+}
+
+int	run_cmd(char **envp, t_subtoken_list *cmd_list)
+{
+	static t_subtoken_list	*params_list;
+
+	if (ft_strcmp(cmd_list->head->subtoken, "echo") == 0)
+		return (blt_echo(cmd_list->head->next));
+	else if (ft_strcmp(cmd_list->head->subtoken, "pwd") == 0)
+		return (blt_pwd());
+	else if (ft_strcmp(cmd_list->head->subtoken, "export") == 0)
+		return (blt_export(&envp, cmd_list->head->next, params_list));
+	else if (ft_strcmp(cmd_list->head->subtoken, "unset") == 0)
+		return (blt_unset(envp, params_list, cmd_list->head->next));
+	else if (ft_strcmp(cmd_list->head->subtoken, "env") == 0)
+		return (blt_env(envp));
+	else if (ft_strcmp(cmd_list->head->subtoken, "exit") == 0)
+		blt_exit(cmd_list->head->next);
+	else
+		run_execve(envp, cmd_list);
+	return (-1);
+}
+
 void	exec_cmd(int pipe_fd[], int prev_pipe_fd[], t_subtoken_list *cmd_list)
 {
 	pid_t	pid;
@@ -41,7 +68,7 @@ void	exec_cmd(int pipe_fd[], int prev_pipe_fd[], t_subtoken_list *cmd_list)
 		close(pipe_fd[0]);
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
-		if (blt_echo(cmd_list->head->next) == 0)
+		if (run_cmd(NULL, cmd_list) == 0)
 			exit(0);
 	}
 	else
@@ -81,7 +108,7 @@ void	exec_last_cmd(int prev_pipe_fd[], t_subtoken_list *cmd_list)
 			dup2(prev_pipe_fd[0], STDIN_FILENO);
 			close(prev_pipe_fd[0]);
 		}
-		if (blt_echo(cmd_list->head->next) == 0)
+		if (run_cmd(NULL, cmd_list) == 0)
 			exit(0);
 	}
 	else
@@ -134,7 +161,7 @@ bool	operand_succeed(t_token_node *operand)
 			exec_last_cmd(prev_pipe_fd, cmd_list);
 		exec_count++;
 	}
-	wait_for_forks(exec_count);
+	printf("status %d\n", wait_for_forks(exec_count));
 	return (true);
 }
 
