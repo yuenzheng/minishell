@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   subtoken_linked_list.c                             :+:      :+:    :+:   */
+/*   subtoken_list_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:25:10 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/13 19:55:31 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/14 22:31:51 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_subtoken_node	*create_subtoken_node(char *subtoken)
 	}
 	subtoken_node->subtoken = subtoken;
 	subtoken_node->next = NULL;
+	subtoken_node->prev = NULL;
 	return (subtoken_node);
 }
 
@@ -55,6 +56,7 @@ void	link_subtoken_list(t_subtoken_node *subtoken_node, \
 		while (subtoken_list->tail->next)
 			subtoken_list->tail = subtoken_list->tail->next;
 		subtoken_list->tail->next = subtoken_node;
+		subtoken_node->prev = subtoken_list->tail;
 		subtoken_list->tail = subtoken_node;
 	}
 }
