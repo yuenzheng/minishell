@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/14 01:44:32 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/14 14:38:45 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,16 +220,20 @@ void			link_subtoken_list(t_subtoken_node *subtoken_node, \
 // token_list_utils.c
 t_token_node	*create_token_node(t_subtoken_list *subtoken_list);
 t_token_list	*create_token_list(void);
-t_token_node	*pop_token_list(t_token_list *token_list);
+t_token_node	*pop_token_list_head(t_token_list *token_list);
+t_token_node	*pop_token_list_tail(t_token_list *token_list);
 void			link_token_list(t_token_node *token_node, \
 					t_token_list *token_list);
-int				count_token_list(t_token_list *token_list);
 
 // get_token_list_utils.c
 char			*expand_subtoken(char *subtoken, bool expand_heredoc);
 
 // get_token_list.c
 t_token_list	*get_token_list(char *input);
+
+// infix_to_postfix_utils.c
+char			*first_subtoken(t_token_node *current_tok);
+int				priority(t_token_node *current_tok);
 
 // infix_to_postfix.c
 t_token_list	*infix_to_postfix(t_token_list *infix);

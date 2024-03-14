@@ -40,6 +40,7 @@ SRCS := character_check_1.c \
 		token_list_utils.c \
 		get_token_list_utils.c \
 		get_token_list.c \
+		infix_to_postfix_utils.c \
 		infix_to_postfix.c \
 		free_list.c \
 		minishell.c

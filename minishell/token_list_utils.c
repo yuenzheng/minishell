@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:06:38 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/13 20:05:46 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/14 14:30:04 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_token_node	*create_token_node(t_subtoken_list *subtoken_list)
 	}
 	token_node->subtoken_list = subtoken_list;
 	token_node->next = NULL;
+	token_node->prev = NULL;
 	return (token_node);
 }
 
@@ -42,7 +43,7 @@ t_token_list	*create_token_list(void)
 	return (token_list);
 }
 
-t_token_node	*pop_token_list(t_token_list *token_list)
+t_token_node	*pop_token_list_head(t_token_list *token_list)
 {
 	t_token_node	*pop_node;
 	t_token_node	*new_head;
@@ -65,6 +66,29 @@ t_token_node	*pop_token_list(t_token_list *token_list)
 	return (pop_node);
 }
 
+t_token_node	*pop_token_list_tail(t_token_list *token_list)
+{
+	t_token_node	*pop_node;
+	t_token_node	*new_tail;
+
+	if (token_list == NULL || token_list->tail == NULL)
+		return (NULL);
+	pop_node = token_list->tail;
+	new_tail = pop_node->prev;
+	if (new_tail == NULL)
+	{
+		token_list->head = NULL;
+		token_list->tail = NULL;
+	}
+	else
+	{
+		pop_node->prev = NULL;
+		new_tail->next = NULL;
+		token_list->tail = new_tail;
+	}
+	return (pop_node);
+}
+
 void	link_token_list(t_token_node *token_node, t_token_list *token_list)
 {
 	if (token_list->head == NULL)
@@ -78,19 +102,4 @@ void	link_token_list(t_token_node *token_node, t_token_list *token_list)
 		token_node->prev = token_list->tail;
 		token_list->tail = token_node;
 	}
-}
-
-int	count_token_list(t_token_list *token_list)
-{
-	int				count;
-	t_token_node	*current;
-
-	count = 0;
-	current = token_list->head;
-	while (current)
-	{
-		count++;
-		current = current->next;
-	}
-	return (count);
 }

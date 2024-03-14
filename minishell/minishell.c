@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 17:56:25 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/14 01:47:23 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/14 14:20:26 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(void)
 	{
 		input = get_input_line();
 		token_list = get_token_list(input);
-		// token_list = infix_to_postfix(token_list);
+		token_list = infix_to_postfix(token_list);
 		print_list(token_list);
 		free(input);
 		free_token_list(token_list);
