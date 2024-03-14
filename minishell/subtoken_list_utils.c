@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:25:10 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/14 22:31:51 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/15 01:40:48 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,52 @@ t_subtoken_list	*create_subtoken_list(void)
 	subtoken_list->head = NULL;
 	subtoken_list->tail = NULL;
 	return (subtoken_list);
+}
+
+t_subtoken_node	*pop_subtoken_list_head(t_subtoken_list *subtoken_list)
+{
+	t_subtoken_node	*pop_node;
+	t_subtoken_node	*new_head;
+
+	if (subtoken_list == NULL || subtoken_list->head == NULL)
+		return (NULL);
+	pop_node = subtoken_list->head;
+	new_head = pop_node->next;
+	if (new_head == NULL)
+	{
+		subtoken_list->head = NULL;
+		subtoken_list->tail = NULL;
+	}
+	else
+	{
+		pop_node->next = NULL;
+		new_head->prev = NULL;
+		subtoken_list->head = new_head;
+	}
+	return (pop_node);
+}
+
+t_subtoken_node	*pop_subtoken_list_tail(t_subtoken_list *subtoken_list)
+{
+	t_subtoken_node	*pop_node;
+	t_subtoken_node	*new_tail;
+
+	if (subtoken_list == NULL || subtoken_list->tail == NULL)
+		return (NULL);
+	pop_node = subtoken_list->tail;
+	new_tail = pop_node->prev;
+	if (new_tail == NULL)
+	{
+		subtoken_list->head = NULL;
+		subtoken_list->tail = NULL;
+	}
+	else
+	{
+		pop_node->prev = NULL;
+		new_tail->next= NULL;
+		subtoken_list->tail = new_tail;
+	}
+	return (pop_node);
 }
 
 void	link_subtoken_list(t_subtoken_node *subtoken_node, \

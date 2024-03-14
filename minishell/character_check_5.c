@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 20:57:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/14 01:44:02 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/15 01:43:47 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,9 @@ bool	is_right_bracket(char c)
 bool	is_bracket(char c)
 {
 	return (is_left_bracket(c) || is_right_bracket(c));
+}
+
+bool	is_pipe(char c)
+{
+	return (c == '|');
 }

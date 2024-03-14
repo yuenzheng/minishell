@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 17:56:25 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/15 01:32:10 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/15 02:03:25 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	main(void)
 		token_list = infix_to_postfix(token_list);
 		evaluate_postfix(token_list);
 		// print_list(token_list);
-		// free(input);
-		// free_token_list(token_list);
+		free(input);
+		free_token_list(token_list);
 	}
 }

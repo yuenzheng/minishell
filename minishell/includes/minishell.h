@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/14 22:32:45 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/15 01:44:04 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ bool			is_equal(char c);
 bool			is_left_bracket(char c);
 bool			is_right_bracket(char c);
 bool			is_bracket(char c);
+bool			is_pipe(char c);
 
 // operator_check.c
 bool			is_logical_operator(char *str);
@@ -215,6 +216,8 @@ char			*expand_escaped(char *subtoken);
 // subtoken_list_utils.c
 t_subtoken_node	*create_subtoken_node(char *subtoken);
 t_subtoken_list	*create_subtoken_list(void);
+t_subtoken_node	*pop_subtoken_list_head(t_subtoken_list *subtoken_list);
+t_subtoken_node	*pop_subtoken_list_tail(t_subtoken_list *subtoken_list);
 void			link_subtoken_list(t_subtoken_node *subtoken_node, \
 					t_subtoken_list *subtoken_list);
 
@@ -238,6 +241,9 @@ int				priority(t_token_node *current_tok);
 
 // infix_to_postfix.c
 t_token_list	*infix_to_postfix(t_token_list *infix);
+
+// evaluate_postfix.c
+void			evaluate_postfix(t_token_list *postfix);
 
 // free_list.c
 void			free_subtoken_node(t_subtoken_node *subtoken_node);
