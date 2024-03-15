@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/15 18:21:33 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/15 18:32:11 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,7 +246,7 @@ int				priority(t_token_node *current_tok);
 t_token_list	*infix_to_postfix(t_token_list *infix);
 
 // evaluate_postfix.c
-void			evaluate_postfix(t_token_list *postfix);
+void			evaluate_postfix(char ***envp, t_token_list *postfix);
 
 // free_list.c
 void			free_subtoken_node(t_subtoken_node *subtoken_node);

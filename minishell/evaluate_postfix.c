@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:33:20 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/15 18:25:28 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/15 18:34:14 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	handle_execve(char **envp, t_subtoken_list *cmd_list)
 	exit(-1);
 }
 
-void	run_cmd(char **envp, t_subtoken_list *cmd_list)
+void	run_cmd(char ***envp, t_subtoken_list *cmd_list)
 {
 	static t_subtoken_list	*args_history;
 	char					*subtoken;
@@ -118,18 +118,19 @@ void	run_cmd(char **envp, t_subtoken_list *cmd_list)
 	else if (ft_strcmp(subtoken, "pwd") == 0)
 		blt_pwd();
 	else if (ft_strcmp(subtoken, "export") == 0)
-		blt_export(&envp, args, args_history);
+		blt_export(envp, args, args_history);
 	else if (ft_strcmp(subtoken, "unset") == 0)
-		blt_unset(envp, args, args_history);
+		blt_unset(*envp, args, args_history);
 	else if (ft_strcmp(subtoken, "env") == 0)
-		blt_env(envp);
+		blt_env(*envp);
 	else if (ft_strcmp(subtoken, "exit") == 0)
 		blt_exit(args);
 	else
-		handle_execve(envp, cmd_list);
+		handle_execve(*envp, cmd_list);
 }
 
-void	exec_cmd(int pipe_fd[], int prev_pipe_fd[], t_subtoken_list *cmd_list)
+void	exec_cmd(char ***envp, int pipe_fd[], int prev_pipe_fd[], \
+			t_subtoken_list *cmd_list)
 {
 	pid_t	pid;
 
@@ -145,7 +146,7 @@ void	exec_cmd(int pipe_fd[], int prev_pipe_fd[], t_subtoken_list *cmd_list)
 		close(pipe_fd[0]);
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[1]);
-		run_cmd(NULL, cmd_list);
+		run_cmd(envp, cmd_list);
 	}
 	else
 	{
@@ -159,7 +160,8 @@ void	exec_cmd(int pipe_fd[], int prev_pipe_fd[], t_subtoken_list *cmd_list)
 	}
 }
 
-void	exec_cmd_with_pipe(int prev_pipe_fd[], t_subtoken_list *cmd_list)
+void	exec_cmd_with_pipe(char ***envp, int prev_pipe_fd[], \
+			t_subtoken_list *cmd_list)
 {
 	int		pipe_fd[2];
 
@@ -168,10 +170,10 @@ void	exec_cmd_with_pipe(int prev_pipe_fd[], t_subtoken_list *cmd_list)
 		printf("pipe function failed\n");
 		exit(-1);
 	}
-	exec_cmd(pipe_fd, prev_pipe_fd, cmd_list);
+	exec_cmd(envp, pipe_fd, prev_pipe_fd, cmd_list);
 }
 
-void	exec_last_cmd(int prev_pipe_fd[], t_subtoken_list *cmd_list)
+void	exec_last_cmd(char ***envp, int prev_pipe_fd[], t_subtoken_list *cmd_list)
 {
 	pid_t	pid;
 
@@ -184,7 +186,7 @@ void	exec_last_cmd(int prev_pipe_fd[], t_subtoken_list *cmd_list)
 			dup2(prev_pipe_fd[0], STDIN_FILENO);
 			close(prev_pipe_fd[0]);
 		}
-		run_cmd(NULL, cmd_list);
+		run_cmd(envp, cmd_list);
 	}
 	else
 	{
@@ -206,7 +208,7 @@ int	wait_for_forks(int exec_count)
 	return (WEXITSTATUS(last_exec_cmd_status));
 }
 
-bool	operand_succeed(t_token_node *operand)
+bool	operand_succeed(char ***envp, t_token_node *operand)
 {
 	int				exec_count;
 	int				prev_pipe_fd[2];
@@ -223,18 +225,19 @@ bool	operand_succeed(t_token_node *operand)
 			link_subtoken_list(pop_subtoken_list_head(subtoken_list), cmd_list);
 		if (subtoken_list->head)
 		{
-			exec_cmd_with_pipe(prev_pipe_fd, cmd_list);
+			exec_cmd_with_pipe(envp, prev_pipe_fd, cmd_list);
 			free_subtoken_node(pop_subtoken_list_head(subtoken_list));
 		}
 		else
-			exec_last_cmd(prev_pipe_fd, cmd_list);
+			exec_last_cmd(envp, prev_pipe_fd, cmd_list);
 		exec_count++;
 	}
 	printf("status %d\n", wait_for_forks(exec_count));
 	return (true);
 }
 
-void	process_expression(t_token_list *postfix, t_token_list *stack)
+void	process_expression(char ***envp, t_token_list *postfix, \
+			t_token_list *stack)
 {
 	t_token_node	*operator;
 	t_token_node	*loperand;
@@ -253,11 +256,11 @@ void	process_expression(t_token_list *postfix, t_token_list *stack)
 		// else if (operand_succeed(roperand))
 		// 	result = roperand;
 		// link_token_list(result, stack);
-		operand_succeed(loperand);
+		operand_succeed(envp, loperand);
 	}
 }
 
-void	evaluate_postfix(t_token_list *postfix)
+void	evaluate_postfix(char ***envp, t_token_list *postfix)
 {
 	t_token_list	stack;
 
@@ -266,7 +269,7 @@ void	evaluate_postfix(t_token_list *postfix)
 	{
 		if (is_logical_operator(first_subtoken(postfix->head)))
 		{
-			process_expression(postfix, &stack);
+			process_expression(envp, postfix, &stack);
 			free_token_node(pop_token_list_head(postfix));
 		}
 		else
