@@ -6,11 +6,21 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 20:28:13 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/13 11:43:02 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/16 03:28:19 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+static char	*extract_value(char *subtoken)
+{
+	int	valid_key_name_len;
+
+	valid_key_name_len = count_valid_key_name(subtoken);
+	if (valid_key_name_len > 0 && is_equal(subtoken[valid_key_name_len]))
+		subtoken += valid_key_name_len + 1;
+	return (ft_strdup(subtoken));
+}
 
 static char	*get_directory_from_env(char *user)
 {
@@ -64,44 +74,29 @@ static char	*get_directory_from_users(char *user)
 	return (home_directory);
 }
 
-static char	*expand_tilde_in_subtoken(char *directory, char *subtoken)
-{
-	char	*result;
-	int		joined_len;
-
-	if (directory)
-		subtoken += ft_strcspn(subtoken, " /\\");
-	joined_len = ft_strlen(directory) + ft_strlen(subtoken);
-	result = malloc(sizeof(char) * (joined_len + 1));
-	if (!result)
-	{
-		printf("malloc failed for result\n");
-		exit(-1);
-	}
-	*result = '\0';
-	ft_strcpy(result, directory);
-	ft_strcat(result, subtoken);
-	free(directory);
-	return (result);
-}
-
 char	*expand_tilde(char *subtoken)
 {
-	char	*directory;
+	char	*expanded_tilde;
 	char	*result;
+	char	*value;
 
-	directory = NULL;
-	if (is_tilde(*subtoken))
+	expanded_tilde = NULL;
+	value = extract_value(subtoken);
+	if (is_tilde(*value))
 	{
-		if (directory == NULL)
-			directory = get_directory_from_env(subtoken + 1);
-		if (directory == NULL)
-			directory = get_directory_from_passwd(subtoken + 1);
-		if (directory == NULL)
-			directory = get_directory_from_users(subtoken + 1);
-		result = expand_tilde_in_subtoken(directory, subtoken);
+		if (expanded_tilde == NULL)
+			expanded_tilde = get_directory_from_env(value + 1);
+		if (expanded_tilde == NULL)
+			expanded_tilde = get_directory_from_passwd(value + 1);
+		if (expanded_tilde == NULL)
+			expanded_tilde = get_directory_from_users(value + 1);
+		free(value);
+		value = join_expanded_tilde_with_remains(expanded_tilde, subtoken);
+		result = join_key_with_value(value, subtoken);
+		free(value);
 		free(subtoken);
 		return (result);
 	}
+	free(value);
 	return (subtoken);
 }

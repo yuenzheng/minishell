@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 16:37:36 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/23 16:38:33 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/16 03:31:20 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,20 @@ char	*find_home_directory(char *entry_name, char *user)
 	if (is_valid_entry(entry_name) && is_matching_user(entry_name, user))
 		return (ft_strjoin("/Users/", entry_name, ""));
 	return (NULL);
+}
+
+char	*extract_key(char *subtoken)
+{
+	char	*equal_ptr;
+	int		key_len;
+
+	key_len = 0;
+	equal_ptr = ft_strchr(subtoken, '=');
+	if (equal_ptr)
+	{
+		key_len = equal_ptr - subtoken;
+		if (is_equal(subtoken[key_len]))
+			key_len++;
+	}
+	return (ft_strndup(subtoken, key_len));
 }

@@ -6,11 +6,24 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 14:39:27 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/23 16:48:38 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/16 02:57:05 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+int	count_valid_key_name(char *subtoken)
+{
+	int	count;
+
+	count = 0;
+	if (!is_number(subtoken[count]))
+	{
+		while (is_valid_env_name(subtoken[count]))
+			count++;
+	}
+	return (count);
+}
 
 char	*extract_until_delim(char *user, char *delim)
 {

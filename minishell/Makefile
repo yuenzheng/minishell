@@ -33,6 +33,7 @@ SRCS := character_check_1.c \
 		get_next_line.c \
 		expand_tilde_utils_1.c \
 		expand_tilde_utils_2.c \
+		expand_tilde_helper.c \
 		expand_tilde.c \
 		expand_escaped_utils.c \
 		expand_escaped.c \
