@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:33:20 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/15 17:06:52 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/15 18:25:28 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,83 @@ pid_t	create_fork(void)
 	return (pid);
 }
 
+char	**cmd_list_to_double_array(t_subtoken_list *cmd_list)
+{
+	char			**result;
+	t_subtoken_node	*current;
+	int				i;
+
+	result = malloc(sizeof(char *) * (count_subtoken_list(cmd_list) + 1));
+	if (result == NULL)
+	{
+		printf("malloc failed for result\n");
+		exit(-1);
+	}
+	i = 0;
+	current = cmd_list->head;
+	while (current)
+	{
+		result[i] = ft_strdup(current->subtoken);
+		if (result[i] == NULL)
+		{
+			printf("ft_strdup failed for result[%d]\n", i);
+			exit(-1);
+		}
+		i++;
+		current = current->next;
+	}
+	result[i] = NULL;
+	return (result);
+}
+
+char	*find_full_bin_path(char *bin, char **envp)
+{
+	int		i;
+	char	*path;
+	char	*full_path;
+
+	i = -1;
+	while (envp[++i])
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) != 0)
+			continue ;
+		path = ft_strtok(envp[i] + 5, ":");
+		while (path)
+		{
+			full_path = ft_strjoin(path, bin, "/");
+			if (access(full_path, F_OK) == 0)
+				return (full_path);
+			free(full_path);
+			path = ft_strtok(NULL, ":");
+		}
+	}
+	return (NULL);
+}
+
+void	free_double_array(char **double_array)
+{
+	int	i;
+
+	i = -1;
+	while (double_array[++i])
+		free(double_array[i]);
+	free(double_array);
+}
+
 void	handle_execve(char **envp, t_subtoken_list *cmd_list)
 {
-	(void)envp;
-	(void)cmd_list;
+	char	**args;
+	char	*bin;
+
+	args = cmd_list_to_double_array(cmd_list);
+	bin = find_full_bin_path(args[0], envp);
+	if (bin == NULL)
+	{
+		printf("executable doesn't exist\n");
+		exit(-1);
+	}
+	execve(bin, args, envp);
+	free_double_array(args);
 	exit(-1);
 }
 

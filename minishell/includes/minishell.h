@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/15 16:44:01 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/15 18:21:33 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,13 +213,16 @@ bool			should_escape(char quote_type, char *subtoken);
 // expand_escaped.c
 char			*expand_escaped(char *subtoken);
 
-// subtoken_list_utils.c
+// subtoken_list_utils_1.c
 t_subtoken_node	*create_subtoken_node(char *subtoken);
 t_subtoken_list	*create_subtoken_list(void);
 t_subtoken_node	*pop_subtoken_list_head(t_subtoken_list *subtoken_list);
 t_subtoken_node	*pop_subtoken_list_tail(t_subtoken_list *subtoken_list);
 void			link_subtoken_list(t_subtoken_node *subtoken_node, \
 					t_subtoken_list *subtoken_list);
+
+// subtoken_list_utils_2.c
+int				count_subtoken_list(t_subtoken_list *subtoken_list);
 
 // token_list_utils.c
 t_token_node	*create_token_node(t_subtoken_list *subtoken_list);
