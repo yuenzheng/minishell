@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:15:48 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/13 19:25:15 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/15 16:38:39 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static char	**update_envp(char **envp, t_subtoken_node *params)
 // My export works on static to store the all args that you have used
 // It also ignored empty string, so that is easier to implement unset
 // Remeber to pass a static to params_list before the call
-int	blt_export(char ***envp, t_subtoken_node *params, \
-		t_subtoken_list *params_list)
+void	blt_export(char ***envp, t_subtoken_node *params, \
+			t_subtoken_list *params_list)
 {
 	char	**export_envp;
 
@@ -60,7 +60,7 @@ int	blt_export(char ***envp, t_subtoken_node *params, \
 	free_envp(export_envp);
 	if (params != NULL)
 		*envp = update_envp(*envp, params);
-	return (0);
+	exit(0);
 }
 
 // int	main(int argc, char **argv, char **envp)

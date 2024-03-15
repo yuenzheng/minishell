@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 19:26:19 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 19:38:44 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/15 16:36:06 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // because of my own blt_unset, which will replace the string
 // with an empty string instead, so if it's empty stirng
 // I don't print anything
-int	blt_env(char **envp)
+void	blt_env(char **envp)
 {
 	while (*envp)
 	{
@@ -24,7 +24,7 @@ int	blt_env(char **envp)
 			printf("%s\n", *envp);
 		envp++;
 	}
-	return (0);
+	exit(0);
 }
 
 // int main(int argc, char **argv, char **envp)
