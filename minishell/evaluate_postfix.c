@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:33:20 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/16 21:02:34 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/17 00:41:56 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*find_full_bin_path(char *bin, char **envp)
 	return (NULL);
 }
 
-void	handle_execve(char **envp, t_subtoken_list *cmd_list)
+void	run_execve(char **envp, t_subtoken_list *cmd_list)
 {
 	char	**args;
 	char	*bin;
@@ -98,28 +98,27 @@ void	handle_execve(char **envp, t_subtoken_list *cmd_list)
 void	run_cmd(char ***envp, t_subtoken_list *cmd_list)
 {
 	static t_subtoken_list	*args_history;
-	char					*subtoken;
 	t_subtoken_node			*args;
+	char					*cmd;
 
-	subtoken = cmd_list->head->subtoken;
 	args = cmd_list->head->next;
-	if (ft_strcmp(subtoken, "echo") == 0)
+	cmd = cmd_list->head->subtoken;
+	if (!ft_strcmp(cmd, "echo"))
 		blt_echo(args);
-	else if (ft_strcmp(subtoken, "pwd") == 0)
+	if (!ft_strcmp(cmd, "pwd"))
 		blt_pwd();
-	else if (ft_strcmp(subtoken, "export") == 0)
+	if (!ft_strcmp(cmd, "export"))
 		blt_export(envp, args, args_history);
-	else if (ft_strcmp(subtoken, "unset") == 0)
+	if (!ft_strcmp(cmd, "unset"))
 		blt_unset(*envp, args, args_history);
-	else if (ft_strcmp(subtoken, "env") == 0)
+	if (!ft_strcmp(cmd, "env"))
 		blt_env(*envp);
-	else if (ft_strcmp(subtoken, "exit") == 0)
+	if (!ft_strcmp(cmd, "exit"))
 		blt_exit(args);
-	else
-		handle_execve(*envp, cmd_list);
+	run_execve(*envp, cmd_list);
 }
 
-void	exec_cmd(char ***envp, int pipe_fd[], int prev_pipe_fd[], \
+void	handle_pipe_cmd(char ***envp, int pipe_fd[], int prev_pipe_fd[], \
 			t_subtoken_list *cmd_list)
 {
 	pid_t	pid;
@@ -150,20 +149,7 @@ void	exec_cmd(char ***envp, int pipe_fd[], int prev_pipe_fd[], \
 	}
 }
 
-void	exec_cmd_with_pipe(char ***envp, int prev_pipe_fd[], \
-			t_subtoken_list *cmd_list)
-{
-	int		pipe_fd[2];
-
-	if(pipe(pipe_fd) == -1)
-	{
-		printf("pipe function failed\n");
-		exit(-1);
-	}
-	exec_cmd(envp, pipe_fd, prev_pipe_fd, cmd_list);
-}
-
-void	exec_last_cmd(char ***envp, int prev_pipe_fd[], t_subtoken_list *cmd_list)
+void	handle_last_cmd(char ***envp, int prev_pipe_fd[], t_subtoken_list *cmd_list)
 {
 	pid_t	pid;
 
@@ -186,6 +172,24 @@ void	exec_last_cmd(char ***envp, int prev_pipe_fd[], t_subtoken_list *cmd_list)
 			close(prev_pipe_fd[1]);
 		}
 	}
+}
+
+void	exec_cmd(char ***envp, int prev_pipe_fd[], \
+			t_subtoken_list *cmd_list, bool is_last_cmd)
+{
+	int	pipe_fd[2];
+
+	if (!is_last_cmd)
+	{
+		if (pipe(pipe_fd) == -1)
+		{
+			printf("pipe failed for pipe_fd\n");
+			exit(-1);
+		}
+		handle_pipe_cmd(envp, pipe_fd, prev_pipe_fd, cmd_list);
+	}
+	else
+		handle_last_cmd(envp, prev_pipe_fd, cmd_list);
 }
 
 int	wait_for_forks(int exec_count)
@@ -213,13 +217,15 @@ bool	operand_succeed(char ***envp, t_token_node *operand)
 		cmd_list = create_subtoken_list();
 		while (subtoken_list->head && !is_pipe(*subtoken_list->head->subtoken))
 			link_subtoken_list(pop_subtoken_list_head(subtoken_list), cmd_list);
+		// if (subtoken_list->head)
+		// {
+		// 	exec_cmd_with_pipe(envp, prev_pipe_fd, cmd_list);
+		// }
+		// else
+		// 	exec_last_cmd(envp, prev_pipe_fd, cmd_list);
+		exec_cmd(envp, prev_pipe_fd, cmd_list, !subtoken_list->head);
 		if (subtoken_list->head)
-		{
-			exec_cmd_with_pipe(envp, prev_pipe_fd, cmd_list);
 			free_subtoken_node(pop_subtoken_list_head(subtoken_list));
-		}
-		else
-			exec_last_cmd(envp, prev_pipe_fd, cmd_list);
 		exec_count++;
 	}
 	printf("status %d\n", wait_for_forks(exec_count));
