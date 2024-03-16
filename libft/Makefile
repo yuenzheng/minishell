@@ -34,6 +34,7 @@ SRCS :=	ft_bzero.c \
 		ft_strjoin.c \
 		ft_strtok.c \
 		ft_split.c \
+		ft_putchr_fd.c \
 		ft_putstr_fd.c
 
 # Object files
