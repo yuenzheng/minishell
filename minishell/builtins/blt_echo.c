@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 01:02:22 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/15 16:36:15 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/17 02:29:45 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ static void	print_newline(t_subtoken_node *params)
 		printf("\n");
 }
 
-void	blt_echo(t_subtoken_node *params)
+int	blt_echo(t_subtoken_node *params)
 {
 	if (params == NULL)
 	{
 		printf("\n");
-		exit(0);
+		return (0);
 	}
 	print_subtokens(params);
 	print_newline(params);
-	exit(0);
+	return (0);
 }
 
 // int main()

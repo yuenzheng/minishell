@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/16 20:40:43 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/17 01:45:23 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ bool			is_n_options(char *subtoken);
 t_subtoken_node	*find_first_non_option(t_subtoken_node *params);
 
 // builtins/blt_echo.c
-void			blt_echo(t_subtoken_node *params);
+int				blt_echo(t_subtoken_node *params);
 
 // builtins/blt_pwd.c
-void			blt_pwd(void);
+int				blt_pwd(void);
 
 // builtins/blt_export_utils_1.c
 t_subtoken_list	*create_params_list(void);
@@ -122,15 +122,15 @@ bool			validate_entry_name(char *subtoken);
 char			**create_output(int export_envp_size);
 
 // builtins/blt_export.c
-void			blt_export(char ***envp, t_subtoken_node *params, \
+int 			blt_export(char ***envp, t_subtoken_node *params, \
 					t_subtoken_list *params_list);
 
 // builtins/blt_unset.c
-void			blt_unset(char **envp, t_subtoken_node *params, \
+int				blt_unset(char **envp, t_subtoken_node *params, \
 					t_subtoken_list *params_list);
 
 // builtins/blt_env.c
-void			blt_env(char **envp);
+int				blt_env(char **envp);
 
 // builtins/blt_exit_utils.c
 bool			contain_only_digits(char *first_arg);
@@ -139,7 +139,7 @@ void			handle_numeric_exit(char *first_arg, char *dup_subtoken);
 void			handle_non_numeric_exit(char *dup_subtoken);
 
 // builtins/blt_exit.c
-void			blt_exit(t_subtoken_node *params);
+int				blt_exit(t_subtoken_node *params);
 
 // double_array_utils.c
 char			**clone_double_array(char **double_array);

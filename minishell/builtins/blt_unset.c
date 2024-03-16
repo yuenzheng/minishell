@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 06:33:54 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/15 16:43:40 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/17 01:41:27 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ static void	unset_params_list(t_subtoken_list *params_list, \
 	}
 }
 
-void	blt_unset(char **envp, t_subtoken_node *params, \
+int	blt_unset(char **envp, t_subtoken_node *params, \
 				t_subtoken_list *params_list)
 {
 	unset_environment_variables(envp, params);
 	if (params_list != NULL)
 		unset_params_list(params_list, params);
-	exit(0);
+	return (0);
 }
 
 // int	main(int argc, char **argv, char **envp)

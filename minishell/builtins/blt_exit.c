@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:49:09 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/03 02:58:26 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/17 01:44:20 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	count_exit_args(t_subtoken_node *params)
 // Remember to set exit_code to 1, when print("too many arguments")
 // in the first if condition, that contain only numbers.
 // Because it doesn't exit the function
-static void	process_exit_args(t_subtoken_node *params)
+static int	process_exit_args(t_subtoken_node *params)
 {
 	int		args_count;
 	char	*dup_subtoken;
@@ -58,11 +58,12 @@ static void	process_exit_args(t_subtoken_node *params)
 	else
 		handle_non_numeric_exit(dup_subtoken);
 	free(dup_subtoken);
+	return (1);
 }
 
-void	blt_exit(t_subtoken_node *params)
+int	blt_exit(t_subtoken_node *params)
 {
 	if (params == NULL || count_exit_args(params) == 0)
 		exit(0);
-	process_exit_args(params);
+	return (process_exit_args(params));
 }

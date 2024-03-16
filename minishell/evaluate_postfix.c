@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:33:20 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/17 01:37:44 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/17 02:43:09 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ int	run_bltin(char ***envp, t_subtoken_list *cmd_list)
 	cmd = cmd_list->head->subtoken;
 	if (!ft_strcmp(cmd, "echo"))
 		return (blt_echo(args));
+	if (!ft_strcmp(cmd, "cd"))
+		return (-1);
 	if (!ft_strcmp(cmd, "pwd"))
 		return (blt_pwd());
 	if (!ft_strcmp(cmd, "export"))
@@ -115,7 +117,7 @@ int	run_bltin(char ***envp, t_subtoken_list *cmd_list)
 		return (blt_env(*envp));
 	if (!ft_strcmp(cmd, "exit"))
 		return (blt_exit(args));
-	return (-1);
+	return (-2147483648);
 }
 
 bool	is_bltin(t_subtoken_list *cmd_list)
@@ -132,23 +134,28 @@ bool	is_bltin(t_subtoken_list *cmd_list)
 		|| (!ft_strcmp(cmd, "exit")));
 }
 
+// I don't need to clode prev_pipe_fd[1] write end,
+// is because I didn't need to use the write end,
 void	bltin_pipe_cmd(char ***envp, int pipe_fd[], int prev_pipe_fd[], \
 			t_subtoken_list *cmd_list)
 {
 	int	status;
+	int	stdout_fd;
 
+	stdout_fd = dup(STDOUT_FILENO);
 	if (prev_pipe_fd[0] != 0)
 	{
-		close (prev_pipe_fd[1]);
 		dup2(prev_pipe_fd[0], STDIN_FILENO);
 		close(prev_pipe_fd[0]);
 	}
-	prev_pipe_fd[0] = dup(pipe_fd[0]);
-	prev_pipe_fd[1] = dup(pipe_fd[1]);
 	close(pipe_fd[0]);
 	dup2(pipe_fd[1], STDOUT_FILENO);
 	close(pipe_fd[1]);
 	status = run_bltin(envp, cmd_list);
+	dup2(STDIN_FILENO, prev_pipe_fd[0]);
+	dup2(stdout_fd, STDOUT_FILENO);
+	close(stdout_fd);
+	(void)status;
 	// set_envp_exit_status(envp, status);
 }
 
@@ -189,11 +196,12 @@ void	handle_pipe_cmd(char ***envp, int pipe_fd[], int prev_pipe_fd[], \
 	}
 }
 
+// Didn't need to close prev_pipe_fd[1],
+// because I didn't use it for bltin commands
 void	bltin_last_cmd(char ***envp, int prev_pipe_fd[], t_subtoken_list *cmd_list)
 {
 	if (prev_pipe_fd[0] != 0)
 	{
-		close(prev_pipe_fd[1]);
 		dup2(prev_pipe_fd[0], STDIN_FILENO);
 		close(prev_pipe_fd[0]);
 	}
