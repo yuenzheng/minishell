@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:33:20 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/15 18:34:14 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/16 21:02:34 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,6 @@ char	*find_full_bin_path(char *bin, char **envp)
 		}
 	}
 	return (NULL);
-}
-
-void	free_double_array(char **double_array)
-{
-	int	i;
-
-	i = -1;
-	while (double_array[++i])
-		free(double_array[i]);
-	free(double_array);
 }
 
 void	handle_execve(char **envp, t_subtoken_list *cmd_list)
