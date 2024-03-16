@@ -33,7 +33,8 @@ SRCS :=	ft_bzero.c \
 		ft_strtrim.c \
 		ft_strjoin.c \
 		ft_strtok.c \
-		ft_split.c
+		ft_split.c \
+		ft_putstr_fd.c
 
 # Object files
 OBJS := $(addprefix $(OBJS_PATH), $(SRCS:.c=.o))

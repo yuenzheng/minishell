@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 18:00:36 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/06 18:07:21 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/17 03:07:03 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,8 @@ char		*ft_strtrim(const char *str, const char *delim);
 char		*ft_strjoin(const char *s1, const char *s2, const char *delim);
 char		*ft_strtok(char *str, const char *delim);
 char		**ft_split(const char *str, const char *delim);
+
+// Output Functions
+void		ft_putstr_fd(char *str, int fd);
 
 #endif
