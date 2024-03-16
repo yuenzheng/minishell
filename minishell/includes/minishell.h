@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/16 02:59:40 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/16 19:05:35 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,9 @@ void			handle_non_numeric_exit(char *dup_subtoken);
 
 // builtins/blt_exit.c
 void			blt_exit(t_subtoken_node *params);
+
+// clone_double_array.c
+char			**clone_double_array(char **double_array);
 
 // quote_handling.c
 void			toggle_in_quote(char c, bool *in_quote, char *quote_type);

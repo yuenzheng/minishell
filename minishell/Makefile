@@ -16,6 +16,7 @@ SRCS := character_check_1.c \
 		character_check_4.c \
 		character_check_5.c \
 		operator_check.c \
+		clone_double_array.c \
 		quote_handling.c \
 		get_next_token_utils.c \
 		get_next_token.c \
