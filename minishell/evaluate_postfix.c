@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:33:20 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/17 19:56:51 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/17 20:30:46 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,35 @@ char	*find_full_bin_path(char *bin, char **envp)
 	return (NULL);
 }
 
+bool	is_silent_cmd(t_subtoken_list *cmd_list)
+{
+	t_subtoken_node	*args;
+	char			*cmd;
+
+	args = cmd_list->head->next;
+	cmd = cmd_list->head->subtoken;
+	return ((!ft_strcmp(cmd, "export") && args != NULL) \
+		|| (!ft_strcmp(cmd, "unset")) \
+		|| (!ft_strcmp(cmd, "exit")));
+}
+
+int	run_silent_cmd(char ***envp, t_subtoken_list *args_history, \
+			t_subtoken_list *cmd_list)
+{
+	t_subtoken_node	*args;
+	char			*cmd;
+
+	args = cmd_list->head->next;
+	cmd = cmd_list->head->subtoken;
+	if (!ft_strcmp(cmd, "export") && args != NULL)
+		return (blt_export(envp, args, args_history));
+	if (!ft_strcmp(cmd, "unset"))
+		return (blt_unset(*envp, args, args_history));
+	if (!ft_strcmp(cmd, "exit"))
+		return (blt_exit(args));
+	return (-2147483648);
+}
+
 void	run_execve(char **envp, t_subtoken_list *cmd_list)
 {
 	char	**args;
@@ -95,9 +124,9 @@ void	run_execve(char **envp, t_subtoken_list *cmd_list)
 	exit(-1);
 }
 
-void	run_cmd(char ***envp, t_subtoken_list *cmd_list)
+void	run_cmd(char ***envp, t_subtoken_list *args_history, \
+			t_subtoken_list *cmd_list)
 {
-	static t_subtoken_list	*args_history;
 	t_subtoken_node			*args;
 	char					*cmd;
 
@@ -111,67 +140,75 @@ void	run_cmd(char ***envp, t_subtoken_list *cmd_list)
 		exit(blt_pwd());
 	if (!ft_strcmp(cmd, "export"))
 		exit(blt_export(envp, args, args_history));
-	if (!ft_strcmp(cmd, "unset"))
-		exit(blt_unset(*envp, args, args_history));
 	if (!ft_strcmp(cmd, "env"))
 		exit(blt_env(*envp));
-	if (!ft_strcmp(cmd, "exit"))
-		exit(blt_exit(args));
 	run_execve(*envp, cmd_list);
 }
 
 void	handle_pipe_cmd(char ***envp, int pipe_fd[], int prev_pipe_fd[], \
 			t_subtoken_list *cmd_list)
 {
-	pid_t	pid;
+	static t_subtoken_list	*args_history;
+	pid_t					pid;
 
-	pid = create_fork();
-	if (pid == 0)
-	{
-		if (prev_pipe_fd[0] != 0)
-		{
-			close (prev_pipe_fd[1]);
-			dup2(prev_pipe_fd[0], STDIN_FILENO);
-			close(prev_pipe_fd[0]);
-		}
-		close(pipe_fd[0]);
-		dup2(pipe_fd[1], STDOUT_FILENO);
-		close(pipe_fd[1]);
-		run_cmd(envp, cmd_list);
-	}
+	if (is_silent_cmd(cmd_list))
+		run_silent_cmd(envp, args_history, cmd_list);
 	else
 	{
-		if (prev_pipe_fd[0] != 0)
+		pid = create_fork();
+		if (pid == 0)
 		{
-			close(prev_pipe_fd[0]);
-			close(prev_pipe_fd[1]);
+			if (prev_pipe_fd[0] != 0)
+			{
+				close (prev_pipe_fd[1]);
+				dup2(prev_pipe_fd[0], STDIN_FILENO);
+				close(prev_pipe_fd[0]);
+			}
+			close(pipe_fd[0]);
+			dup2(pipe_fd[1], STDOUT_FILENO);
+			close(pipe_fd[1]);
+			run_cmd(envp, args_history, cmd_list);
 		}
-		prev_pipe_fd[0] = pipe_fd[0];
-		prev_pipe_fd[1] = pipe_fd[1];
+		else
+		{
+			if (prev_pipe_fd[0] != 0)
+			{
+				close(prev_pipe_fd[0]);
+				close(prev_pipe_fd[1]);
+			}
+			prev_pipe_fd[0] = pipe_fd[0];
+			prev_pipe_fd[1] = pipe_fd[1];
+		}
 	}
 }
 
 void	handle_last_cmd(char ***envp, int prev_pipe_fd[], t_subtoken_list *cmd_list)
 {
-	pid_t	pid;
+	static t_subtoken_list	*args_history;
+	pid_t					pid;
 
-	pid = create_fork();
-	if (pid == 0)
-	{
-		if (prev_pipe_fd[0] != 0)
-		{
-			close(prev_pipe_fd[1]);
-			dup2(prev_pipe_fd[0], STDIN_FILENO);
-			close(prev_pipe_fd[0]);
-		}
-		run_cmd(envp, cmd_list);
-	}
+	if (is_silent_cmd(cmd_list))
+		run_silent_cmd(envp, args_history, cmd_list);
 	else
 	{
-		if (prev_pipe_fd[0] != 0)
+		pid = create_fork();
+		if (pid == 0)
 		{
-			close(prev_pipe_fd[0]);
-			close(prev_pipe_fd[1]);
+			if (prev_pipe_fd[0] != 0)
+			{
+				close(prev_pipe_fd[1]);
+				dup2(prev_pipe_fd[0], STDIN_FILENO);
+				close(prev_pipe_fd[0]);
+			}
+			run_cmd(envp, args_history, cmd_list);
+		}
+		else
+		{
+			if (prev_pipe_fd[0] != 0)
+			{
+				close(prev_pipe_fd[0]);
+				close(prev_pipe_fd[1]);
+			}
 		}
 	}
 }
