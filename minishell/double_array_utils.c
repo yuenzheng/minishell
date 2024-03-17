@@ -6,13 +6,13 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 19:04:33 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/16 21:03:08 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/18 00:39:34 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static int	count_num_of_items(char **double_array)
+int	count_2d_array_items(char **double_array)
 {
 	int	count;
 
@@ -24,12 +24,12 @@ static int	count_num_of_items(char **double_array)
 
 char	**clone_double_array(char **double_array)
 {
-	int		total_size;
+	int		items_count;
 	char	**result;
 	int		i;
 
-	total_size = count_num_of_items(double_array) + 1;
-	result = malloc(sizeof(char *) * total_size);
+	items_count = count_2d_array_items(double_array) + 1;
+	result = malloc(sizeof(char *) * items_count);
 	if (result == NULL)
 	{
 		printf("malloc failed for result\n");
