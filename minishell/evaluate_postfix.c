@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:33:20 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/17 20:30:46 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/17 23:39:50 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,17 +169,14 @@ void	handle_pipe_cmd(char ***envp, int pipe_fd[], int prev_pipe_fd[], \
 			close(pipe_fd[1]);
 			run_cmd(envp, args_history, cmd_list);
 		}
-		else
-		{
-			if (prev_pipe_fd[0] != 0)
-			{
-				close(prev_pipe_fd[0]);
-				close(prev_pipe_fd[1]);
-			}
-			prev_pipe_fd[0] = pipe_fd[0];
-			prev_pipe_fd[1] = pipe_fd[1];
-		}
 	}
+	if (prev_pipe_fd[0] != 0)
+	{
+		close(prev_pipe_fd[0]);
+		close(prev_pipe_fd[1]);
+	}
+	prev_pipe_fd[0] = pipe_fd[0];
+	prev_pipe_fd[1] = pipe_fd[1];
 }
 
 void	handle_last_cmd(char ***envp, int prev_pipe_fd[], t_subtoken_list *cmd_list)
@@ -202,14 +199,11 @@ void	handle_last_cmd(char ***envp, int prev_pipe_fd[], t_subtoken_list *cmd_list
 			}
 			run_cmd(envp, args_history, cmd_list);
 		}
-		else
-		{
-			if (prev_pipe_fd[0] != 0)
-			{
-				close(prev_pipe_fd[0]);
-				close(prev_pipe_fd[1]);
-			}
-		}
+	}
+	if (prev_pipe_fd[0] != 0)
+	{
+		close(prev_pipe_fd[0]);
+		close(prev_pipe_fd[1]);
 	}
 }
 
@@ -231,24 +225,22 @@ void	exec_cmd(char ***envp, int prev_pipe_fd[], \
 		handle_last_cmd(envp, prev_pipe_fd, cmd_list);
 }
 
-int	wait_for_forks(int exec_count)
+int	wait_for_forks(void)
 {
 	int	last_exec_cmd_status;
 
 	last_exec_cmd_status = 0;
-	while (exec_count--)
-		waitpid(-1, &last_exec_cmd_status, 0);
+	while (waitpid(-1, &last_exec_cmd_status, 0) > 0)
+		;
 	return (WEXITSTATUS(last_exec_cmd_status));
 }
 
 bool	operand_succeed(char ***envp, t_token_node *operand)
 {
-	int				exec_count;
 	int				prev_pipe_fd[2];
 	t_subtoken_list	*subtoken_list;
 	t_subtoken_list	*cmd_list;
 
-	exec_count = 0;
 	ft_bzero(prev_pipe_fd, sizeof(int) * 2);
 	subtoken_list = operand->subtoken_list;
 	while (subtoken_list->head)
@@ -265,9 +257,9 @@ bool	operand_succeed(char ***envp, t_token_node *operand)
 		exec_cmd(envp, prev_pipe_fd, cmd_list, !subtoken_list->head);
 		if (subtoken_list->head)
 			free_subtoken_node(pop_subtoken_list_head(subtoken_list));
-		exec_count++;
+		free_subtoken_list(cmd_list);
 	}
-	printf("status %d\n", wait_for_forks(exec_count));
+	wait_for_forks();
 	return (true);
 }
 
@@ -281,7 +273,6 @@ void	process_expression(char ***envp, t_token_list *postfix, \
 	operator = pop_token_list_head(postfix);
 	roperand = pop_token_list_tail(stack);
 	loperand = pop_token_list_tail(stack);
-	(void)roperand;
 	if (ft_strcmp(first_subtoken(operator), "||") == 0)
 	{
 		// t_token_node	*result;
@@ -293,6 +284,9 @@ void	process_expression(char ***envp, t_token_list *postfix, \
 		// link_token_list(result, stack);
 		operand_succeed(envp, loperand);
 	}
+	free_token_node(operator);
+	free_token_node(roperand);
+	free_token_node(loperand);
 }
 
 void	evaluate_postfix(char ***envp, t_token_list *postfix)
@@ -308,6 +302,10 @@ void	evaluate_postfix(char ***envp, t_token_list *postfix)
 			free_token_node(pop_token_list_head(postfix));
 		}
 		else
+		{
 			link_token_list(pop_token_list_head(postfix), &stack);
+			// Need to free expression if it's alone without logical operator
+		}
 	}
+	free_token_node(stack.head);
 }
