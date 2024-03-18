@@ -6,21 +6,31 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 19:26:19 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/17 01:41:04 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/19 03:03:31 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 
-// I got an if condition to check if its an empty str
-// because of my own blt_unset, which will replace the string
-// with an empty string instead, so if it's empty stirng
-// I don't print anything
+// If str is empty set by blt_unset,
+// first if condition will return false
+bool	has_proper_syntax(char *envp)
+{
+	char	*equal_ptr;
+
+	if (is_special_env_name(*envp))
+		return (false);
+	equal_ptr = ft_strchr(envp, '=');
+	if (equal_ptr == NULL || equal_ptr == envp)
+		return (false);
+	return (true);
+}
+
 int	blt_env(char **envp)
 {
 	while (*envp)
 	{
-		if (**envp != '\0')
+		if (has_proper_syntax(*envp))
 			printf("%s\n", *envp);
 		envp++;
 	}
