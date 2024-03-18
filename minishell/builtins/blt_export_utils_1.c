@@ -5,68 +5,97 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/07 02:33:57 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/18 22:02:25 by ychng            ###   ########.fr       */
+/*   Created: 2024/03/19 01:40:34 by ychng             #+#    #+#             */
+/*   Updated: 2024/03/19 02:21:26 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_subtoken_list	*create_args_history(void)
+int	count_valid_args(char **envp, t_subtoken_node *args)
 {
-	t_subtoken_list	*args_history;
+	int				valid_args_count;
+	t_subtoken_node	*current_arg;
 
-	args_history = malloc(sizeof(t_subtoken_list));
-	if (!args_history)
+	valid_args_count = 0;
+	current_arg = args;
+	while (current_arg)
 	{
-		printf("malloc failed for args_history\n");
-		exit(-1);
+		if (entry_has_valid_name(current_arg->subtoken))
+		{
+			if (is_not_duplicate(envp, current_arg->subtoken))
+				valid_args_count++;
+		}
+		current_arg = current_arg->next;
 	}
-	args_history->head = NULL;
-	args_history->tail = NULL;
-	return (args_history);
+	return (valid_args_count);
 }
 
-char	**alloc_export_envp(char **envp, t_subtoken_node *args)
+void	add_valid_args(char **envp, t_subtoken_node *args)
 {
-	int		envp_size;
-	int		args_size;
-	char	**export_envp;
+	int				envp_count;
+	t_subtoken_node	*current_arg;
 
-	envp_size = count_envp_size(envp);
-	args_size = count_args_size(args);
-	export_envp = malloc(sizeof(char *) * (envp_size + args_size + 1));
-	if (!export_envp)
+	envp_count = count_2d_array_items(envp);
+	current_arg = args;
+	while (current_arg)
 	{
-		printf("malloc failed for export_envp\n");
-		exit(-1);
+		if (entry_has_valid_name(current_arg->subtoken))
+		{
+			if (is_not_duplicate(envp, current_arg->subtoken))
+				envp[envp_count++] = ft_strdup(current_arg->subtoken);
+			else
+				handle_duplicate(envp, current_arg->subtoken);
+		}
+		current_arg = current_arg->next;
 	}
-	return (export_envp);
+	envp[envp_count] = NULL;
 }
 
-void	copy_to_dest(char **dest, char **envp, t_subtoken_node *args)
+void	pad_envp_entry(char **envp)
 {
-	from_envp(dest, envp);
-	from_args(dest + count_envp_size(envp), args);
-}
+	int	max_env_name_len;
 
-void	pad_export_envp(char **export_envp)
-{
-	int	max_len;
-
-	max_len = get_max_name_len(export_envp);
-	while (*export_envp)
+	max_env_name_len = get_max_env_name_len(envp);
+	while (*envp)
 	{
-		*export_envp = pad_name(*export_envp, max_len);
-		export_envp++;
+		*envp = pad_env_name(*envp, max_env_name_len);
+		envp++;
 	}
 }
 
-void	radix_sort(char **export_envp)
+void	trim_entry_pad(char **envp)
 {
-	int	pos;
+	while (*envp)
+	{
+		*envp = trim_env_name_pad(*envp);
+		envp++;
+	}
+}
 
-	pos = get_max_name_len(export_envp);
-	while (pos--)
-		count_sort(export_envp, count_envp_size(export_envp), pos);
+void	print_export_envp(char **envp)
+{
+	char	*name;
+	char	*value;
+
+	while (*envp)
+	{
+		if ((is_underscore(**envp) && is_equal(*(*envp + 1)))
+			|| is_special_env_name(**envp))
+		{
+			envp++;
+			continue ;
+		}
+		name = ft_strndup(*envp, ft_strcspn(*envp, "="));
+		value = ft_strchr(*envp, '=');
+		if (value)
+		{
+			value++;
+			printf("declare -x %s=\"%s\"\n", name, value);
+		}
+		else
+			printf("declare -x %s\n", name);
+		free(name);
+		envp++;
+	}
 }

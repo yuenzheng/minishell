@@ -6,50 +6,36 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:44:37 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/11 13:17:07 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/19 02:31:57 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*pad_name(char *entry, int max_name_len)
+static char	**create_output(int items_count)
 {
-	int		name_len;
-	char	*padded_name;
-	char	*remaining_entry;
-	char	*new_entry;
+	char	**output;
 
-	name_len = ft_strcspn(entry, "=");
-	if (name_len < max_name_len)
+	output = malloc(sizeof(char *) * items_count);
+	if (!output)
 	{
-		padded_name = ft_strndup(entry, name_len);
-		padded_name = ft_realloc(padded_name, name_len + 1, max_name_len + 1);
-		if (!padded_name)
-		{
-			printf("malloc failed for padded_name\n");
-			exit(-1);
-		}
-		ft_memset(padded_name + name_len, ' ', max_name_len - name_len);
-		padded_name[max_name_len] = '\0';
-		remaining_entry = ft_strchr(entry, '=');
-		new_entry = custom_strjoin(padded_name, remaining_entry);
-		free(entry);
-		return (new_entry);
+		printf("malloc failed for output\n");
+		exit(-1);
 	}
-	return (entry);
+	return (output);
 }
 
-void	count_sort(char **export_envp, int export_envp_size, int pos)
+static void	count_sort(char **envp, int items_count, int pos)
 {
-	int		i;
-	int		count[256];
 	char	**output;
+	int		count[256];
+	int		i;
 
 	ft_bzero(count, sizeof(int) * 256);
 	i = 0;
-	while (i < export_envp_size)
+	while (i < items_count)
 	{
-		count[(unsigned char)export_envp[i][pos]]++;
+		count[(unsigned char)envp[i][pos]]++;
 		i++;
 	}
 	i = 1;
@@ -58,10 +44,23 @@ void	count_sort(char **export_envp, int export_envp_size, int pos)
 		count[i] += count[i - 1];
 		i++;
 	}
-	output = create_output(export_envp_size);
-	i = export_envp_size;
+	output = create_output(items_count);
+	i = items_count;
 	while (i--)
-		output[--count[(unsigned char)export_envp[i][pos]]] = export_envp[i];
-	ft_memcpy(export_envp, output, sizeof(char *) * export_envp_size);
+		output[--count[(unsigned char)envp[i][pos]]] = envp[i];
+	ft_memcpy(envp, output, sizeof(char *) * items_count);
 	free(output);
+}
+
+void	radix_sort(char **envp)
+{
+	int	last_pos;
+	int	items_count;
+
+	last_pos = get_max_env_name_len(envp);
+	while (last_pos--)
+	{
+		items_count = count_2d_array_items(envp);
+		count_sort(envp, items_count, last_pos);
+	}
 }

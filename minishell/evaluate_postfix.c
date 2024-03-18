@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:33:20 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/17 23:39:50 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/19 01:55:21 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	run_silent_cmd(char ***envp, t_subtoken_list *args_history, \
 	args = cmd_list->head->next;
 	cmd = cmd_list->head->subtoken;
 	if (!ft_strcmp(cmd, "export") && args != NULL)
-		return (blt_export(envp, args, args_history));
+		return (blt_export(envp, args));
 	if (!ft_strcmp(cmd, "unset"))
 		return (blt_unset(*envp, args, args_history));
 	if (!ft_strcmp(cmd, "exit"))
@@ -139,7 +139,7 @@ void	run_cmd(char ***envp, t_subtoken_list *args_history, \
 	if (!ft_strcmp(cmd, "pwd"))
 		exit(blt_pwd());
 	if (!ft_strcmp(cmd, "export"))
-		exit(blt_export(envp, args, args_history));
+		exit(blt_export(envp, args));
 	if (!ft_strcmp(cmd, "env"))
 		exit(blt_env(*envp));
 	run_execve(*envp, cmd_list);
