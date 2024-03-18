@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:33:20 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/19 01:55:21 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/19 03:37:44 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,7 @@ bool	is_silent_cmd(t_subtoken_list *cmd_list)
 		|| (!ft_strcmp(cmd, "exit")));
 }
 
-int	run_silent_cmd(char ***envp, t_subtoken_list *args_history, \
-			t_subtoken_list *cmd_list)
+int	run_silent_cmd(char ***envp, t_subtoken_list *cmd_list)
 {
 	t_subtoken_node	*args;
 	char			*cmd;
@@ -101,7 +100,7 @@ int	run_silent_cmd(char ***envp, t_subtoken_list *args_history, \
 	if (!ft_strcmp(cmd, "export") && args != NULL)
 		return (blt_export(envp, args));
 	if (!ft_strcmp(cmd, "unset"))
-		return (blt_unset(*envp, args, args_history));
+		return (blt_unset(*envp, args));
 	if (!ft_strcmp(cmd, "exit"))
 		return (blt_exit(args));
 	return (-2147483648);
@@ -124,8 +123,7 @@ void	run_execve(char **envp, t_subtoken_list *cmd_list)
 	exit(-1);
 }
 
-void	run_cmd(char ***envp, t_subtoken_list *args_history, \
-			t_subtoken_list *cmd_list)
+void	run_cmd(char ***envp, t_subtoken_list *cmd_list)
 {
 	t_subtoken_node			*args;
 	char					*cmd;
@@ -148,11 +146,10 @@ void	run_cmd(char ***envp, t_subtoken_list *args_history, \
 void	handle_pipe_cmd(char ***envp, int pipe_fd[], int prev_pipe_fd[], \
 			t_subtoken_list *cmd_list)
 {
-	static t_subtoken_list	*args_history;
 	pid_t					pid;
 
 	if (is_silent_cmd(cmd_list))
-		run_silent_cmd(envp, args_history, cmd_list);
+		run_silent_cmd(envp, cmd_list);
 	else
 	{
 		pid = create_fork();
@@ -167,7 +164,7 @@ void	handle_pipe_cmd(char ***envp, int pipe_fd[], int prev_pipe_fd[], \
 			close(pipe_fd[0]);
 			dup2(pipe_fd[1], STDOUT_FILENO);
 			close(pipe_fd[1]);
-			run_cmd(envp, args_history, cmd_list);
+			run_cmd(envp, cmd_list);
 		}
 	}
 	if (prev_pipe_fd[0] != 0)
@@ -185,7 +182,7 @@ void	handle_last_cmd(char ***envp, int prev_pipe_fd[], t_subtoken_list *cmd_list
 	pid_t					pid;
 
 	if (is_silent_cmd(cmd_list))
-		run_silent_cmd(envp, args_history, cmd_list);
+		run_silent_cmd(envp, cmd_list);
 	else
 	{
 		pid = create_fork();
@@ -197,7 +194,7 @@ void	handle_last_cmd(char ***envp, int prev_pipe_fd[], t_subtoken_list *cmd_list
 				dup2(prev_pipe_fd[0], STDIN_FILENO);
 				close(prev_pipe_fd[0]);
 			}
-			run_cmd(envp, args_history, cmd_list);
+			run_cmd(envp, cmd_list);
 		}
 	}
 	if (prev_pipe_fd[0] != 0)

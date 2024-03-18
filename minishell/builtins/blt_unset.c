@@ -6,64 +6,47 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 06:33:54 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/18 22:02:25 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/19 04:07:50 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static bool	is_match(char *str, t_subtoken_node *args)
+static char	*unset_entry(char *entry, t_subtoken_node *args)
 {
-	int	name_len;
+	int				env_name_len;
+	t_subtoken_node	*current_arg;
 
-	name_len = ft_strcspn(str, "=");
-	while (args)
+	env_name_len = ft_strcspn(entry, "=");
+	current_arg = args;
+	while (current_arg)
 	{
-		if (ft_strncmp(str, args->subtoken, name_len) == 0)
-			return (true);
-		args = args->next;
+		if (is_special_env_name(*entry))
+			return (entry);
+		if (env_name_len == ft_strcspn(current_arg->subtoken, "=") \
+			&& !ft_strncmp(entry, current_arg->subtoken, env_name_len))
+		{
+			entry = ft_realloc(entry, ft_strlen(entry) + 1, 1);
+			if (!entry)
+			{
+				printf("ft_realloc failed for entry\n");
+				exit(-1);
+			}
+			*entry = '\0';
+			return (entry);
+		}
+		current_arg = current_arg->next;
 	}
-	return (false);
+	return (entry);
 }
 
-static void	unset_environment_variables(char **envp, t_subtoken_node *args)
+int	blt_unset(char **envp, t_subtoken_node *args)
 {
 	while (*envp)
 	{
-		if (is_match(*envp, args))
-		{
-			*envp = ft_realloc(*envp, ft_strlen(*envp) + 1, 1);
-			**envp = '\0';
-		}
+		*envp = unset_entry(*envp, args);
 		envp++;
 	}
-}
-
-static void	unset_args_history(t_subtoken_list *args_history, \
-				t_subtoken_node *args)
-{
-	t_subtoken_node	*current;
-	int				len;
-
-	current = args_history->head;
-	while (current)
-	{
-		if (is_match(current->subtoken, args))
-		{
-			len = ft_strlen(current->subtoken);
-			current->subtoken = ft_realloc(current->subtoken, len + 1, 1);
-			*current->subtoken = '\0';
-		}
-		current = current->next;
-	}
-}
-
-int	blt_unset(char **envp, t_subtoken_node *args, \
-				t_subtoken_list *args_history)
-{
-	unset_environment_variables(envp, args);
-	if (args_history != NULL)
-		unset_args_history(args_history, args);
 	return (0);
 }
 
