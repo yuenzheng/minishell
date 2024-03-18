@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:42:41 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 02:45:14 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/18 22:02:25 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,18 @@ int	count_envp_size(char **envp)
 	return (envp_size);
 }
 
-int	count_params_size(t_subtoken_node *params)
+int	count_args_size(t_subtoken_node *args)
 {
 	int	export_envp_size;
 
 	export_envp_size = 0;
-	while (params)
+	while (args)
 	{
-		if (!validate_entry_name(params->subtoken))
+		if (!validate_entry_name(args->subtoken))
 			break ;
-		if (getenv(params->subtoken) == NULL)
+		if (getenv(args->subtoken) == NULL)
 			export_envp_size++;
-		params = params->next;
+		args = args->next;
 	}
 	return (export_envp_size);
 }
@@ -45,14 +45,14 @@ void	from_envp(char **dest, char **envp)
 	*dest = NULL;
 }
 
-void	from_params(char **dest, t_subtoken_node *params)
+void	from_args(char **dest, t_subtoken_node *args)
 {
-	while (params)
+	while (args)
 	{
-		if (!validate_entry_name(params->subtoken))
+		if (!validate_entry_name(args->subtoken))
 			return ;
-		*dest++ = ft_strdup(params->subtoken);
-		params = params->next;
+		*dest++ = ft_strdup(args->subtoken);
+		args = args->next;
 	}
 	*dest = NULL;
 }

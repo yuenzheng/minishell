@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:49:09 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/17 01:44:20 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/18 22:02:25 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 // I'm using the normal ft_strtok here,
 // Because the subtoken would have already been expanded
 // " 12"10 would just be 1210
-static int	count_exit_args(t_subtoken_node *params)
+static int	count_exit_args(t_subtoken_node *args)
 {
 	int		args_count;
 	char	*dup_subtoken;
 	char	*subtoken;
 
 	args_count = 0;
-	while (params)
+	while (args)
 	{
-		dup_subtoken = ft_strdup(params->subtoken);
+		dup_subtoken = ft_strdup(args->subtoken);
 		subtoken = ft_strtok(dup_subtoken, " ");
 		while (subtoken)
 		{
@@ -32,7 +32,7 @@ static int	count_exit_args(t_subtoken_node *params)
 			subtoken = ft_strtok(NULL, " ");
 		}
 		free(dup_subtoken);
-		params = params->next;
+		args = args->next;
 	}
 	return (args_count);
 }
@@ -40,14 +40,14 @@ static int	count_exit_args(t_subtoken_node *params)
 // Remember to set exit_code to 1, when print("too many arguments")
 // in the first if condition, that contain only numbers.
 // Because it doesn't exit the function
-static int	process_exit_args(t_subtoken_node *params)
+static int	process_exit_args(t_subtoken_node *args)
 {
 	int		args_count;
 	char	*dup_subtoken;
 	char	*first_arg;
 
-	args_count = count_exit_args(params);
-	dup_subtoken = ft_strdup(params->subtoken);
+	args_count = count_exit_args(args);
+	dup_subtoken = ft_strdup(args->subtoken);
 	first_arg = ft_strtok(dup_subtoken, " ");
 	if (first_arg && contain_only_digits(first_arg))
 	{
@@ -61,9 +61,9 @@ static int	process_exit_args(t_subtoken_node *params)
 	return (1);
 }
 
-int	blt_exit(t_subtoken_node *params)
+int	blt_exit(t_subtoken_node *args)
 {
-	if (params == NULL || count_exit_args(params) == 0)
+	if (args == NULL || count_exit_args(args) == 0)
 		exit(0);
-	return (process_exit_args(params));
+	return (process_exit_args(args));
 }

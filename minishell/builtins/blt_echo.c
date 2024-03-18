@@ -6,42 +6,42 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 01:02:22 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/17 02:29:45 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/18 22:02:25 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	print_subtokens(t_subtoken_node *params)
+static void	print_subtokens(t_subtoken_node *args)
 {
-	params = find_first_non_option(params);
-	while (params)
+	args = find_first_non_option(args);
+	while (args)
 	{
-		printf("%s", params->subtoken);
-		if (params->next != NULL)
+		printf("%s", args->subtoken);
+		if (args->next != NULL)
 			printf(" ");
-		params = params->next;
+		args = args->next;
 	}
 }
 
-static void	print_newline(t_subtoken_node *params)
+static void	print_newline(t_subtoken_node *args)
 {
 	t_subtoken_node	*first_non_option;
 
-	first_non_option = find_first_non_option(params);
-	if (first_non_option == params)
+	first_non_option = find_first_non_option(args);
+	if (first_non_option == args)
 		printf("\n");
 }
 
-int	blt_echo(t_subtoken_node *params)
+int	blt_echo(t_subtoken_node *args)
 {
-	if (params == NULL)
+	if (args == NULL)
 	{
 		printf("\n");
 		return (0);
 	}
-	print_subtokens(params);
-	print_newline(params);
+	print_subtokens(args);
+	print_newline(args);
 	return (0);
 }
 

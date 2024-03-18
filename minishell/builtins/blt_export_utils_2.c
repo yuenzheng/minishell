@@ -6,40 +6,40 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:39:01 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/13 19:25:15 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/18 22:02:25 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_subtoken_node	*filter_params(t_subtoken_node *params)
+t_subtoken_node	*filter_args(t_subtoken_node *args)
 {
 	t_subtoken_node	*subtoken_node;
-	t_subtoken_list	valid_params_list;
+	t_subtoken_list	valid_args_history;
 
-	valid_params_list = (t_subtoken_list){0};
-	while (params)
+	valid_args_history = (t_subtoken_list){0};
+	while (args)
 	{
-		if (validate_entry_name(params->subtoken) \
-			&& ft_strchr(params->subtoken, '='))
+		if (validate_entry_name(args->subtoken) \
+			&& ft_strchr(args->subtoken, '='))
 		{
-			subtoken_node = create_subtoken_node(ft_strdup(params->subtoken));
-			link_subtoken_list(subtoken_node, &valid_params_list);
+			subtoken_node = create_subtoken_node(ft_strdup(args->subtoken));
+			link_subtoken_list(subtoken_node, &valid_args_history);
 		}
-		params = params->next;
+		args = args->next;
 	}
-	return (valid_params_list.head);
+	return (valid_args_history.head);
 }
 
-char	**create_valid_envp(char **envp, t_subtoken_node *valid_params)
+char	**create_valid_envp(char **envp, t_subtoken_node *valid_args)
 {
 	int		envp_size;
-	int		params_size;
+	int		args_size;
 	char	**valid_envp;
 
 	envp_size = count_envp_size(envp);
-	params_size = count_params_size(valid_params);
-	valid_envp = malloc(sizeof(char *) * (envp_size + params_size + 1));
+	args_size = count_args_size(valid_args);
+	valid_envp = malloc(sizeof(char *) * (envp_size + args_size + 1));
 	if (!valid_envp)
 	{
 		printf("malloc failed for valid_envp\n");

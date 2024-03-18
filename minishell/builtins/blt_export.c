@@ -6,60 +6,60 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:15:48 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/17 01:42:07 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/18 22:02:25 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static t_subtoken_list	*update_params_list(t_subtoken_node *params, \
-							t_subtoken_list *params_list)
+static t_subtoken_list	*update_args_history(t_subtoken_node *args, \
+							t_subtoken_list *args_history)
 {
-	if (params_list == NULL)
-		params_list = create_params_list();
-	link_subtoken_list(params, params_list);
-	return (params_list);
+	if (args_history == NULL)
+		args_history = create_args_history();
+	link_subtoken_list(args, args_history);
+	return (args_history);
 }
 
-static char	**create_export_envp(char **envp, t_subtoken_list *params_list)
+static char	**create_export_envp(char **envp, t_subtoken_list *args_history)
 {
 	char	**export_envp;
 
-	export_envp = alloc_export_envp(envp, params_list->head);
-	copy_to_dest(export_envp, envp, params_list->head);
+	export_envp = alloc_export_envp(envp, args_history->head);
+	copy_to_dest(export_envp, envp, args_history->head);
 	pad_export_envp(export_envp);
 	radix_sort(export_envp);
 	return (export_envp);
 }
 
-static char	**update_envp(char **envp, t_subtoken_node *params)
+static char	**update_envp(char **envp, t_subtoken_node *args)
 {
-	t_subtoken_node	*valid_params;
+	t_subtoken_node	*valid_args;
 	char			**valid_envp;
 
-	valid_params = filter_params(params);
-	valid_envp = create_valid_envp(envp, valid_params);
-	copy_to_dest(valid_envp, envp, valid_params);
-	free_subtoken_node(valid_params);
+	valid_args = filter_args(args);
+	valid_envp = create_valid_envp(envp, valid_args);
+	copy_to_dest(valid_envp, envp, valid_args);
+	free_subtoken_node(valid_args);
 	free_envp(envp);
 	return (valid_envp);
 }
 
 // My export works on static to store the all args that you have used
 // It also ignored empty string, so that is easier to implement unset
-// Remeber to pass a static to params_list before the call
-int	blt_export(char ***envp, t_subtoken_node *params, \
-			t_subtoken_list *params_list)
+// Remeber to pass a static to args_history before the call
+int	blt_export(char ***envp, t_subtoken_node *args, \
+			t_subtoken_list *args_history)
 {
 	char	**export_envp;
 
-	params_list = update_params_list(params, params_list);
-	export_envp = create_export_envp(*envp, params_list);
-	if (params == NULL)
+	args_history = update_args_history(args, args_history);
+	export_envp = create_export_envp(*envp, args_history);
+	if (args == NULL)
 		print_export_envp(export_envp);
 	free_envp(export_envp);
-	if (params != NULL)
-		*envp = update_envp(*envp, params);
+	if (args != NULL)
+		*envp = update_envp(*envp, args);
 	return (0);
 }
 

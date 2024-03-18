@@ -6,31 +6,31 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 06:33:54 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/17 01:41:27 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/18 22:02:25 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static bool	is_match(char *str, t_subtoken_node *params)
+static bool	is_match(char *str, t_subtoken_node *args)
 {
 	int	name_len;
 
 	name_len = ft_strcspn(str, "=");
-	while (params)
+	while (args)
 	{
-		if (ft_strncmp(str, params->subtoken, name_len) == 0)
+		if (ft_strncmp(str, args->subtoken, name_len) == 0)
 			return (true);
-		params = params->next;
+		args = args->next;
 	}
 	return (false);
 }
 
-static void	unset_environment_variables(char **envp, t_subtoken_node *params)
+static void	unset_environment_variables(char **envp, t_subtoken_node *args)
 {
 	while (*envp)
 	{
-		if (is_match(*envp, params))
+		if (is_match(*envp, args))
 		{
 			*envp = ft_realloc(*envp, ft_strlen(*envp) + 1, 1);
 			**envp = '\0';
@@ -39,16 +39,16 @@ static void	unset_environment_variables(char **envp, t_subtoken_node *params)
 	}
 }
 
-static void	unset_params_list(t_subtoken_list *params_list, \
-				t_subtoken_node *params)
+static void	unset_args_history(t_subtoken_list *args_history, \
+				t_subtoken_node *args)
 {
 	t_subtoken_node	*current;
 	int				len;
 
-	current = params_list->head;
+	current = args_history->head;
 	while (current)
 	{
-		if (is_match(current->subtoken, params))
+		if (is_match(current->subtoken, args))
 		{
 			len = ft_strlen(current->subtoken);
 			current->subtoken = ft_realloc(current->subtoken, len + 1, 1);
@@ -58,12 +58,12 @@ static void	unset_params_list(t_subtoken_list *params_list, \
 	}
 }
 
-int	blt_unset(char **envp, t_subtoken_node *params, \
-				t_subtoken_list *params_list)
+int	blt_unset(char **envp, t_subtoken_node *args, \
+				t_subtoken_list *args_history)
 {
-	unset_environment_variables(envp, params);
-	if (params_list != NULL)
-		unset_params_list(params_list, params);
+	unset_environment_variables(envp, args);
+	if (args_history != NULL)
+		unset_args_history(args_history, args);
 	return (0);
 }
 

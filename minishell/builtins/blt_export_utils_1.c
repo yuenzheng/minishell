@@ -6,36 +6,36 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:33:57 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/07 02:38:37 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/18 22:02:25 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_subtoken_list	*create_params_list(void)
+t_subtoken_list	*create_args_history(void)
 {
-	t_subtoken_list	*params_list;
+	t_subtoken_list	*args_history;
 
-	params_list = malloc(sizeof(t_subtoken_list));
-	if (!params_list)
+	args_history = malloc(sizeof(t_subtoken_list));
+	if (!args_history)
 	{
-		printf("malloc failed for params_list\n");
+		printf("malloc failed for args_history\n");
 		exit(-1);
 	}
-	params_list->head = NULL;
-	params_list->tail = NULL;
-	return (params_list);
+	args_history->head = NULL;
+	args_history->tail = NULL;
+	return (args_history);
 }
 
-char	**alloc_export_envp(char **envp, t_subtoken_node *params)
+char	**alloc_export_envp(char **envp, t_subtoken_node *args)
 {
 	int		envp_size;
-	int		params_size;
+	int		args_size;
 	char	**export_envp;
 
 	envp_size = count_envp_size(envp);
-	params_size = count_params_size(params);
-	export_envp = malloc(sizeof(char *) * (envp_size + params_size + 1));
+	args_size = count_args_size(args);
+	export_envp = malloc(sizeof(char *) * (envp_size + args_size + 1));
 	if (!export_envp)
 	{
 		printf("malloc failed for export_envp\n");
@@ -44,10 +44,10 @@ char	**alloc_export_envp(char **envp, t_subtoken_node *params)
 	return (export_envp);
 }
 
-void	copy_to_dest(char **dest, char **envp, t_subtoken_node *params)
+void	copy_to_dest(char **dest, char **envp, t_subtoken_node *args)
 {
 	from_envp(dest, envp);
-	from_params(dest + count_envp_size(envp), params);
+	from_args(dest + count_envp_size(envp), args);
 }
 
 void	pad_export_envp(char **export_envp)

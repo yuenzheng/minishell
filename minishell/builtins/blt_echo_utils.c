@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:38:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/04 18:09:03 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/18 22:02:25 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ bool	is_n_options(char *subtoken)
 	return (false);
 }
 
-t_subtoken_node	*find_first_non_option(t_subtoken_node *params)
+t_subtoken_node	*find_first_non_option(t_subtoken_node *args)
 {
-	while (params)
+	while (args)
 	{
-		if (is_n_options(params->subtoken) == false)
-			return (params);
-		params = params->next;
+		if (is_n_options(args->subtoken) == false)
+			return (args);
+		args = args->next;
 	}
 	return (NULL);
 }
