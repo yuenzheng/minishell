@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:33:20 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/19 20:02:24 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/19 20:16:29 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,14 +226,12 @@ void	exec_cmd(char ***envp, int prev_pipe_fd[], \
 		handle_last_cmd(envp, prev_pipe_fd, cmd_list);
 }
 
-int	wait_for_forks(void)
+void	wait_for_forks(char **envp)
 {
-	int	last_exec_cmd_status;
+	int	exit_status;
 
-	last_exec_cmd_status = 0;
-	while (waitpid(-1, &last_exec_cmd_status, 0) > 0)
-		;
-	return (WEXITSTATUS(last_exec_cmd_status));
+	while (waitpid(-1, &exit_status, 0) > 0)
+		update_exit_status(envp, WEXITSTATUS(exit_status));
 }
 
 bool	operand_succeed(char ***envp, t_token_node *operand)
@@ -260,7 +258,7 @@ bool	operand_succeed(char ***envp, t_token_node *operand)
 			free_subtoken_node(pop_subtoken_list_head(subtoken_list));
 		free_subtoken_list(cmd_list);
 	}
-	update_exit_status(*envp, wait_for_forks());
+	wait_for_forks(*envp);
 	return (true);
 }
 
