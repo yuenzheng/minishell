@@ -15,6 +15,7 @@ SRCS := character_check_1.c \
 		character_check_3.c \
 		character_check_4.c \
 		character_check_5.c \
+		character_check_6.c \
 		operator_check.c \
 		double_array_utils.c \
 		clone_envp_with_special.c \

@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 05:21:59 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/20 05:24:58 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/20 05:50:20 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ void	move_to_home_directory(void)
 	if (!home_dir)
 		printf("getenv failed for home_dir\n");
 	if (chdir(home_dir) != 0)
-		printf("chdir failed for home_dir\n");
+		printf("chdir failed for %s\n", home_dir);
 }
 
 void	move_to_parent_directory(void)
 {
 	if (chdir("..") != 0)
-		printf("chdir failed for dotdot\n");
+		printf("chdir failed for ..\n");
 }

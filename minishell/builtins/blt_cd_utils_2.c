@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 05:18:21 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/20 05:23:48 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/20 05:50:45 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*update_oldpwd(void)
 	new_entry = ft_strjoin("OLDPWD=", cwd, "");
 	if (!new_entry)
 	{
-		printf("ft_strjoin failed for *envp\n");
+		printf("ft_strjoin failed for new_entry\n");
 		free(cwd);
 		exit(-1);
 	}

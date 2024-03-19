@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 03:19:32 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/20 05:30:00 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/20 05:49:09 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,33 @@ static void	handle_dotdot(char **envp)
 	handle_pwd(envp);
 }
 
+static void	handle_path(char **envp, char *path)
+{
+	char	*cwd;
+
+	handle_oldpwd(envp);
+	if (is_forward_slash(path[0]))
+	{
+		if (chdir(path) != 0)
+			printf("chdir failed for %s\n", path);
+	}
+	else
+	{
+		cwd = getcwd(NULL, 0);
+		if (!cwd)
+		{
+			printf("getcwd failed for cwd\n");
+			exit(-1);
+		}
+		path = ft_strjoin(cwd, path, "/");
+		free(cwd);
+		if (chdir(path) != 0)
+			printf("chdir failed for %s\n", path);
+		free(path);
+	}
+	handle_pwd(envp);
+}
+
 int	blt_cd(char **envp, t_subtoken_node *args)
 {
 	if (args == NULL)
@@ -42,6 +69,13 @@ int	blt_cd(char **envp, t_subtoken_node *args)
 			handle_dotdot(envp);
 		else if (!ft_strcmp(args->subtoken, "."))
 			handle_dot(envp);
+		else
+			handle_path(envp, args->subtoken);
+	}
+	else
+	{
+		printf("too many arguments\n");
+		return (1);
 	}
 	return (0);
 }

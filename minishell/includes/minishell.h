@@ -75,6 +75,9 @@ bool			is_right_bracket(char c);
 bool			is_bracket(char c);
 bool			is_pipe(char c);
 
+// character_check_6.c
+bool			is_forward_slash(char c);
+
 // operator_check.c
 bool			is_logical_operator(char *str);
 bool			is_logical_operator_n(char *str);
@@ -89,14 +92,14 @@ t_subtoken_node	*find_first_non_option(t_subtoken_node *args);
 int				blt_echo(t_subtoken_node *args);
 
 // builtins/blt_cd_utils_1.c
-void	handle_oldpwd(char **envp);
-void	handle_pwd(char **envp);
-void	move_to_home_directory(void);
-void	move_to_parent_directory(void);
+void			handle_oldpwd(char **envp);
+void			handle_pwd(char **envp);
+void			move_to_home_directory(void);
+void			move_to_parent_directory(void);
 
 // builtins/blt_cd_utils_2.c
-char	*update_oldpwd(void);
-char	*update_pwd(void);
+char			*update_oldpwd(void);
+char			*update_pwd(void);
 
 // builtins/blt_cd.c
 int				blt_cd(char **envp, t_subtoken_node *args);
