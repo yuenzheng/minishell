@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 01:40:34 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/19 02:21:26 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/19 18:55:02 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	print_export_envp(char **envp)
 			value++;
 			printf("declare -x %s=\"%s\"\n", name, value);
 		}
-		else
+		else if (name && *name)
 			printf("declare -x %s\n", name);
 		free(name);
 		envp++;
