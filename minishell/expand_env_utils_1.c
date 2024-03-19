@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_env_utils.c                                 :+:      :+:    :+:   */
+/*   expand_env_utils_1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:57:25 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/19 19:26:10 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/19 20:08:28 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,6 @@ int	count_len_until_env(char *subtoken, char *env)
 		subtoken++;
 	}
 	return (len);
-}
-
-bool	is_valid_syntax(char *envp)
-{
-	char	*equal_ptr;
-
-	equal_ptr = ft_strchr(envp, '=');
-	if (equal_ptr == NULL || equal_ptr == envp)
-		return (false);
-	return (true);
 }
 
 char	*get_env_value(char *env, char **envp)

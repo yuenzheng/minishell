@@ -181,12 +181,15 @@ char			*normalize_input(char *temp_input);
 // get_input_line.c
 char			*get_input_line(void);
 
-// expand_env_utils.c
+// expand_env_utils_1.c
 int				count_len_until_env(char *subtoken, char *env);
 char			*get_env_value(char *env, char **envp);
 int				count_env_value_len(char *env, char **envp);
 int				skip_env(char *env);
 char			*append_env_value(char *result, char *env, char **envp);
+
+// expand_env_utils_2.c
+bool			is_valid_syntax(char *envp);
 
 // expand_env.c
 char			*expand_env(char *subtoken, char **envp);
