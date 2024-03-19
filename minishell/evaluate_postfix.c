@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:33:20 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/19 18:46:16 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/19 20:02:24 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,12 +150,40 @@ void	handle_pipe_cmd(char ***envp, int pipe_fd[], int prev_pipe_fd[], \
 	}
 }
 
+void	update_exit_status(char **envp, int exit_status)
+{
+	char	*env_name;
+	char	*exit_code;
+
+	while (*envp)
+	{
+		if (is_question_mark(**envp) && is_equal(*(*envp + 1)))
+		{
+			env_name = ft_strndup(*envp, ft_strcspn(*envp, "=") + 1);
+			if (!env_name)
+			{
+				printf("ft_strndup failed for env_name\n");
+				exit(-1);
+			}
+			exit_code = ft_itoa(exit_status);
+			if (!exit_code)
+			{
+				printf("ft_itoa failed for exit_code\n");
+				exit(-1);
+			}
+			*envp = custom_strjoin(env_name, exit_code);
+			free(exit_code);
+		}
+		envp++;
+	}
+}
+
 void	handle_last_cmd(char ***envp, int prev_pipe_fd[], t_subtoken_list *cmd_list)
 {
 	pid_t	pid;
 
 	if (prev_pipe_fd[0] == 0)
-		run_cmd(envp, cmd_list);
+		update_exit_status(*envp, run_cmd(envp, cmd_list));
 	else
 	{
 		pid = create_fork();
@@ -232,7 +260,7 @@ bool	operand_succeed(char ***envp, t_token_node *operand)
 			free_subtoken_node(pop_subtoken_list_head(subtoken_list));
 		free_subtoken_list(cmd_list);
 	}
-	wait_for_forks();
+	update_exit_status(*envp, wait_for_forks());
 	return (true);
 }
 
