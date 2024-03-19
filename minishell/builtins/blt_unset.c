@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 06:33:54 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/19 04:07:50 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/19 17:50:32 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,15 @@ static char	*unset_entry(char *entry, t_subtoken_node *args)
 	int				env_name_len;
 	t_subtoken_node	*current_arg;
 
+	if (ft_strchr(args->subtoken, '=') != NULL)
+		return (entry);
 	env_name_len = ft_strcspn(entry, "=");
 	current_arg = args;
 	while (current_arg)
 	{
 		if (is_special_env_name(*entry))
 			return (entry);
-		if (env_name_len == ft_strcspn(current_arg->subtoken, "=") \
-			&& !ft_strncmp(entry, current_arg->subtoken, env_name_len))
+		if (!ft_strncmp(entry, args->subtoken, env_name_len))
 		{
 			entry = ft_realloc(entry, ft_strlen(entry) + 1, 1);
 			if (!entry)
