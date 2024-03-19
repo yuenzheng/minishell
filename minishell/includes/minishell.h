@@ -88,6 +88,9 @@ t_subtoken_node	*find_first_non_option(t_subtoken_node *args);
 // builtins/blt_echo.c
 int				blt_echo(t_subtoken_node *args);
 
+// builtins/blt_cd.c
+int				blt_cd(char **envp, t_subtoken_node *args);
+
 // builtins/blt_pwd.c
 int				blt_pwd(void);
 

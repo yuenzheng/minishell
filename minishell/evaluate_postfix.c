@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:33:20 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/19 20:16:29 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/20 05:03:35 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	run_cmd(char ***envp, t_subtoken_list *cmd_list)
 	if (!ft_strcmp(cmd, "echo"))
 		return (blt_echo(args));
 	if (!ft_strcmp(cmd, "cd"))
-		return (-1);
+		return (blt_cd(*envp, args));
 	if (!ft_strcmp(cmd, "pwd"))
 		return (blt_pwd());
 	if (!ft_strcmp(cmd, "export"))
@@ -171,6 +171,7 @@ void	update_exit_status(char **envp, int exit_status)
 				printf("ft_itoa failed for exit_code\n");
 				exit(-1);
 			}
+			free(*envp);
 			*envp = custom_strjoin(env_name, exit_code);
 			free(exit_code);
 		}
