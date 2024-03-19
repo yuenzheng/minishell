@@ -6,11 +6,11 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 19:26:19 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/19 03:03:31 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/19 18:47:23 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "../includes/minishell.h"
 
 // If str is empty set by blt_unset,
 // first if condition will return false
