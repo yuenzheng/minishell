@@ -53,6 +53,8 @@ SRCS := character_check_1.c \
 
 BUILTINS_SRCS := blt_echo_utils.c \
 				 blt_echo.c \
+				 blt_cd_utils_1.c \
+				 blt_cd_utils_2.c \
 				 blt_cd.c \
 				 blt_pwd.c \
 				 blt_export_utils_1.c \
@@ -75,7 +77,7 @@ LIBFT_MAKE := $(MAKE) -C$(LIBFT_PATH)
 
 # Compiler and flags
 CC := cc
-CFLAGS := -Wall -Werror -Wextra $(if $(FSANITIZE), -fsanitize=$(FSANITIZE)) -w
+CFLAGS := -Wall -Werror -Wextra $(if $(FSANITIZE), -fsanitize=$(FSANITIZE))
 
 # Include flags, for the compiler to find additional header files
 INCLUDE_SYS_HEADERS := -I$(SYS_HEADERS_PATH)

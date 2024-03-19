@@ -88,6 +88,16 @@ t_subtoken_node	*find_first_non_option(t_subtoken_node *args);
 // builtins/blt_echo.c
 int				blt_echo(t_subtoken_node *args);
 
+// builtins/blt_cd_utils_1.c
+void	handle_oldpwd(char **envp);
+void	handle_pwd(char **envp);
+void	move_to_home_directory(void);
+void	move_to_parent_directory(void);
+
+// builtins/blt_cd_utils_2.c
+char	*update_oldpwd(void);
+char	*update_pwd(void);
+
 // builtins/blt_cd.c
 int				blt_cd(char **envp, t_subtoken_node *args);
 
