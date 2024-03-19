@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 10:44:19 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/14 03:58:49 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/19 19:28:29 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // Don't need to free subtoken in here,
 // Becase i'm passing it as a pointer for subtoken_node->subtoken
 // So it will be freed in free_token_list.c instead
-static t_subtoken_list	*get_subtoken_list(char *token)
+static t_subtoken_list	*get_subtoken_list(char *token, char **envp)
 {
 	t_subtoken_list	*subtoken_list;
 	char			*subtoken;
@@ -33,7 +33,7 @@ static t_subtoken_list	*get_subtoken_list(char *token)
 		expand_heredoc = false;
 		while (subtoken)
 		{
-			subtoken = expand_subtoken(subtoken, expand_heredoc);
+			subtoken = expand_subtoken(subtoken, expand_heredoc, envp);
 			if (is_heredoc(subtoken) || expand_heredoc == true)
 				expand_heredoc = !expand_heredoc;
 			link_subtoken_list(create_subtoken_node(subtoken), subtoken_list);
@@ -43,7 +43,7 @@ static t_subtoken_list	*get_subtoken_list(char *token)
 	return (subtoken_list);
 }
 
-t_token_list	*get_token_list(char *input)
+t_token_list	*get_token_list(char *input, char **envp)
 {
 	t_token_list	*token_list;
 	t_token_node	*token_node;
@@ -55,7 +55,7 @@ t_token_list	*get_token_list(char *input)
 	{
 		if (ft_strspn(token, " ") != ft_strlen(token))
 		{
-			token_node = create_token_node(get_subtoken_list(token));
+			token_node = create_token_node(get_subtoken_list(token, envp));
 			link_token_list(token_node, token_list);
 		}
 		free(token);

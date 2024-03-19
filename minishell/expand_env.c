@@ -6,13 +6,13 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 06:18:41 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/29 17:09:53 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/19 19:26:55 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static int	count_expanded_len(char *subtoken)
+static int	count_expanded_len(char *subtoken, char **envp)
 {
 	int		len;
 	char	*env;
@@ -22,7 +22,7 @@ static int	count_expanded_len(char *subtoken)
 	while (env)
 	{
 		len += count_len_until_env(subtoken, env);
-		len += count_env_value_len(env);
+		len += count_env_value_len(env, envp);
 		subtoken += skip_env(env);
 		free(env);
 		env = get_next_env(NULL);
@@ -31,7 +31,7 @@ static int	count_expanded_len(char *subtoken)
 	return (len);
 }
 
-static void	fill_result(char *result, char *subtoken)
+static void	fill_result(char *result, char *subtoken, char **envp)
 {
 	char	*env;
 
@@ -41,7 +41,7 @@ static void	fill_result(char *result, char *subtoken)
 		while (*subtoken && subtoken != ft_strstr(subtoken, env))
 			*result++ = *subtoken++;
 		*result = '\0';
-		result = append_env_value(result, env);
+		result = append_env_value(result, env, envp);
 		subtoken += skip_env(env);
 		free(env);
 		env = get_next_env(NULL);
@@ -50,19 +50,19 @@ static void	fill_result(char *result, char *subtoken)
 	ft_strcat(result, subtoken);
 }
 
-char	*expand_env(char *subtoken)
+char	*expand_env(char *subtoken, char **envp)
 {
 	char	*result;
 	int		expanded_len;
 
-	expanded_len = count_expanded_len(subtoken);
+	expanded_len = count_expanded_len(subtoken, envp);
 	result = malloc(sizeof(char) * (expanded_len + 1));
 	if (!result)
 	{
 		printf("malloc failed for result\n");
 		exit(-1);
 	}
-	fill_result(result, subtoken);
+	fill_result(result, subtoken, envp);
 	free(subtoken);
 	return (result);
 }

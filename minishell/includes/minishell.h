@@ -1,12 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/19 03:09:54 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/19 19:11:30 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,13 +183,13 @@ char			*get_input_line(void);
 
 // expand_env_utils.c
 int				count_len_until_env(char *subtoken, char *env);
-char			*get_env_value(char *env);
-int				count_env_value_len(char *env);
+char			*get_env_value(char *env, char **envp);
+int				count_env_value_len(char *env, char **envp);
 int				skip_env(char *env);
-char			*append_env_value(char *result, char *env);
+char			*append_env_value(char *result, char *env, char **envp);
 
 // expand_env.c
-char			*expand_env(char *subtoken);
+char			*expand_env(char *subtoken, char **envp);
 
 // expand_tilde_utils_1.c
 int				count_valid_key_name(char *subtoken);
@@ -244,10 +242,10 @@ void			link_token_list(t_token_node *token_node, \
 					t_token_list *token_list);
 
 // get_token_list_utils.c
-char			*expand_subtoken(char *subtoken, bool expand_heredoc);
+char			*expand_subtoken(char *subtoken, bool expand_heredoc, char **envp);
 
 // get_token_list.c
-t_token_list	*get_token_list(char *input);
+t_token_list	*get_token_list(char *input, char **envp);
 
 // infix_to_postfix_utils.c
 char			*first_subtoken(t_token_node *current_tok);

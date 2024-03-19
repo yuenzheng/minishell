@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 17:56:25 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/18 01:19:11 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/19 19:29:06 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		input = get_input_line();
-		token_list = get_token_list(input);
+		token_list = get_token_list(input, envp);
 		token_list = infix_to_postfix(token_list);
 		evaluate_postfix(&envp, token_list);
 		// print_list(token_list);
