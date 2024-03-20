@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 01:44:22 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/19 02:26:01 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/20 16:58:26 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ char	*trim_env_name_pad(char *entry)
 	int		new_size;
 	char	*result;
 
-	old_size = ft_strcspn(entry, "=");
-	new_size = ft_strcspn(entry, " ");
-	result = ft_realloc(ft_strndup(entry, old_size), old_size + 1, new_size + 1);
+	old_size = ft_strcspn(entry, "=") + 1;
+	new_size = ft_strcspn(entry, " ") + 1;
+	result = ft_realloc(ft_strndup(entry, old_size), old_size, new_size);
 	if (!result)
 	{
 		printf("ft_realloc failed for result\n");

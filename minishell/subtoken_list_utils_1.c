@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:25:10 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/15 18:19:41 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/20 17:00:10 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_subtoken_node	*pop_subtoken_list_tail(t_subtoken_list *subtoken_list)
 	else
 	{
 		pop_node->prev = NULL;
-		new_tail->next= NULL;
+		new_tail->next = NULL;
 		subtoken_list->tail = new_tail;
 	}
 	return (pop_node);

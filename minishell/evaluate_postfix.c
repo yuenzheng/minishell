@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:33:20 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/20 05:03:35 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/20 17:01:47 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,8 @@ void	update_exit_status(char **envp, int exit_status)
 	}
 }
 
-void	handle_last_cmd(char ***envp, int prev_pipe_fd[], t_subtoken_list *cmd_list)
+void	handle_last_cmd(char ***envp, int prev_pipe_fd[], \
+			t_subtoken_list *cmd_list)
 {
 	pid_t	pid;
 

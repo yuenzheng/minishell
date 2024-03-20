@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 11:39:19 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/14 01:38:45 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/20 16:59:30 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*find_token_end(char *remaining_input)
 			escaped = false;
 		remaining_input++;
 	}
-	return (remaining_input);	
+	return (remaining_input);
 }
 
 static char	*duplicate_token(char *token, char *remaining_input)

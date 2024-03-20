@@ -1,10 +1,12 @@
+/* ************************************************************************** */
+/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 18:07:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/19 19:11:30 by ychng            ###   ########.fr       */
+/*   Created: 2024/03/20 16:55:40 by ychng             #+#    #+#             */
+/*   Updated: 2024/03/20 16:57:40 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +136,7 @@ char			*trim_env_name_pad(char *entry);
 void			radix_sort(char **envp);
 
 // builtins/blt_export.c
-int 			blt_export(char ***envp, t_subtoken_node *args);
+int				blt_export(char ***envp, t_subtoken_node *args);
 
 // builtins/blt_unset.c
 int				blt_unset(char **envp, t_subtoken_node *args);
@@ -261,7 +263,8 @@ void			link_token_list(t_token_node *token_node, \
 					t_token_list *token_list);
 
 // get_token_list_utils.c
-char			*expand_subtoken(char *subtoken, bool expand_heredoc, char **envp);
+char			*expand_subtoken(char *subtoken, bool expand_heredoc, \
+					char **envp);
 
 // get_token_list.c
 t_token_list	*get_token_list(char *input, char **envp);
