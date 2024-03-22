@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 03:19:32 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/20 05:49:09 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/23 01:05:45 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	handle_path(char **envp, char *path)
 	handle_pwd(envp);
 }
 
-int	blt_cd(char **envp, t_subtoken_node *args)
+int	blt_cd(char **envp, t_subtokennode *args)
 {
 	if (args == NULL)
 		return (handle_no_args(envp));

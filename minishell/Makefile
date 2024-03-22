@@ -46,6 +46,9 @@ SRCS := character_check_1.c \
 		token_list_utils.c \
 		get_token_list_utils.c \
 		get_token_list.c \
+		build_tree_utils_1.c \
+		build_tree_utils_2.c \
+		build_tree.c \
 		infix_to_postfix_utils.c \
 		infix_to_postfix.c \
 		evaluate_postfix.c \

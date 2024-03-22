@@ -6,13 +6,13 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 01:02:22 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/18 22:02:25 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/23 01:05:45 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	print_subtokens(t_subtoken_node *args)
+static void	print_subtokens(t_subtokennode *args)
 {
 	args = find_first_non_option(args);
 	while (args)
@@ -24,16 +24,16 @@ static void	print_subtokens(t_subtoken_node *args)
 	}
 }
 
-static void	print_newline(t_subtoken_node *args)
+static void	print_newline(t_subtokennode *args)
 {
-	t_subtoken_node	*first_non_option;
+	t_subtokennode	*first_non_option;
 
 	first_non_option = find_first_non_option(args);
 	if (first_non_option == args)
 		printf("\n");
 }
 
-int	blt_echo(t_subtoken_node *args)
+int	blt_echo(t_subtokennode *args)
 {
 	if (args == NULL)
 	{
@@ -47,9 +47,9 @@ int	blt_echo(t_subtoken_node *args)
 
 // int main()
 // {
-// 	t_subtoken_node	first;
-// 	t_subtoken_node	second;
-// 	t_subtoken_node	third;
+// 	t_subtokennode	first;
+// 	t_subtokennode	second;
+// 	t_subtokennode	third;
 
 // 	first.next = &second;
 // 	second.next = &third;

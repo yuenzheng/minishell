@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 01:49:09 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/18 22:02:25 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/23 01:05:45 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // I'm using the normal ft_strtok here,
 // Because the subtoken would have already been expanded
 // " 12"10 would just be 1210
-static int	count_exit_args(t_subtoken_node *args)
+static int	count_exit_args(t_subtokennode *args)
 {
 	int		args_count;
 	char	*dup_subtoken;
@@ -40,7 +40,7 @@ static int	count_exit_args(t_subtoken_node *args)
 // Remember to set exit_code to 1, when print("too many arguments")
 // in the first if condition, that contain only numbers.
 // Because it doesn't exit the function
-static int	process_exit_args(t_subtoken_node *args)
+static int	process_exit_args(t_subtokennode *args)
 {
 	int		args_count;
 	char	*dup_subtoken;
@@ -61,7 +61,7 @@ static int	process_exit_args(t_subtoken_node *args)
 	return (1);
 }
 
-int	blt_exit(t_subtoken_node *args)
+int	blt_exit(t_subtokennode *args)
 {
 	if (args == NULL || count_exit_args(args) == 0)
 		exit(0);

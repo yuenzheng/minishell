@@ -6,13 +6,13 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 02:15:48 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/19 03:31:01 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/23 01:05:45 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	insert_valid_args(char ***envp, t_subtoken_node *args)
+static void	insert_valid_args(char ***envp, t_subtokennode *args)
 {
 	int	envp_count;
 	int	valid_args_count;
@@ -43,7 +43,7 @@ static void	handle_export_envp(char **envp)
 // My export works on static to store the all args that you have used
 // It also ignored empty string, so that is easier to implement unset
 // Remeber to pass a static to args_history before the call
-int	blt_export(char ***envp, t_subtoken_node *args)
+int	blt_export(char ***envp, t_subtokennode *args)
 {
 	insert_valid_args(envp, args);
 	if (args == NULL)
@@ -59,11 +59,11 @@ int	blt_export(char ***envp, t_subtoken_node *args)
 // 	envp = malloc(sizeof(char *) * (count_envp_size(envp) + 1));
 // 	from_envp(envp, temp);
 
-// 	t_subtoken_node	first;
-// 	t_subtoken_node	second;
-// 	t_subtoken_node	third;
-// 	t_subtoken_node	fourth;
-// 	t_subtoken_node	fifth;
+// 	t_subtokennode	first;
+// 	t_subtokennode	second;
+// 	t_subtokennode	third;
+// 	t_subtokennode	fourth;
+// 	t_subtokennode	fifth;
 
 // 	first.next = &second;
 // 	second.next = &third;

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   subtoken_list_utils_1.c                            :+:      :+:    :+:   */
+/*   subtokenlist_utils_1.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,97 +12,97 @@
 
 #include "includes/minishell.h"
 
-t_subtoken_node	*create_subtoken_node(char *subtoken)
+t_subtokennode	*new_subtokennode(char *subtoken)
 {
-	t_subtoken_node	*subtoken_node;
+	t_subtokennode	*subtokennode;
 
-	subtoken_node = malloc(sizeof(t_subtoken_node));
-	if (!subtoken_node)
+	subtokennode = malloc(sizeof(t_subtokennode));
+	if (!subtokennode)
 	{
-		printf("malloc failed for subtoken_node\n");
+		printf("malloc failed for subtokennode\n");
 		exit(-1);
 	}
-	subtoken_node->subtoken = subtoken;
-	subtoken_node->next = NULL;
-	subtoken_node->prev = NULL;
-	return (subtoken_node);
+	subtokennode->subtoken = subtoken;
+	subtokennode->next = NULL;
+	subtokennode->prev = NULL;
+	return (subtokennode);
 }
 
-t_subtoken_list	*create_subtoken_list(void)
+t_subtokenlist	*create_subtokenlist(void)
 {
-	t_subtoken_list	*subtoken_list;
+	t_subtokenlist	*subtokenlist;
 
-	subtoken_list = malloc(sizeof(t_subtoken_list));
-	if (!subtoken_list)
+	subtokenlist = malloc(sizeof(t_subtokenlist));
+	if (!subtokenlist)
 	{
-		printf("malloc failed for subtoken_list\n");
+		printf("malloc failed for subtokenlist\n");
 		exit(-1);
 	}
-	subtoken_list->head = NULL;
-	subtoken_list->tail = NULL;
-	return (subtoken_list);
+	subtokenlist->head = NULL;
+	subtokenlist->tail = NULL;
+	return (subtokenlist);
 }
 
-t_subtoken_node	*pop_subtoken_list_head(t_subtoken_list *subtoken_list)
+t_subtokennode	*pop_subtokenlist_head(t_subtokenlist *subtokenlist)
 {
-	t_subtoken_node	*pop_node;
-	t_subtoken_node	*new_head;
+	t_subtokennode	*popnode;
+	t_subtokennode	*newhead;
 
-	if (subtoken_list == NULL || subtoken_list->head == NULL)
+	if (subtokenlist == NULL || subtokenlist->head == NULL)
 		return (NULL);
-	pop_node = subtoken_list->head;
-	new_head = pop_node->next;
-	if (new_head == NULL)
+	popnode = subtokenlist->head;
+	newhead = popnode->next;
+	if (newhead == NULL)
 	{
-		subtoken_list->head = NULL;
-		subtoken_list->tail = NULL;
+		subtokenlist->head = NULL;
+		subtokenlist->tail = NULL;
 	}
 	else
 	{
-		pop_node->next = NULL;
-		new_head->prev = NULL;
-		subtoken_list->head = new_head;
+		popnode->next = NULL;
+		newhead->prev = NULL;
+		subtokenlist->head = newhead;
 	}
-	return (pop_node);
+	return (popnode);
 }
 
-t_subtoken_node	*pop_subtoken_list_tail(t_subtoken_list *subtoken_list)
+t_subtokennode	*pop_subtokenlist_tail(t_subtokenlist *subtokenlist)
 {
-	t_subtoken_node	*pop_node;
-	t_subtoken_node	*new_tail;
+	t_subtokennode	*popnode;
+	t_subtokennode	*newtail;
 
-	if (subtoken_list == NULL || subtoken_list->tail == NULL)
+	if (subtokenlist == NULL || subtokenlist->tail == NULL)
 		return (NULL);
-	pop_node = subtoken_list->tail;
-	new_tail = pop_node->prev;
-	if (new_tail == NULL)
+	popnode = subtokenlist->tail;
+	newtail = popnode->prev;
+	if (newtail == NULL)
 	{
-		subtoken_list->head = NULL;
-		subtoken_list->tail = NULL;
+		subtokenlist->head = NULL;
+		subtokenlist->tail = NULL;
 	}
 	else
 	{
-		pop_node->prev = NULL;
-		new_tail->next = NULL;
-		subtoken_list->tail = new_tail;
+		popnode->prev = NULL;
+		newtail->next = NULL;
+		subtokenlist->tail = newtail;
 	}
-	return (pop_node);
+	return (popnode);
 }
 
-void	link_subtoken_list(t_subtoken_node *subtoken_node, \
-			t_subtoken_list *subtoken_list)
+void	link_subtokenlist(t_subtokennode *subtokennode, \
+			t_subtokenlist *subtokenlist)
 {
-	if (subtoken_list->head == NULL)
+	if (subtokenlist->head == NULL)
 	{
-		subtoken_list->head = subtoken_node;
-		subtoken_list->tail = subtoken_node;
+		subtokenlist->head = subtokennode;
+		subtokenlist->tail = subtokennode;
 	}
 	else
 	{
-		while (subtoken_list->tail->next)
-			subtoken_list->tail = subtoken_list->tail->next;
-		subtoken_list->tail->next = subtoken_node;
-		subtoken_node->prev = subtoken_list->tail;
-		subtoken_list->tail = subtoken_node;
+		while (subtokenlist->tail->next)
+			subtokenlist->tail = subtokenlist->tail->next;
+		subtokenlist->tail->next = subtokennode;
+		subtokennode->prev = subtokenlist->tail;
+		subtokenlist->tail = subtokennode;
 	}
 }

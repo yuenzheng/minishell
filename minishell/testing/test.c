@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 13:50:35 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/13 18:04:15 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/23 01:07:07 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	push_node(t_stack *stack, t_node *node)
 	}
 }
 
-t_node	*pop_node(t_stack *stack)
+t_node	*popnode(t_stack *stack)
 {
 	t_node	*top_node;
 
@@ -138,7 +138,7 @@ void	process_operator_token(
 	top_node = opstack->head;
 	while (top_node && precedence(top_node->token) >= precedence(token))
 	{
-		push_node(postfix, pop_node(opstack));
+		push_node(postfix, popnode(opstack));
 		top_node = opstack->head;
 	}
 	push_node(opstack, create_node(token));
@@ -157,10 +157,10 @@ void	process_right_parenthesis_token(
 	top_node = opstack->head;
 	while (top_node && ft_strcmp(top_node->token, "(") != 0)
 	{
-		push_node(postfix, pop_node(opstack));
+		push_node(postfix, popnode(opstack));
 		top_node = opstack->head;
 	}
-	free(pop_node(opstack));
+	free(popnode(opstack));
 }
 
 void	process_infix_token(char *token, t_stack *postfix, t_stack *opstack)
@@ -199,7 +199,7 @@ long long	pop_and_convert_token_to_integer(t_stack *stack)
 	char		*token;
 	long long	value;
 
-	token = pop_node(stack)->token;
+	token = popnode(stack)->token;
 	value = ft_atoll(token);
 	free(token);
 	return (value);
@@ -273,7 +273,7 @@ void	to_postfix(char **tokens)
 	while (tokens[++i])
 		process_infix_token(tokens[i], &postfix, &opstack);
 	while (opstack.tail != NULL)
-		push_node(&postfix, pop_node(&opstack));
+		push_node(&postfix, popnode(&opstack));
 	printf("%lld\n", evaluate_postfix(&postfix));
 }
 

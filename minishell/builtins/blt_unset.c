@@ -6,16 +6,16 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 06:33:54 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/19 17:50:32 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/23 01:05:45 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*unset_entry(char *entry, t_subtoken_node *args)
+static char	*unset_entry(char *entry, t_subtokennode *args)
 {
 	int				env_name_len;
-	t_subtoken_node	*current_arg;
+	t_subtokennode	*current_arg;
 
 	if (ft_strchr(args->subtoken, '=') != NULL)
 		return (entry);
@@ -41,7 +41,7 @@ static char	*unset_entry(char *entry, t_subtoken_node *args)
 	return (entry);
 }
 
-int	blt_unset(char **envp, t_subtoken_node *args)
+int	blt_unset(char **envp, t_subtokennode *args)
 {
 	while (*envp)
 	{
@@ -59,11 +59,11 @@ int	blt_unset(char **envp, t_subtoken_node *args)
 // 	envp = malloc(sizeof(char *) * (count_envp_size(envp) + 1));
 // 	from_envp(envp, temp);
 
-// 	t_subtoken_node	first;
-// 	t_subtoken_node	second;
-// 	t_subtoken_node	third;
-// 	t_subtoken_node	fourth;
-// 	t_subtoken_node	fifth;
+// 	t_subtokennode	first;
+// 	t_subtokennode	second;
+// 	t_subtokennode	third;
+// 	t_subtokennode	fourth;
+// 	t_subtokennode	fifth;
 
 // 	first.next = &second;
 // 	second.next = &third;

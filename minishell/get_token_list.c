@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_token_list.c                                   :+:      :+:    :+:   */
+/*   get_tokenlist.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,19 +13,19 @@
 #include "includes/minishell.h"
 
 // Don't need to free subtoken in here,
-// Becase i'm passing it as a pointer for subtoken_node->subtoken
-// So it will be freed in free_token_list.c instead
-static t_subtoken_list	*get_subtoken_list(char *token, char **envp)
+// Becase i'm passing it as a pointer for subtokennode->subtoken
+// So it will be freed in free_tokenlist.c instead
+static t_subtokenlist	*get_subtokenlist(char *token, char **envp)
 {
-	t_subtoken_list	*subtoken_list;
+	t_subtokenlist	*subtokenlist;
 	char			*subtoken;
 	bool			expand_heredoc;
 
-	subtoken_list = create_subtoken_list();
-	if (is_logical_operator(token))
+	subtokenlist = create_subtokenlist();
+	if (is_logical_op(token))
 	{
 		subtoken = ft_strdup(token);
-		link_subtoken_list(create_subtoken_node(subtoken), subtoken_list);
+		link_subtokenlist(new_subtokennode(subtoken), subtokenlist);
 	}
 	else
 	{
@@ -36,30 +36,30 @@ static t_subtoken_list	*get_subtoken_list(char *token, char **envp)
 			subtoken = expand_subtoken(subtoken, expand_heredoc, envp);
 			if (is_heredoc(subtoken) || expand_heredoc == true)
 				expand_heredoc = !expand_heredoc;
-			link_subtoken_list(create_subtoken_node(subtoken), subtoken_list);
+			link_subtokenlist(new_subtokennode(subtoken), subtokenlist);
 			subtoken = get_next_subtoken(NULL);
 		}
 	}
-	return (subtoken_list);
+	return (subtokenlist);
 }
 
-t_token_list	*get_token_list(char *input, char **envp)
+t_tokenlist	*get_tokenlist(char *input, char **envp)
 {
-	t_token_list	*token_list;
-	t_token_node	*token_node;
+	t_tokenlist		*tokenlist;
+	t_tokennode		*tokennode;
 	char			*token;
 
-	token_list = create_token_list();
+	tokenlist = create_tokenlist();
 	token = get_next_token(input);
 	while (token)
 	{
 		if (ft_strspn(token, " ") != ft_strlen(token))
 		{
-			token_node = create_token_node(get_subtoken_list(token, envp));
-			link_token_list(token_node, token_list);
+			tokennode = create_tokennode(get_subtokenlist(token, envp));
+			link_tokenlist(tokennode, tokenlist);
 		}
 		free(token);
 		token = get_next_token(NULL);
 	}
-	return (token_list);
+	return (tokenlist);
 }

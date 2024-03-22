@@ -6,46 +6,66 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 17:56:25 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/19 19:29:06 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/23 02:36:57 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void	print_list(t_token_list *token_list)
+void	print_list(t_tokenlist *tokenlist)
 {
-	t_token_node	*current_tok;
-	t_subtoken_node	*current_sub;
+	t_tokennode		*currtok;
+	t_subtokennode	*currsub;
 
-	current_tok = token_list->head;
-	while (current_tok)
+	currtok = tokenlist->head;
+	while (currtok)
 	{
-		current_sub = current_tok->subtoken_list->head;
-		while (current_sub)
+		currsub = currtok->subtokenlist->head;
+		while (currsub)
 		{
-			printf("%s\n", current_sub->subtoken);
-			current_sub = current_sub->next;
+			printf("%s\n", currsub->subtoken);
+			currsub = currsub->next;
 		}
 		printf("\n");
-		current_tok = current_tok->next;
+		currtok = currtok->next;
 	}
+}
+
+void	print_treenode(t_treenode *root)
+{
+	t_tokennode		*currtok;
+	t_subtokennode	*currsub;
+
+	if (root == NULL)
+		return ;
+	currtok = root->token;
+	currsub = currtok->subtokenlist->head;
+	while (currsub)
+	{
+		printf("%s\n", currsub->subtoken);
+		currsub = currsub->next;
+	}
+	printf("\n");	
+	print_treenode(root->left);
+	print_treenode(root->right);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char			*input;
-	t_token_list	*token_list;
+	char		*input;
+	t_tokenlist	*tokenlist;
 
 	((void)argc, (void)argv);
 	envp = clone_envp_with_special(envp);
 	while (1)
 	{
 		input = get_input_line();
-		token_list = get_token_list(input, envp);
-		token_list = infix_to_postfix(token_list);
-		evaluate_postfix(&envp, token_list);
-		// print_list(token_list);
+		tokenlist = get_tokenlist(input, envp);
+		print_treenode(build_tree(tokenlist));
+		// tokenlist = infix_to_postfix(tokenlist);
+		// evaluate_postfix(&envp, tokenlist);
+		// print_list(tokenlist);
 		free(input);
-		free_token_list(token_list);
+		free_tokenlist(tokenlist);
 	}
 }

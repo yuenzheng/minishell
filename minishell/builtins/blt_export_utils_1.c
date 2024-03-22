@@ -6,16 +6,16 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 01:40:34 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/19 18:55:02 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/23 01:05:45 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	count_valid_args(char **envp, t_subtoken_node *args)
+int	count_valid_args(char **envp, t_subtokennode *args)
 {
 	int				valid_args_count;
-	t_subtoken_node	*current_arg;
+	t_subtokennode	*current_arg;
 
 	valid_args_count = 0;
 	current_arg = args;
@@ -31,10 +31,10 @@ int	count_valid_args(char **envp, t_subtoken_node *args)
 	return (valid_args_count);
 }
 
-void	add_valid_args(char **envp, t_subtoken_node *args)
+void	add_valid_args(char **envp, t_subtokennode *args)
 {
 	int				envp_count;
-	t_subtoken_node	*current_arg;
+	t_subtokennode	*current_arg;
 
 	envp_count = count_2d_array_items(envp);
 	current_arg = args;

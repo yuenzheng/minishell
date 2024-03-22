@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:55:40 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/20 16:57:40 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/23 02:51:40 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,39 @@
 # include "sys_headers.h"
 # include "libft.h"
 
-typedef struct s_subtoken_node
+typedef struct s_subtokennode
 {
 	char					*subtoken;
-	struct s_subtoken_node	*next;
-	struct s_subtoken_node	*prev;
-}	t_subtoken_node;
+	struct s_subtokennode	*next;
+	struct s_subtokennode	*prev;
+}	t_subtokennode;
 
-typedef struct s_subtoken_list
+typedef struct s_subtokenlist
 {
-	t_subtoken_node	*head;
-	t_subtoken_node	*tail;
-}	t_subtoken_list;
+	t_subtokennode	*head;
+	t_subtokennode	*tail;
+}	t_subtokenlist;
 
-typedef struct s_token_node
+typedef struct s_tokennode
 {
-	t_subtoken_list		*subtoken_list;
-	struct s_token_node	*next;
-	struct s_token_node	*prev;
-}	t_token_node;
+	t_subtokenlist		*subtokenlist;
+	struct s_tokennode	*next;
+	struct s_tokennode	*prev;
+}	t_tokennode;
 
-typedef struct s_token_list
+typedef struct s_tokenlist
 {
-	t_token_node	*head;
-	t_token_node	*tail;
-}	t_token_list;
+	t_tokennode	*head;
+	t_tokennode	*tail;
+}	t_tokenlist;
+
+typedef struct s_treenode
+{
+	t_tokennode			*token;
+	struct s_treenode	*left;
+	struct s_treenode	*right;
+	struct s_treenode	*next;
+}	t_treenode;
 
 // character_check_1.c
 bool			is_backslash(char c);
@@ -72,8 +80,8 @@ bool			is_sign(char c);
 
 // character_check_5.c
 bool			is_equal(char c);
-bool			is_left_bracket(char c);
-bool			is_right_bracket(char c);
+bool			is_leftbracket(char c);
+bool			is_rightbracket(char c);
 bool			is_bracket(char c);
 bool			is_pipe(char c);
 
@@ -81,17 +89,17 @@ bool			is_pipe(char c);
 bool			is_forward_slash(char c);
 
 // operator_check.c
-bool			is_logical_operator(char *str);
-bool			is_logical_operator_n(char *str);
+bool			is_logical_op(char *str);
+bool			is_logical_op_n(char *str);
 bool			is_redirection_n(char *str);
 bool			is_heredoc(char *str);
 
 // builtins/blt_echo_utils.c
 bool			is_n_options(char *subtoken);
-t_subtoken_node	*find_first_non_option(t_subtoken_node *args);
+t_subtokennode	*find_first_non_option(t_subtokennode *args);
 
 // builtins/blt_echo.c
-int				blt_echo(t_subtoken_node *args);
+int				blt_echo(t_subtokennode *args);
 
 // builtins/blt_cd_utils_1.c
 void			handle_oldpwd(char **envp);
@@ -104,23 +112,17 @@ char			*update_oldpwd(void);
 char			*update_pwd(void);
 
 // builtins/blt_cd.c
-int				blt_cd(char **envp, t_subtoken_node *args);
+int				blt_cd(char **envp, t_subtokennode *args);
 
 // builtins/blt_pwd.c
 int				blt_pwd(void);
 
 // builtins/blt_export_utils_1.c
-int				count_valid_args(char **envp, t_subtoken_node *args);
-void			add_valid_args(char **envp, t_subtoken_node *args);
+int				count_valid_args(char **envp, t_subtokennode *args);
+void			add_valid_args(char **envp, t_subtokennode *args);
 void			pad_envp_entry(char **envp);
 void			trim_entry_pad(char **envp);
 void			print_export_envp(char **envp);
-
-// builtins/blt_export_utils_2.c
-t_subtoken_node	*filter_args(t_subtoken_node *args);
-char			**create_valid_envp(char **envp, t_subtoken_node *valid_args);
-void			print_export_envp(char **export_envp);
-void			free_envp(char **envp);
 
 // builtins/blt_export_utils_2.c
 bool			entry_has_valid_name(char *args);
@@ -129,17 +131,17 @@ void			handle_duplicate(char **envp, char *args);
 
 // builtins/blt_export_utils_3.c
 int				get_max_env_name_len(char **envp);
-char			*pad_env_name(char *entry, int max_len);
+char			*pad_env_name(char *entry, int maxlen);
 char			*trim_env_name_pad(char *entry);
 
 // builtins/blt_export_utils_4.c
 void			radix_sort(char **envp);
 
 // builtins/blt_export.c
-int				blt_export(char ***envp, t_subtoken_node *args);
+int				blt_export(char ***envp, t_subtokennode *args);
 
 // builtins/blt_unset.c
-int				blt_unset(char **envp, t_subtoken_node *args);
+int				blt_unset(char **envp, t_subtokennode *args);
 
 // builtins/blt_env.c
 int				blt_env(char **envp);
@@ -151,7 +153,7 @@ void			handle_numeric_exit(char *first_arg, char *dup_subtoken);
 void			handle_non_numeric_exit(char *dup_subtoken);
 
 // builtins/blt_exit.c
-int				blt_exit(t_subtoken_node *args);
+int				blt_exit(t_subtokennode *args);
 
 // double_array_utils.c
 int				count_2d_array_items(char **double_array);
@@ -224,7 +226,7 @@ char			*extract_key(char *subtoken);
 
 // expand_tilde_helper.c
 char			*join_expanded_tilde_with_remains(char *directory, \
-					char *remains);
+												char *remains);
 char			*join_key_with_value(char *value, char *subtoken);
 
 // expand_tilde.c
@@ -243,46 +245,58 @@ bool			should_escape(char quote_type, char *subtoken);
 // expand_escaped.c
 char			*expand_escaped(char *subtoken);
 
-// subtoken_list_utils_1.c
-t_subtoken_node	*create_subtoken_node(char *subtoken);
-t_subtoken_list	*create_subtoken_list(void);
-t_subtoken_node	*pop_subtoken_list_head(t_subtoken_list *subtoken_list);
-t_subtoken_node	*pop_subtoken_list_tail(t_subtoken_list *subtoken_list);
-void			link_subtoken_list(t_subtoken_node *subtoken_node, \
-					t_subtoken_list *subtoken_list);
+// subtokenlist_utils_1.c
+t_subtokennode	*new_subtokennode(char *subtoken);
+t_subtokenlist	*create_subtokenlist(void);
+t_subtokennode	*pop_subtokenlist_head(t_subtokenlist *subtokenlist);
+t_subtokennode	*pop_subtokenlist_tail(t_subtokenlist *subtokenlist);
+void			link_subtokenlist(t_subtokennode *subtokennode, \
+								t_subtokenlist *subtokenlist);
 
-// subtoken_list_utils_2.c
-int				count_subtoken_list(t_subtoken_list *subtoken_list);
+// subtokenlist_utils_2.c
+int				count_subtokenlist(t_subtokenlist *subtokenlist);
 
-// token_list_utils.c
-t_token_node	*create_token_node(t_subtoken_list *subtoken_list);
-t_token_list	*create_token_list(void);
-t_token_node	*pop_token_list_head(t_token_list *token_list);
-t_token_node	*pop_token_list_tail(t_token_list *token_list);
-void			link_token_list(t_token_node *token_node, \
-					t_token_list *token_list);
+// tokenlist_utils.c
+t_tokennode	*create_tokennode(t_subtokenlist *subtokenlist);
+t_tokenlist	*create_tokenlist(void);
+t_tokennode	*pop_tokenlist_head(t_tokenlist *tokenlist);
+t_tokennode	*pop_tokenlist_tail(t_tokenlist *tokenlist);
+void		link_tokenlist(t_tokennode *tokennode, \
+						t_tokenlist *tokenlist);
 
-// get_token_list_utils.c
-char			*expand_subtoken(char *subtoken, bool expand_heredoc, \
-					char **envp);
+// get_tokenlist_utils.c
+char		*expand_subtoken(char *subtoken, bool expand_heredoc, \
+							char **envp);
 
-// get_token_list.c
-t_token_list	*get_token_list(char *input, char **envp);
+// get_tokenlist.c
+t_tokenlist	*get_tokenlist(char *input, char **envp);
+
+// build_tree_utils_1.c
+char		*currsubtok_in(t_tokenlist *tokenlist);
+t_treenode	*pop_treenode_from(t_treenode **list);
+t_treenode	*new_treenode(t_tokennode *tokennode);
+void		push_(t_treenode *cmdnode, t_treenode **cmdlist);
+
+// build_tree_utils_2.c
+t_treenode	*getlastnode(t_treenode *cmdlist);
+
+// build_tree.c
+t_treenode	*build_tree(t_tokenlist *tokenlist);
 
 // infix_to_postfix_utils.c
-char			*first_subtoken(t_token_node *current_tok);
-int				priority(t_token_node *current_tok);
+char		*first_subtoken(t_tokennode *currtok);
+int			priority(t_tokennode *currtok);
 
 // infix_to_postfix.c
-t_token_list	*infix_to_postfix(t_token_list *infix);
+t_tokenlist	*infix_to_postfix(t_tokenlist *infix);
 
 // evaluate_postfix.c
-void			evaluate_postfix(char ***envp, t_token_list *postfix);
+void		evaluate_postfix(char ***envp, t_tokenlist *postfix);
 
 // free_list.c
-void			free_subtoken_node(t_subtoken_node *subtoken_node);
-void			free_subtoken_list(t_subtoken_list *subtoken_list);
-void			free_token_node(t_token_node *token_node);
-void			free_token_list(t_token_list *token_list);
+void		free_subtokennode(t_subtokennode *subtokennode);
+void		free_subtokenlist(t_subtokenlist *subtokenlist);
+void		free_tokennode(t_tokennode *tokennode);
+void		free_tokenlist(t_tokenlist *tokenlist);
 
 #endif

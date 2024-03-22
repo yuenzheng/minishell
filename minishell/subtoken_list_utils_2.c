@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   subtoken_list_utils_2.c                            :+:      :+:    :+:   */
+/*   subtokenlist_utils_2.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,13 +12,13 @@
 
 #include "includes/minishell.h"
 
-int	count_subtoken_list(t_subtoken_list *subtoken_list)
+int	count_subtokenlist(t_subtokenlist *subtokenlist)
 {
 	int				count;
-	t_subtoken_node	*current;
+	t_subtokennode	*current;
 
 	count = 0;
-	current = subtoken_list->head;
+	current = subtokenlist->head;
 	while (current)
 	{
 		count++;

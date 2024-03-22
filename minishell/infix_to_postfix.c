@@ -6,52 +6,52 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 18:51:28 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/14 14:39:45 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/23 00:36:18 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static void	process_infix(t_token_list *infix, t_token_list *postfix, \
-			t_token_list *opstack)
+static void	process_infix(t_tokenlist *infix, t_tokenlist *postfix, \
+			t_tokenlist *opstack)
 {
 	while (infix->head)
 	{
-		if (is_left_bracket(*first_subtoken(infix->head)))
-			link_token_list(pop_token_list_head(infix), opstack);
-		else if (is_right_bracket(*first_subtoken(infix->head)))
+		if (is_leftbracket(*first_subtoken(infix->head)))
+			link_tokenlist(pop_tokenlist_head(infix), opstack);
+		else if (is_rightbracket(*first_subtoken(infix->head)))
 		{
 			while (opstack->tail && \
-					!is_left_bracket(*first_subtoken(opstack->tail)))
-				link_token_list(pop_token_list_tail(opstack), postfix);
-			free_token_node(pop_token_list_head(infix));
-			free_token_node(pop_token_list_tail(opstack));
+					!is_leftbracket(*first_subtoken(opstack->tail)))
+				link_tokenlist(pop_tokenlist_tail(opstack), postfix);
+			free_tokennode(pop_tokenlist_head(infix));
+			free_tokennode(pop_tokenlist_tail(opstack));
 		}
-		else if (is_logical_operator(first_subtoken(infix->head)))
+		else if (is_logical_op(first_subtoken(infix->head)))
 		{
 			while (opstack->tail && \
 					priority(opstack->tail) >= priority(infix->head))
-				link_token_list(pop_token_list_tail(opstack), postfix);
-			link_token_list(pop_token_list_head(infix), opstack);
+				link_tokenlist(pop_tokenlist_tail(opstack), postfix);
+			link_tokenlist(pop_tokenlist_head(infix), opstack);
 		}
 		else
-			link_token_list(pop_token_list_head(infix), postfix);
+			link_tokenlist(pop_tokenlist_head(infix), postfix);
 	}
 }
 
-static void	empty_opstack(t_token_list *opstack, t_token_list *postfix)
+static void	empty_opstack(t_tokenlist *opstack, t_tokenlist *postfix)
 {
 	while (opstack->tail)
-		link_token_list(pop_token_list_tail(opstack), postfix);
+		link_tokenlist(pop_tokenlist_tail(opstack), postfix);
 }
 
-t_token_list	*infix_to_postfix(t_token_list *infix)
+t_tokenlist	*infix_to_postfix(t_tokenlist *infix)
 {
-	t_token_list	*postfix;
-	t_token_list	*opstack;
+	t_tokenlist	*postfix;
+	t_tokenlist	*opstack;
 
-	postfix = create_token_list();
-	opstack = create_token_list();
+	postfix = create_tokenlist();
+	opstack = create_tokenlist();
 	process_infix(infix, postfix, opstack);
 	empty_opstack(opstack, postfix);
 	free(infix);

@@ -1,47 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_linked_list.c                                 :+:      :+:    :+:   */
+/*   free_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 10:49:34 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/13 19:46:42 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/23 01:05:45 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void	free_subtoken_node(t_subtoken_node *subtoken_node)
+void	free_subtokennode(t_subtokennode *subtokennode)
 {
-	if (subtoken_node == NULL)
+	if (subtokennode == NULL)
 		return ;
-	free_subtoken_node(subtoken_node->next);
-	free(subtoken_node->subtoken);
-	free(subtoken_node);
+	free_subtokennode(subtokennode->next);
+	free(subtokennode->subtoken);
+	free(subtokennode);
 }
 
-void	free_subtoken_list(t_subtoken_list *subtoken_list)
+void	free_subtokenlist(t_subtokenlist *subtokenlist)
 {
-	if (subtoken_list == NULL)
+	if (subtokenlist == NULL)
 		return ;
-	free_subtoken_node(subtoken_list->head);
-	free(subtoken_list);
+	free_subtokennode(subtokenlist->head);
+	free(subtokenlist);
 }
 
-void	free_token_node(t_token_node *token_node)
+void	free_tokennode(t_tokennode *tokennode)
 {
-	if (token_node == NULL)
+	if (tokennode == NULL)
 		return ;
-	free_token_node(token_node->next);
-	free_subtoken_list(token_node->subtoken_list);
-	free(token_node);
+	free_tokennode(tokennode->next);
+	free_subtokenlist(tokennode->subtokenlist);
+	free(tokennode);
 }
 
-void	free_token_list(t_token_list *token_list)
+void	free_tokenlist(t_tokenlist *tokenlist)
 {
-	if (token_list == NULL)
+	if (tokenlist == NULL)
 		return ;
-	free_token_node(token_list->head);
-	free(token_list);
+	free_tokennode(tokenlist->head);
+	free(tokenlist);
 }

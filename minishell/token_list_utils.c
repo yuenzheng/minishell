@@ -1,105 +1,105 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_list_utils.c                                 :+:      :+:    :+:   */
+/*   tokenlist_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 15:06:38 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/14 14:30:04 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/23 00:36:06 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-t_token_node	*create_token_node(t_subtoken_list *subtoken_list)
+t_tokennode	*create_tokennode(t_subtokenlist *subtokenlist)
 {
-	t_token_node	*token_node;
+	t_tokennode	*tokennode;
 
-	token_node = malloc(sizeof(t_token_node));
-	if (!token_node)
+	tokennode = malloc(sizeof(t_tokennode));
+	if (!tokennode)
 	{
-		printf("malloc failed for token_node\n");
+		printf("malloc failed for tokennode\n");
 		exit(-1);
 	}
-	token_node->subtoken_list = subtoken_list;
-	token_node->next = NULL;
-	token_node->prev = NULL;
-	return (token_node);
+	tokennode->subtokenlist = subtokenlist;
+	tokennode->next = NULL;
+	tokennode->prev = NULL;
+	return (tokennode);
 }
 
-t_token_list	*create_token_list(void)
+t_tokenlist	*create_tokenlist(void)
 {
-	t_token_list	*token_list;
+	t_tokenlist	*tokenlist;
 
-	token_list = malloc(sizeof(t_token_list));
-	if (!token_list)
+	tokenlist = malloc(sizeof(t_tokenlist));
+	if (!tokenlist)
 	{
-		printf("malloc failed for token_list\n");
+		printf("malloc failed for tokenlist\n");
 		exit(-1);
 	}
-	token_list->head = NULL;
-	token_list->tail = NULL;
-	return (token_list);
+	tokenlist->head = NULL;
+	tokenlist->tail = NULL;
+	return (tokenlist);
 }
 
-t_token_node	*pop_token_list_head(t_token_list *token_list)
+t_tokennode	*pop_tokenlist_head(t_tokenlist *tokenlist)
 {
-	t_token_node	*pop_node;
-	t_token_node	*new_head;
+	t_tokennode	*popnode;
+	t_tokennode	*newhead;
 
-	if (token_list == NULL || token_list->head == NULL)
+	if (tokenlist == NULL || tokenlist->head == NULL)
 		return (NULL);
-	pop_node = token_list->head;
-	new_head = pop_node->next;
-	if (new_head == NULL)
+	popnode = tokenlist->head;
+	newhead = popnode->next;
+	if (newhead == NULL)
 	{
-		token_list->head = NULL;
-		token_list->tail = NULL;
+		tokenlist->head = NULL;
+		tokenlist->tail = NULL;
 	}
 	else
 	{
-		pop_node->next = NULL;
-		new_head->prev = NULL;
-		token_list->head = new_head;
+		popnode->next = NULL;
+		newhead->prev = NULL;
+		tokenlist->head = newhead;
 	}
-	return (pop_node);
+	return (popnode);
 }
 
-t_token_node	*pop_token_list_tail(t_token_list *token_list)
+t_tokennode	*pop_tokenlist_tail(t_tokenlist *tokenlist)
 {
-	t_token_node	*pop_node;
-	t_token_node	*new_tail;
+	t_tokennode	*popnode;
+	t_tokennode	*newtail;
 
-	if (token_list == NULL || token_list->tail == NULL)
+	if (tokenlist == NULL || tokenlist->tail == NULL)
 		return (NULL);
-	pop_node = token_list->tail;
-	new_tail = pop_node->prev;
-	if (new_tail == NULL)
+	popnode = tokenlist->tail;
+	newtail = popnode->prev;
+	if (newtail == NULL)
 	{
-		token_list->head = NULL;
-		token_list->tail = NULL;
+		tokenlist->head = NULL;
+		tokenlist->tail = NULL;
 	}
 	else
 	{
-		pop_node->prev = NULL;
-		new_tail->next = NULL;
-		token_list->tail = new_tail;
+		popnode->prev = NULL;
+		newtail->next = NULL;
+		tokenlist->tail = newtail;
 	}
-	return (pop_node);
+	return (popnode);
 }
 
-void	link_token_list(t_token_node *token_node, t_token_list *token_list)
+void	link_tokenlist(t_tokennode *tokennode, t_tokenlist *tokenlist)
 {
-	if (token_list->head == NULL)
+	if (tokenlist->head == NULL)
 	{
-		token_list->head = token_node;
-		token_list->tail = token_node;
+		tokenlist->head = tokennode;
+		tokenlist->tail = tokennode;
 	}
 	else
 	{
-		token_list->tail->next = token_node;
-		token_node->prev = token_list->tail;
-		token_list->tail = token_node;
+		tokenlist->tail->next = tokennode;
+		tokennode->prev = tokenlist->tail;
+		tokenlist->tail = tokennode;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 01:44:22 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/20 16:58:26 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/23 01:15:20 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,37 @@
 
 int	get_max_env_name_len(char **envp)
 {
-	int	max_len;
+	int	maxlen;
 	int	len;
 
-	max_len = 0;
+	maxlen = 0;
 	while (*envp)
 	{
 		len = ft_strcspn(*envp, "=");
-		if (max_len < len)
-			max_len = len;
+		if (maxlen < len)
+			maxlen = len;
 		envp++;
 	}
-	return (max_len);
+	return (maxlen);
 }
 
-char	*pad_env_name(char *entry, int max_len)
+char	*pad_env_name(char *entry, int maxlen)
 {
 	int		env_name_len;
 	char	*result;
 
 	env_name_len = ft_strcspn(entry, "=");
-	if (env_name_len < max_len)
+	if (env_name_len < maxlen)
 	{
 		result = ft_strndup(entry, env_name_len);
-		result = ft_realloc(result, env_name_len + 1, max_len + 1);
+		result = ft_realloc(result, env_name_len + 1, maxlen + 1);
 		if (!result)
 		{
 			printf("ft_realloc failed for result\n");
 			exit(-1);
 		}
-		ft_memset(&result[env_name_len], ' ', max_len - env_name_len);
-		result[max_len] = '\0';
+		ft_memset(&result[env_name_len], ' ', maxlen - env_name_len);
+		result[maxlen] = '\0';
 		result = custom_strjoin(result, ft_strchr(entry, '='));
 		free(entry);
 		return (result);

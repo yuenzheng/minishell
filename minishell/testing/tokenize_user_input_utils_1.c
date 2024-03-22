@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 16:14:58 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/10 15:52:35 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/22 19:38:02 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 bool	is_open_delim(char current_char)
 {
-	return (is_quote_char(current_char) || is_left_bracket_char(current_char));
+	return (is_quote_char(current_char) || is_leftbracket_char(current_char));
 }
 
 bool	is_nested_delim(char current_char)
 {
-	return (is_left_bracket_char(current_char));
+	return (is_leftbracket_char(current_char));
 }
 
 bool	is_close_delim(char current_char, char open_delim)
