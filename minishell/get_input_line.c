@@ -6,34 +6,11 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/24 06:18:10 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/24 06:56:04 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-static char	*start_reading(void)
-{
-	char	*maininput;
-
-	while (1)
-	{
-		maininput = readline("main> ");
-		if (!maininput)
-		{
-			printf("Ctrl+D was pressed in start_reading\n");
-			exit(-1);
-		}
-		if (*maininput == '\0')
-		{
-			free(maininput);
-			continue ;
-		}
-		break ;
-	}
-	return (maininput);
-}
-
 
 static char	*complete_quotes(char *input)
 {
@@ -56,7 +33,6 @@ static char	*complete_quotes(char *input)
 	}
 	return (input);
 }
-
 
 static char	*complete_brackets(char *input)
 {
@@ -84,6 +60,30 @@ static char	*complete_brackets(char *input)
 	return (input);
 }
 
+static char	*start_reading(void)
+{
+	char	*maininput;
+
+	while (1)
+	{
+		maininput = readline("main> ");
+		if (!maininput)
+		{
+			printf("Ctrl+D was pressed in start_reading\n");
+			exit(-1);
+		}
+		if (is_leftbracket(*(maininput + ft_strspn(maininput, " "))))
+		{
+			maininput = complete_brackets(maininput);
+			break ;
+		}
+		else if (*maininput != '\0')
+			break ;
+		free(maininput);
+	}
+	return (maininput);
+}
+
 static void	update_history(char *input)
 {
 	static char	*previnput;
@@ -107,7 +107,7 @@ char	*get_input_line(void)
 
 	input = start_reading();
 	input = complete_quotes(input);
-	input = complete_brackets(input);
+	// input = complete_brackets(input);
 	update_history(input);
 	return (input);
 }
