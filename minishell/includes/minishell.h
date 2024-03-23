@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:55:40 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/23 02:51:40 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/23 23:39:22 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,46 +257,39 @@ void			link_subtokenlist(t_subtokennode *subtokennode, \
 int				count_subtokenlist(t_subtokenlist *subtokenlist);
 
 // tokenlist_utils.c
-t_tokennode	*create_tokennode(t_subtokenlist *subtokenlist);
-t_tokenlist	*create_tokenlist(void);
-t_tokennode	*pop_tokenlist_head(t_tokenlist *tokenlist);
-t_tokennode	*pop_tokenlist_tail(t_tokenlist *tokenlist);
-void		link_tokenlist(t_tokennode *tokennode, \
-						t_tokenlist *tokenlist);
+t_tokennode		*create_tokennode(t_subtokenlist *subtokenlist);
+t_tokenlist		*create_tokenlist(void);
+t_tokennode		*pop_tokenlist_head(t_tokenlist *tokenlist);
+t_tokennode		*pop_tokenlist_tail(t_tokenlist *tokenlist);
+void			link_tokenlist(t_tokennode *tokennode, \
+								t_tokenlist *tokenlist);
 
 // get_tokenlist_utils.c
-char		*expand_subtoken(char *subtoken, bool expand_heredoc, \
-							char **envp);
+char			*expand_subtoken(char *subtoken, bool expand_heredoc, \
+									char **envp);
 
 // get_tokenlist.c
-t_tokenlist	*get_tokenlist(char *input, char **envp);
+t_tokenlist		*get_tokenlist(char *input, char **envp);
 
 // build_tree_utils_1.c
-char		*currsubtok_in(t_tokenlist *tokenlist);
-t_treenode	*pop_treenode_from(t_treenode **list);
-t_treenode	*new_treenode(t_tokennode *tokennode);
-void		push_(t_treenode *cmdnode, t_treenode **cmdlist);
+char			*currsubtok_in(t_tokenlist *tokenlist);
+t_treenode		*pop_treenode_from(t_treenode **list);
+t_treenode		*new_treenode(t_tokennode *tokennode);
+void			push_(t_treenode *cmdnode, t_treenode **cmdlist);
 
 // build_tree_utils_2.c
-t_treenode	*getlastnode(t_treenode *cmdlist);
+t_treenode		*getlastnode(t_treenode *cmdlist);
 
 // build_tree.c
-t_treenode	*build_tree(t_tokenlist *tokenlist);
+t_treenode		*build_tree(t_tokenlist *tokenlist);
 
-// infix_to_postfix_utils.c
-char		*first_subtoken(t_tokennode *currtok);
-int			priority(t_tokennode *currtok);
-
-// infix_to_postfix.c
-t_tokenlist	*infix_to_postfix(t_tokenlist *infix);
-
-// evaluate_postfix.c
-void		evaluate_postfix(char ***envp, t_tokenlist *postfix);
+// evaluate_tree.c
+void			evaluate_tree(t_treenode *root, char ***envp);
 
 // free_list.c
-void		free_subtokennode(t_subtokennode *subtokennode);
-void		free_subtokenlist(t_subtokenlist *subtokenlist);
-void		free_tokennode(t_tokennode *tokennode);
-void		free_tokenlist(t_tokenlist *tokenlist);
+void			free_subtokennode(t_subtokennode *subtokennode);
+void			free_subtokenlist(t_subtokenlist *subtokenlist);
+void			free_tokennode(t_tokennode *tokennode);
+void			free_tokenlist(t_tokenlist *tokenlist);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 17:56:25 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/23 02:36:57 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/23 23:42:11 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ void	print_treenode(t_treenode *root)
 		printf("%s\n", currsub->subtoken);
 		currsub = currsub->next;
 	}
-	printf("\n");	
+	printf("\n");
+	printf("Left: ");
 	print_treenode(root->left);
+	printf("Right: ");
 	print_treenode(root->right);
 }
 
