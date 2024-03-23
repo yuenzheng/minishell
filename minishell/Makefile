@@ -28,7 +28,8 @@ SRCS := character_check_1.c \
 		env_check.c \
 		get_next_env.c \
 		string_utils.c \
-		get_input_line_utils.c \
+		get_input_line_utils_1.c \
+		get_input_line_utils_2.c \
 		get_input_line.c \
 		expand_env_utils_1.c \
 		expand_env_utils_2.c \

@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:55:40 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/23 23:39:22 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/24 06:21:25 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_treenode
 
 // character_check_1.c
 bool			is_backslash(char c);
-bool			is_single_quote(char c);
+bool			is_singlequote(char c);
 bool			is_double_quote(char c);
 bool			is_quote(char c);
 bool			is_delim(char c, char *delim);
@@ -164,7 +164,7 @@ void			free_double_array(char **double_array);
 char			**clone_envp_with_special(char **envp);
 
 // quote_handling.c
-void			toggle_in_quote(char c, bool *in_quote, char *quote_type);
+void			toggle_inquote(char c, bool *inquote, char *quote_type);
 
 // get_next_token_utils.c
 int				len_of_operator(char *remaining_input);
@@ -194,9 +194,13 @@ char			*get_next_env(char *subtoken);
 // string_utils.c
 char			*custom_strjoin(char *s1, char *s2);
 
-// get_input_line_utils.c
-bool			has_open_quote(char *final_input);
-char			*normalize_input(char *temp_input);
+// get_input_line_utils_1.c
+bool			has_openquote(char *final_input);
+char			*format_joininput(char *temp_input);
+bool			has_openbracket(char *input);
+
+// get_input_line_utils_2.c
+int				update_open_count(char c);
 
 // get_input_line.c
 char			*get_input_line(void);

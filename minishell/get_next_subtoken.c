@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:44:03 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/14 01:23:17 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/24 04:29:46 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,21 @@ static int	skip_leading_spaces(char *remaining_token)
 static char	*move_to_subtoken_end(char *subtoken)
 {
 	bool	escaped;
-	bool	in_quote;
+	bool	inquote;
 	char	quote_type;
 
 	if (is_redirection_n(subtoken))
 		return (subtoken + len_of_redirection(subtoken));
 	escaped = false;
-	in_quote = false;
+	inquote = false;
 	quote_type = '\0';
 	while (*subtoken)
 	{
-		if (!escaped && !in_quote && is_backslash(*subtoken))
+		if (!escaped && !inquote && is_backslash(*subtoken))
 			escaped = true;
 		else if (!escaped && is_quote(*subtoken))
-			toggle_in_quote(*subtoken, &in_quote, &quote_type);
-		else if (!escaped && !in_quote && is_space_or_redirection(subtoken))
+			toggle_inquote(*subtoken, &inquote, &quote_type);
+		else if (!escaped && !inquote && is_space_or_redirection(subtoken))
 			break ;
 		else
 			escaped = false;

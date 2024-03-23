@@ -6,79 +6,108 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/22 19:55:25 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/24 06:18:10 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static char	*readline_until_has_character(void)
+static char	*start_reading(void)
 {
-	char	*current_input;
+	char	*maininput;
 
 	while (1)
 	{
-		current_input = readline("main> ");
-		if (!current_input)
+		maininput = readline("main> ");
+		if (!maininput)
 		{
-			printf("Ctrl+D was pressed\n");
+			printf("Ctrl+D was pressed in start_reading\n");
 			exit(-1);
 		}
-		if (*current_input)
-			break ;
-		free(current_input);
+		if (*maininput == '\0')
+		{
+			free(maininput);
+			continue ;
+		}
+		break ;
 	}
-	return (current_input);
+	return (maininput);
 }
 
-static char	*readline_until_no_open_quote(char *input)
-{
-	char	*final_input;
-	char	*temp_input;
-	char	*current_input;
 
-	final_input = input;
-	while (has_open_quote(final_input))
+static char	*complete_quotes(char *input)
+{
+	char	*joininput;
+
+	if (has_openquote(input))
+		input = custom_strjoin(input, "\n");
+	while (has_openquote(input))
 	{
-		temp_input = readline("join> ");
-		if (!temp_input)
+		joininput = readline("join> ");
+		if (!joininput)
 		{
-			printf("Ctrl+D was pressed\n");
-			free(final_input);
+			printf("Ctrl+D was pressed in complete_quotes\n");
+			free(input);
 			exit(-1);
 		}
-		current_input = normalize_input(temp_input);
-		final_input = custom_strjoin(final_input, current_input);
-		if (current_input == temp_input)
-			free(current_input);
+		joininput = format_joininput(joininput);
+		input = custom_strjoin(input, joininput);
+		free(joininput);
 	}
-	return (final_input);
+	return (input);
 }
 
-static void	add_input_to_history(char *input)
-{
-	static char	*previous_input;
 
-	if (previous_input && ft_strcmp(previous_input, input) == 0
-		&& !contains_newline(input))
+static char	*complete_brackets(char *input)
+{
+	char	*joininput;
+	char	*trimmed;
+
+	while (has_openbracket(input) == true)
+	{
+		joininput = readline("join> ");
+		if (joininput == NULL)
+		{
+			printf("Ctrl+D was pressed in complete_brackets\n");
+			free(input);
+			exit(-1);
+		}
+		trimmed = ft_strtrim(input, "\n");
+		free(input);
+		input = trimmed;
+		if ((is_leftbracket(*joininput) == false) && *joininput != '\0')
+			input = custom_strjoin(input, " ");
+		input = custom_strjoin(input, joininput);
+		input = complete_quotes(input);
+		free(joininput);
+	}
+	return (input);
+}
+
+static void	update_history(char *input)
+{
+	static char	*previnput;
+
+	if (previnput && !ft_strcmp(previnput, input) && !contains_newline(input))
 		return ;
-	if (previous_input != NULL)
-		free(previous_input);
-	previous_input = ft_strdup(input);
-	if (!previous_input)
+	if (previnput != NULL)
+		free(previnput);
+	previnput = ft_strdup(input);
+	if (!previnput)
 	{
-		printf("ft_strdup failed for previous_input\n");
+		printf("ft_strdup failed for previnput\n");
 		exit(-1);
 	}
-	add_history(previous_input);
+	add_history(previnput);
 }
 
 char	*get_input_line(void)
 {
 	char	*input;
 
-	input = readline_until_has_character();
-	input = readline_until_no_open_quote(input);
-	add_input_to_history(input);
+	input = start_reading();
+	input = complete_quotes(input);
+	input = complete_brackets(input);
+	update_history(input);
 	return (input);
 }

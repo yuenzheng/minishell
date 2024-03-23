@@ -1,33 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_expanded_token_utils_2.c                       :+:      :+:    :+:   */
+/*   get_input_line_utils_2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/16 20:18:41 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/24 04:26:43 by ychng            ###   ########.fr       */
+/*   Created: 2024/03/24 06:09:32 by ychng             #+#    #+#             */
+/*   Updated: 2024/03/24 06:10:02 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-bool	is_backslash(char character)
+int	update_open_count(char c)
 {
-	return (character == '\\');
-}
-
-bool	is_singlequoted(char character, bool is_double_quote)
-{
-	return (character == '\'' && !is_double_quote);
-}
-
-bool	is_double_quoted(char character, bool is_singlequote)
-{
-	return (character == '\"' && !is_singlequote);
-}
-
-bool	is_dollar_sign(char character, bool is_singlequote)
-{
-	return (character == '$' && !is_singlequote);
+	if (is_leftbracket(c))
+		return (1);
+	if (is_rightbracket(c))
+		return (-1);
+	return (0);
 }

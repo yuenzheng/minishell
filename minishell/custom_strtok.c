@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 18:04:09 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/23 19:03:35 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/24 04:29:47 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,24 @@ static char	*skip_delimeters(char *str, char *delim)
 	return (str + ft_strspn(str, delim));
 }
 
-// The 'in_quote' variable is just created for the function toggle_in_quote()
+// The 'inquote' variable is just created for the function toggle_inquote()
 static char	*find_token_end(char *remaining_input, char *delim)
 {
 	bool		escaped;
-	bool		in_quote;
+	bool		inquote;
 	char		quote_type;
 
 	escaped = false;
-	in_quote = false;
+	inquote = false;
 	quote_type = '\0';
 	while (*remaining_input)
 	{
-		if (!escaped && !is_single_quote(quote_type)
+		if (!escaped && !is_singlequote(quote_type)
 			&& is_backslash(*remaining_input))
 			escaped = true;
 		else if (!escaped && is_quote(*remaining_input))
-			toggle_in_quote(*remaining_input, &in_quote, &quote_type);
-		else if (!escaped && !in_quote && is_delim(*remaining_input, delim))
+			toggle_inquote(*remaining_input, &inquote, &quote_type);
+		else if (!escaped && !inquote && is_delim(*remaining_input, delim))
 			break ;
 		else
 			escaped = false;

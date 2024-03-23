@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:04:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/29 16:57:58 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/24 04:29:46 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 static char	*find_env_start(char *remaining_subtoken)
 {
 	bool	escaped;
-	bool	in_quote;
+	bool	inquote;
 	char	quote_type;
 
 	escaped = false;
-	in_quote = false;
+	inquote = false;
 	quote_type = '\0';
 	while (*remaining_subtoken)
 	{
-		if (!escaped && !is_single_quote(quote_type)
+		if (!escaped && !is_singlequote(quote_type)
 			&& is_backslash(*remaining_subtoken))
 			escaped = true;
 		else if (!escaped && is_quote(*remaining_subtoken))
-			toggle_in_quote(*remaining_subtoken, &in_quote, &quote_type);
-		else if (!escaped && !is_single_quote(quote_type)
+			toggle_inquote(*remaining_subtoken, &inquote, &quote_type);
+		else if (!escaped && !is_singlequote(quote_type)
 			&& is_env_var(remaining_subtoken))
 			break ;
 		else

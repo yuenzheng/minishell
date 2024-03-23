@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:47:42 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/29 17:09:14 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/24 04:29:47 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ static int	count_expanded_escaped_len(char *subtoken)
 {
 	int			len;
 	bool		escaped;
-	bool		in_quote;
+	bool		inquote;
 	char		quote_type;
 
 	len = 0;
 	escaped = false;
-	in_quote = false;
+	inquote = false;
 	quote_type = '\0';
 	while (*subtoken)
 	{
@@ -32,7 +32,7 @@ static int	count_expanded_escaped_len(char *subtoken)
 			continue ;
 		}
 		else if (!escaped && is_quote(*subtoken))
-			toggle_in_quote(*subtoken, &in_quote, &quote_type);
+			toggle_inquote(*subtoken, &inquote, &quote_type);
 		else
 			escaped = false;
 		len++;
@@ -44,11 +44,11 @@ static int	count_expanded_escaped_len(char *subtoken)
 static void	expand_escaped_chars(char *result, char *subtoken)
 {
 	bool		escaped;
-	bool		in_quote;
+	bool		inquote;
 	char		quote_type;
 
 	escaped = false;
-	in_quote = false;
+	inquote = false;
 	quote_type = '\0';
 	while (*subtoken)
 	{
@@ -59,7 +59,7 @@ static void	expand_escaped_chars(char *result, char *subtoken)
 			continue ;
 		}
 		else if (!escaped && is_quote(*subtoken))
-			toggle_in_quote(*subtoken, &in_quote, &quote_type);
+			toggle_inquote(*subtoken, &inquote, &quote_type);
 		else
 			escaped = false;
 		*result++ = *subtoken++;

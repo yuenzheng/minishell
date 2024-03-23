@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 19:54:13 by ychng             #+#    #+#             */
-/*   Updated: 2024/02/16 21:08:05 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/24 04:26:43 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	process_token_character(char *token, int *i, t_token_state *state)
 	in_double_quote = state->in_double_quote;
 	if (!escaped && is_backslash(token[*i]))
 		state->escaped = true;
-	else if (!escaped && is_single_quoted(token[*i], in_double_quote))
+	else if (!escaped && is_singlequoted(token[*i], in_double_quote))
 		state->in_single_quote = !state->in_single_quote;
 	else if (!escaped && is_double_quoted(token[*i], in_single_quote))
 		state->in_double_quote = !state->in_double_quote;
