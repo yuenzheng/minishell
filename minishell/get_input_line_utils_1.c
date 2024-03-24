@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 20:11:50 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/24 08:35:16 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/25 01:18:27 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,35 @@ bool	empty_bracket(char *input)
 		return (true);
 	}
 	return (false);
+}
+
+bool	has_open_logical_op(char *input)
+{
+	bool	escaped;
+	bool	inquote;
+	char	quote_t;
+	bool	inoperator;
+
+	escaped = false;
+	inquote = false;
+	quote_t = '\0';
+	inoperator = false;
+	while (*input)
+	{			
+		if (!escaped && !is_singlequote(quote_t) && is_backslash(*input))
+			escaped = true;
+		else if (!escaped && is_quote(*input))
+			toggle_inquote(*input, &inquote, &quote_t);
+		else if (!escaped && !inquote && !inoperator && is_logical_op_n(input))
+		{
+			inoperator = true;
+			input++;
+		}
+		else if (!escaped && inoperator && !is_space(*input))
+			inoperator = false;
+		else if (escaped)
+			escaped = false;
+		input++;
+	}
+	return (inoperator);
 }

@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/24 08:44:16 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/25 01:21:02 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,21 +88,23 @@ static char	*start_reading(void)
 	return (maininput);
 }
 
-static void	update_history(char *input)
+static char	*complete_logical_op(char *input)
 {
-	static char	*previnput;
+	char	*joininput;
 
-	if (previnput && !ft_strcmp(previnput, input) && !contains_newline(input))
-		return ;
-	if (previnput != NULL)
-		free(previnput);
-	previnput = ft_strdup(input);
-	if (!previnput)
+	while (has_open_logical_op(input) == true)
 	{
-		printf("ft_strdup failed for previnput\n");
-		exit(-1);
+		joininput = readline("join> ");
+		if (joininput == false)
+		{
+			printf("Ctrl+D was pressed in complete_logical_op\n");
+			free(input);
+			exit(-1);
+		}
+		input = custom_strjoin(input, joininput);
+		free(joininput);
 	}
-	add_history(previnput);
+	return (input);
 }
 
 char	*get_input_line(void)
@@ -111,7 +113,8 @@ char	*get_input_line(void)
 
 	input = start_reading();
 	input = complete_quotes(input);
-	// input = complete_brackets(input);
+	input = complete_logical_op(input);
+	input = complete_brackets(input);
 	update_history(input);
 	return (input);
 }
