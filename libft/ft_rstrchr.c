@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_rstrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/29 15:00:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/24 08:07:13 by ychng            ###   ########.fr       */
+/*   Created: 2024/03/24 07:57:59 by ychng             #+#    #+#             */
+/*   Updated: 2024/03/24 08:04:51 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-char	*ft_strchr(const char *str, int c)
+char	*ft_rstrchr(const char *str, int c)
 {
+	const char	*last_found;
+
+	last_found = NULL;
 	while (str && *str)
 	{
 		if (*str == (char)c)
-			return ((char *)str);
+			last_found = str;
 		str++;
 	}
-	return (NULL);
+	return ((char *)last_found);
 }

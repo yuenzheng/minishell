@@ -20,9 +20,11 @@ SRCS :=	ft_bzero.c \
 		ft_strspn.c \
 		ft_rstrspn.c \
 		ft_strcspn.c \
+		ft_rstrcspn.c \
 		ft_strcmp.c \
 		ft_strncmp.c \
 		ft_strchr.c \
+		ft_rstrchr.c \
 		ft_strstr.c \
 		ft_strcat.c \
 		ft_strcpy.c \

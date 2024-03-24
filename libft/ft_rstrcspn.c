@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_rstrcspn.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/29 15:00:02 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/24 08:07:13 by ychng            ###   ########.fr       */
+/*   Created: 2024/03/24 07:48:49 by ychng             #+#    #+#             */
+/*   Updated: 2024/03/24 07:51:27 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/libft.h"
 
-char	*ft_strchr(const char *str, int c)
+int	ft_rstrcspn(const char *str, const char *reject)
 {
-	while (str && *str)
+	int	span_len;
+	int	len;
+
+	if (!str || !reject)
+		return (0);
+	span_len = 0;
+	len = ft_strlen(str);
+	while (len > 0 && !ft_strchr(reject, str[len - 1]))
 	{
-		if (*str == (char)c)
-			return ((char *)str);
-		str++;
+		span_len++;
+		len--;
 	}
-	return (NULL);
+	return (span_len);
 }
