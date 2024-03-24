@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 20:11:50 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/25 01:18:27 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/25 03:02:19by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,31 +49,31 @@ char	*format_joininput(char *joininput)
 
 bool	has_openbracket(char *input)
 {
+	char	*start;
 	bool	escaped;
 	bool	inquote;
 	char	quote_t;
 	int		open_count;
 
+	start = input;
 	escaped = false;
 	inquote = false;
 	quote_t = '\0';
 	open_count = 0;
 	while (*input)
 	{
-		if (escaped == false)
-		{
-			if ((is_singlequote(quote_t) == false) && is_backslash(*input))
-				escaped = true;
-			else if (is_quote(*input))
-				toggle_inquote(*input, &inquote, &quote_t);
-			else if (is_bracket(*input) && inquote == false)
-				open_count += update_open_count(*input);
-		}
-		else
+		if (!escaped && !is_singlequote(quote_t) && is_backslash(*input))
+			escaped = true;
+		else if (!escaped && is_quote(*input))
+			toggle_inquote(*input, &inquote, &quote_t);
+		else if (!escaped && !inquote && is_bracket(*input) \
+				&& (open_count || is_validpos(start, input)))
+			open_count += update_open_count(*input);
+		else if (escaped)
 			escaped = false;
 		input++;
 	}
-	return (open_count != 0);
+	return (open_count > 0);
 }
 
 bool	empty_bracket(char *input)

@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/25 01:21:02 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/25 02:55:57 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,6 @@ static char	*start_reading(void)
 		{
 			printf("Ctrl+D was pressed in start_reading\n");
 			exit(-1);
-		}
-		if (is_leftbracket(*(maininput + ft_strspn(maininput, " "))))
-		{
-			maininput = complete_brackets(maininput);
-			break ;
 		}
 		else if (*maininput != '\0')
 			break ;
