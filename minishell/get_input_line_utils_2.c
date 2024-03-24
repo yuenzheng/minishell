@@ -6,11 +6,17 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 06:09:32 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/25 03:05:41 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/25 03:27:27 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+int	set_inoperator_true(bool *inoperator)
+{
+	*inoperator = true;
+	return (1);
+}
 
 bool	is_validpos(char *start, char *input)
 {

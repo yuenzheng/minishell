@@ -116,10 +116,7 @@ bool	has_open_logical_op(char *input)
 		else if (!escaped && is_quote(*input))
 			toggle_inquote(*input, &inquote, &quote_t);
 		else if (!escaped && !inquote && !inoperator && is_logical_op_n(input))
-		{
-			inoperator = true;
-			input++;
-		}
+			input += set_inoperator_true(&inoperator);
 		else if (!escaped && inoperator && !is_space(*input))
 			inoperator = false;
 		else if (escaped)
