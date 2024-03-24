@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 20:11:50 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/24 06:20:47 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/24 08:35:16 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,26 @@ bool	has_openbracket(char *input)
 		input++;
 	}
 	return (open_count != 0);
+}
+
+bool	empty_bracket(char *input)
+{
+	char	*innermost_adr;
+	int		i;
+
+	innermost_adr = ft_rstrchr(input, ')');
+	if (innermost_adr == NULL)
+		return (false);
+	i = innermost_adr - input;
+	while (--i > 0)
+	{
+		if (is_leftbracket(input[i]) || (is_space(input[i]) == false))
+			break ;
+	}
+	if (is_leftbracket(input[i]))
+	{
+		printf("syntax error near unexpected token `)'\n");
+		return (true);
+	}
+	return (false);
 }

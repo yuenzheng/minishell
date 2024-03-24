@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/24 06:56:04 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/24 08:44:16 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,12 @@ static char	*complete_quotes(char *input)
 static char	*complete_brackets(char *input)
 {
 	char	*joininput;
-	char	*trimmed;
+	char	*triminput;
 
 	while (has_openbracket(input) == true)
 	{
+		if (empty_bracket(input))
+			break ;
 		joininput = readline("join> ");
 		if (joininput == NULL)
 		{
@@ -48,14 +50,16 @@ static char	*complete_brackets(char *input)
 			free(input);
 			exit(-1);
 		}
-		trimmed = ft_strtrim(input, "\n");
+		triminput = ft_strtrim(input, "\n");
 		free(input);
-		input = trimmed;
-		if ((is_leftbracket(*joininput) == false) && *joininput != '\0')
+		input = triminput;
+		if (*joininput != '\0')
 			input = custom_strjoin(input, " ");
 		input = custom_strjoin(input, joininput);
 		input = complete_quotes(input);
 		free(joininput);
+		if (empty_bracket(input))
+			break ;
 	}
 	return (input);
 }
