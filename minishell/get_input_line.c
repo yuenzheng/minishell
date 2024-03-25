@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/26 04:28:15 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/26 04:35:10 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,23 @@ char	*handle_maininput(void)
 	return (maininput);
 }
 
+bool	has_logical_error(char *token, int *logicalop_count)
+{
+	if (is_logical_op(token))
+	{
+		(*logicalop_count)++;
+		if (*logicalop_count > 0)
+		{
+			printf("syntax error near unexpected token `%c%c'\n", \
+				token[0], token[1]);
+			return (true);
+		}
+	}
+	else if (ft_strspn(token, " ") != ft_strlen(token))
+		(*logicalop_count)--;
+	return (false);
+}
+
 bool	has_no_error(char *input)
 {
 	int		logicalop_count;
@@ -113,18 +130,8 @@ bool	has_no_error(char *input)
 	token = get_next_token(input, false);
 	while (token)
 	{
-		if (is_logical_op(token))
-		{
-			logicalop_count++;
-			if (logicalop_count > 0)
-			{
-				printf("syntax error near unexpected token `%c%c'\n", \
-					token[0], token[1]);
-				return (false);
-			}
-		}
-		else if (ft_strspn(token, " ") != ft_strlen(token))
-			logicalop_count--;
+		if (has_logical_error(token, &logicalop_count))
+			return (false);
 		free(token);
 		token = get_next_token(NULL, false);
 	}
