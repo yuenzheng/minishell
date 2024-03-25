@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/26 05:02:15 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/26 05:07:35 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,21 +140,26 @@ bool	has_bracket_error(char *token)
 
 bool	has_no_error(char *input)
 {
+	bool	flag;
 	int		logicalop_count;
 	char	*token;
 
+	flag = true;
 	logicalop_count = 0;
 	token = get_next_token(input, false);
 	while (token)
 	{
-		if (has_logical_error(token, &logicalop_count))
-			return (false);
-		if (has_bracket_error(token))
-			return (false);
+		if (has_logical_error(token, &logicalop_count) \
+			|| has_bracket_error(token))
+		{
+			flag = false;
+			break ;
+		}
 		free(token);
 		token = get_next_token(NULL, false);
 	}
-	return (true);
+	free(token);
+	return (flag);
 }
 
 // order don't matter
