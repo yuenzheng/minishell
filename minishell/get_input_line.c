@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/26 06:03:10 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/26 07:25:26 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,34 +122,73 @@ bool	has_logical_error(char *token, int *logicalop_count)
 	return (false);
 }
 
+bool	is_empty(char *start, char *token)
+{
+	while (token >= start)
+	{
+		if (is_leftbracket(*token))
+			return (true);
+		if (!is_space(*token) && !is_rightbracket(*token))
+			return (false);
+		token--;
+	}
+	return (true);
+}
+
+// bool	has_bracket_error(char *token)
+// {
+// 	char	*start;
+// 	int		openbracket;
+// 	int		i;
+
+// 	openbracket = 0;
+// 	i = ft_strspn(token, " ");
+// 	start = &token[i];
+// 	while (token[i])
+// 	{
+// 		if (((start == &token[i] || openbracket > 0) && is_leftbracket(token[i])))
+// 			openbracket++;
+// 		else if (is_rightbracket(token[i]))
+// 		{
+// 			openbracket--;
+// 			if (openbracket == -1 || is_empty(start, &token[i]))
+// 			{
+// 				printf("syntax error near unexpected token `%c'\n", token[i]);
+// 				return (true);
+// 			}
+// 		}
+// 		else if (openbracket <= 0 && is_bracket(token[i]))
+// 		{
+// 			printf("syntax error near unexpected token `%c'\n", token[i]);
+// 			return (true);
+// 		}
+// 		i++;
+// 	}
+// 	return (false);
+// }
+
 bool	has_bracket_error(char *token)
 {
 	char	*start;
 	int		openbracket;
-	int		i;
 
 	openbracket = 0;
-	i = ft_strspn(token, " ");
-	start = &token[i];
-	while (token[i])
+	token += ft_strspn(token, " ");
+	start = token;
+	printf("%s\n", start);
+	while (*token)
 	{
-		if (((start == &token[i]) && is_leftbracket(token[i])) || openbracket > 0)
+		if (((start == token) || openbracket > 0) && is_leftbracket(*token))
 			openbracket++;
-		else if (is_rightbracket(token[i]))
-		{
+		else if (((start != token) && openbracket > 0) && is_rightbracket(*token))
 			openbracket--;
-			if (openbracket == -1)
-			{
-				printf("lasyntax error near unexpected token `%c'\n", token[i]);
-				return (true);
-			}
-		}
-		else if (openbracket <= 0 && is_bracket(token[i]))
+		else if (((start == token) && is_rightbracket(*token)) \
+			|| ((start != token) && is_bracket(*token)))
 		{
-			printf("llasyntax error near unexpected token `%c'\n", token[i]);
+			printf("syntax error near unexpected token `%c'\n", *token);
 			return (true);
 		}
-		i++;
+		token++;
 	}
 	return (false);
 }
