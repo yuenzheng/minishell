@@ -50,7 +50,7 @@ t_tokenlist	*get_tokenlist(char *input, char **envp)
 	char			*token;
 
 	tokenlist = create_tokenlist();
-	token = get_next_token(input);
+	token = get_next_token(input, true);
 	while (token)
 	{
 		if (ft_strspn(token, " ") != ft_strlen(token))
@@ -59,7 +59,7 @@ t_tokenlist	*get_tokenlist(char *input, char **envp)
 			link_tokenlist(tokennode, tokenlist);
 		}
 		free(token);
-		token = get_next_token(NULL);
+		token = get_next_token(NULL, true);
 	}
 	return (tokenlist);
 }

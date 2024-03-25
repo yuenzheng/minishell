@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/26 02:04:38 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/26 04:28:15 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,33 @@ char	*handle_maininput(void)
 	return (maininput);
 }
 
+bool	has_no_error(char *input)
+{
+	int		logicalop_count;
+	char	*token;
+
+	logicalop_count = 0;
+	token = get_next_token(input, false);
+	while (token)
+	{
+		if (is_logical_op(token))
+		{
+			logicalop_count++;
+			if (logicalop_count > 0)
+			{
+				printf("syntax error near unexpected token `%c%c'\n", \
+					token[0], token[1]);
+				return (false);
+			}
+		}
+		else if (ft_strspn(token, " ") != ft_strlen(token))
+			logicalop_count--;
+		free(token);
+		token = get_next_token(NULL, false);
+	}
+	return (true);
+}
+
 // order don't matter
 bool	has_openblock(char *input)
 {
@@ -117,7 +144,7 @@ char	*get_input_line(void)
 	char		*input;
 
 	input = handle_maininput();
-	while (has_openblock(input))
+	while (has_no_error(input) && has_openblock(input))
 	{
 		input = closequotes(input);
 		input = closebrackets(input);

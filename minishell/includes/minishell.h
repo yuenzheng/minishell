@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:55:40 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/26 01:54:34 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/26 03:55:05 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,10 +168,11 @@ void			toggle_inquote(char c, bool *inquote, char *quote_type);
 
 // get_next_token_utils.c
 int				len_of_operator(char *remaining_input);
-bool			is_bracket_or_logical_operator(char *remaining_input);
+bool			is_bracket_or_logical_operator(char *remaining_input, \
+					bool withbracket);
 
 // get_next_token.c
-char			*get_next_token(char *input);
+char			*get_next_token(char *input, bool withbracket);
 
 // get_next_subtoken_utils.c
 int				len_of_redirection(char *subtoken);
