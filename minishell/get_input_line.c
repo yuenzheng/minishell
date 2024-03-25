@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/26 05:07:35 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/26 05:47:11 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ static char	*closelogicalops(char *input)
 			free(input);
 			exit(-1);
 		}
+		input = custom_strjoin(input, " ");
 		input = custom_strjoin(input, joininput);
 		free(joininput);
 	}
@@ -123,12 +124,27 @@ bool	has_logical_error(char *token, int *logicalop_count)
 
 bool	has_bracket_error(char *token)
 {
-	int	i;
+	char	*start;
+	int		openbracket;
+	int		i;
 
-	i = 1 + ft_strspn(token, " ");
+	openbracket = 0;
+	i = ft_strspn(token, " ");
+	start = &token[i];
 	while (token[i])
 	{
-		if (is_bracket(token[i]))
+		if (((start == &token[i]) && is_leftbracket(token[i])) || openbracket > 0)
+			openbracket++;
+		else if (is_rightbracket(token[i]))
+		{
+			openbracket--;
+			if (openbracket == -1)
+			{
+				printf("syntax error near unexpected token `%c'\n", token[i]);
+				return (true);
+			}
+		}
+		else if (openbracket <= 0 && is_bracket(token[i]))
 		{
 			printf("syntax error near unexpected token `%c'\n", token[i]);
 			return (true);
@@ -181,5 +197,6 @@ char	*get_input_line(void)
 		input = closebrackets(input);
 		input = closelogicalops(input);
 	}
+	// printf("%s\n", input);
 	return (input);
 }
