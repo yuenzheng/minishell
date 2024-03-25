@@ -12,7 +12,7 @@
 
 #include "includes/minishell.h"
 
-bool	has_openquote(char *input)
+bool	has_openquotes(char *input)
 {
 	bool	escaped;
 	bool	inquote;
@@ -47,7 +47,7 @@ char	*format_joininput(char *joininput)
 	return (joininput);
 }
 
-bool	has_openbracket(char *input)
+bool	has_openbrackets(char *input)
 {
 	char	*start;
 	bool	escaped;
@@ -98,7 +98,7 @@ bool	empty_bracket(char *input)
 	return (false);
 }
 
-bool	has_open_logical_op(char *input)
+bool	has_openlogicalops(char *input)
 {
 	bool	escaped;
 	bool	inquote;

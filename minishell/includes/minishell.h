@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:55:40 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/25 03:27:54 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/26 01:54:34 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,11 +195,11 @@ char			*get_next_env(char *subtoken);
 char			*custom_strjoin(char *s1, char *s2);
 
 // get_input_line_utils_1.c
-bool			has_openquote(char *input);
+bool			has_openquotes(char *input);
 char			*format_joininput(char *joininput);
-bool			has_openbracket(char *input);
+bool			has_openbrackets(char *input);
 bool			empty_bracket(char *input);
-bool			has_open_logical_op(char *input);
+bool			has_openlogicalops(char *input);
 
 // get_input_line_utils_2.c
 int				set_inoperator_true(bool *inoperator);
