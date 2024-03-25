@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/26 05:47:11 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/26 06:03:10 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ static char	*closebrackets(char *input)
 	char	*joininput;
 	char	*triminput;
 
-	while (has_openbrackets(input) == true)
-	{
-		if (empty_bracket(input))
-			break ;
+	// while (has_openbrackets(input) == true)
+	// {
+		// if (empty_bracket(input))
+		// 	break ;
 		joininput = readline("join> ");
 		if (joininput == NULL)
 		{
@@ -58,9 +58,9 @@ static char	*closebrackets(char *input)
 		input = custom_strjoin(input, joininput);
 		input = closequotes(input);
 		free(joininput);
-		if (empty_bracket(input))
-			break ;
-	}
+		// if (empty_bracket(input))
+			// break ;
+	// }
 	return (input);
 }
 
@@ -140,13 +140,13 @@ bool	has_bracket_error(char *token)
 			openbracket--;
 			if (openbracket == -1)
 			{
-				printf("syntax error near unexpected token `%c'\n", token[i]);
+				printf("lasyntax error near unexpected token `%c'\n", token[i]);
 				return (true);
 			}
 		}
 		else if (openbracket <= 0 && is_bracket(token[i]))
 		{
-			printf("syntax error near unexpected token `%c'\n", token[i]);
+			printf("llasyntax error near unexpected token `%c'\n", token[i]);
 			return (true);
 		}
 		i++;
