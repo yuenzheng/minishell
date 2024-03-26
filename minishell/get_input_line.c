@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/26 07:25:26 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/27 01:17:58 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,83 +105,49 @@ char	*handle_maininput(void)
 	return (maininput);
 }
 
-bool	has_logical_error(char *token, int *logicalop_count)
+bool	has_logicaloperr(char *token, int *openlogicalops)
 {
-	if (is_logical_op(token))
+	if (is_logicalop(token) == true)
 	{
-		(*logicalop_count)++;
-		if (*logicalop_count > 0)
+		(*openlogicalops)++;
+		if (*openlogicalops > 0)
 		{
-			printf("syntax error near unexpected token `%c%c'\n", \
+			printf(
+				"syntax error near unexpected token `%c%c'\n", \
 				token[0], token[1]);
 			return (true);
 		}
 	}
 	else if (ft_strspn(token, " ") != ft_strlen(token))
-		(*logicalop_count)--;
+		(*openlogicalops)--;
 	return (false);
 }
 
-bool	is_empty(char *start, char *token)
-{
-	while (token >= start)
-	{
-		if (is_leftbracket(*token))
-			return (true);
-		if (!is_space(*token) && !is_rightbracket(*token))
-			return (false);
-		token--;
-	}
-	return (true);
-}
-
-// bool	has_bracket_error(char *token)
+// bool	is_empty(char *start, char *token)
 // {
-// 	char	*start;
-// 	int		openbracket;
-// 	int		i;
-
-// 	openbracket = 0;
-// 	i = ft_strspn(token, " ");
-// 	start = &token[i];
-// 	while (token[i])
+// 	while (token >= start)
 // 	{
-// 		if (((start == &token[i] || openbracket > 0) && is_leftbracket(token[i])))
-// 			openbracket++;
-// 		else if (is_rightbracket(token[i]))
-// 		{
-// 			openbracket--;
-// 			if (openbracket == -1 || is_empty(start, &token[i]))
-// 			{
-// 				printf("syntax error near unexpected token `%c'\n", token[i]);
-// 				return (true);
-// 			}
-// 		}
-// 		else if (openbracket <= 0 && is_bracket(token[i]))
-// 		{
-// 			printf("syntax error near unexpected token `%c'\n", token[i]);
+// 		if (is_leftbracket(*token))
 // 			return (true);
-// 		}
-// 		i++;
+// 		if (!is_space(*token) && !is_rightbracket(*token))
+// 			return (false);
+// 		token--;
 // 	}
-// 	return (false);
+// 	return (true);
 // }
 
-bool	has_bracket_error(char *token)
+bool	has_bracketerr(char *token, int *openbrackets)
 {
 	char	*start;
-	int		openbracket;
 
-	openbracket = 0;
 	token += ft_strspn(token, " ");
 	start = token;
-	printf("%s\n", start);
 	while (*token)
 	{
-		if (((start == token) || openbracket > 0) && is_leftbracket(*token))
-			openbracket++;
-		else if (((start != token) && openbracket > 0) && is_rightbracket(*token))
-			openbracket--;
+		if (((start == token) || *openbrackets > 0) && is_leftbracket(*token))
+			(*openbrackets)++;
+		else if (((start != token) && *openbrackets > 0) && is_rightbracket(*token))
+			(*openbrackets)--;
 		else if (((start == token) && is_rightbracket(*token)) \
 			|| ((start != token) && is_bracket(*token)))
 		{
@@ -195,26 +161,23 @@ bool	has_bracket_error(char *token)
 
 bool	has_no_error(char *input)
 {
-	bool	flag;
-	int		logicalop_count;
+	int		openlogicalops;
+	int		openbrackets;
 	char	*token;
 
-	flag = true;
-	logicalop_count = 0;
+	openlogicalops = 0;
+	openbrackets = 0;
 	token = get_next_token(input, false);
 	while (token)
 	{
-		if (has_logical_error(token, &logicalop_count) \
-			|| has_bracket_error(token))
-		{
-			flag = false;
-			break ;
-		}
+		if (has_logicaloperr(token, &openlogicalops) \
+			|| has_bracketerr(token, &openbrackets))
+			return (false);
 		free(token);
 		token = get_next_token(NULL, false);
 	}
 	free(token);
-	return (flag);
+	return (true);
 }
 
 // order don't matter
@@ -227,7 +190,7 @@ bool	has_openblock(char *input)
 
 char	*get_input_line(void)
 {
-	char		*input;
+	char	*input;
 
 	input = handle_maininput();
 	while (has_no_error(input) && has_openblock(input))

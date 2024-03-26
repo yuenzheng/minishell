@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 19:25:04 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/23 02:59:41 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/27 01:13:29 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_treenode	*build_tree(t_tokenlist *tokenlist)
 			free_tokennode(pop_tokenlist_head(tokenlist));
 			break ;
 		}
-		else if (is_logical_op(firsubtok))
+		else if (is_logicalop(firsubtok))
 		{
 			if (opslist != NULL)
 			{

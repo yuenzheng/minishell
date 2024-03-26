@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:55:40 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/26 03:55:05 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/27 01:13:29 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ bool			is_pipe(char c);
 bool			is_forward_slash(char c);
 
 // operator_check.c
-bool			is_logical_op(char *str);
+bool			is_logicalop(char *str);
 bool			is_logical_op_n(char *str);
 bool			is_redirection_n(char *str);
 bool			is_heredoc(char *str);

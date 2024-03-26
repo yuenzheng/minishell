@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 18:51:28 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/23 00:36:18 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/27 01:13:29 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	process_infix(t_tokenlist *infix, t_tokenlist *postfix, \
 			free_tokennode(pop_tokenlist_head(infix));
 			free_tokennode(pop_tokenlist_tail(opstack));
 		}
-		else if (is_logical_op(first_subtoken(infix->head)))
+		else if (is_logicalop(first_subtoken(infix->head)))
 		{
 			while (opstack->tail && \
 					priority(opstack->tail) >= priority(infix->head))

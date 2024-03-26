@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:33:20 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/23 01:05:45 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/27 01:13:29 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,7 +297,7 @@ void	evaluate_postfix(char ***envp, t_tokenlist *postfix)
 	stack = (t_tokenlist){0};
 	while (postfix->head)
 	{
-		if (is_logical_op(first_subtoken(postfix->head)))
+		if (is_logicalop(first_subtoken(postfix->head)))
 		{
 			process_expression(envp, postfix, &stack);
 			free_tokennode(pop_tokenlist_head(postfix));

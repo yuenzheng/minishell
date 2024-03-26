@@ -22,7 +22,7 @@ static t_subtokenlist	*get_subtokenlist(char *token, char **envp)
 	bool			expand_heredoc;
 
 	subtokenlist = create_subtokenlist();
-	if (is_logical_op(token))
+	if (is_logicalop(token))
 	{
 		subtoken = ft_strdup(token);
 		link_subtokenlist(new_subtokennode(subtoken), subtokenlist);
