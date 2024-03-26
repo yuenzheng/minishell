@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_input_line.c                                   :+:      :+:    :+:   */
+/*   read_inputline.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/27 01:17:58 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/27 01:19:41 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ bool	has_openblock(char *input)
 		|| (has_openlogicalops(input)));
 }
 
-char	*get_input_line(void)
+char	*read_inputline(void)
 {
 	char	*input;
 

@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 17:56:25 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/24 05:13:24 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/27 01:19:21 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int argc, char **argv, char **envp)
 	envp = clone_envp_with_special(envp);
 	while (1)
 	{
-		input = get_input_line();
+		input = read_inputline();
 		tokenlist = get_tokenlist(input, envp);
 		// print_treenode(build_tree(tokenlist));
 		// tokenlist = infix_to_postfix(tokenlist);

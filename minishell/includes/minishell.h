@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 16:55:40 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/27 01:13:29 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/27 01:20:54 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,23 +195,23 @@ char			*get_next_env(char *subtoken);
 // string_utils.c
 char			*custom_strjoin(char *s1, char *s2);
 
-// get_input_line_utils_1.c
+// read_inputline_utils_1.c
 bool			has_openquotes(char *input);
 char			*format_joininput(char *joininput);
 bool			has_openbrackets(char *input);
 bool			empty_bracket(char *input);
 bool			has_openlogicalops(char *input);
 
-// get_input_line_utils_2.c
+// read_inputline_utils_2.c
 int				set_inoperator_true(bool *inoperator);
 bool			is_validpos(char *start, char *input);
 int				update_open_count(char c);
 
-// get_input_line_helper.c
+// read_inputline_helper.c
 void			update_history(char *input);
 
-// get_input_line.c
-char			*get_input_line(void);
+// read_inputline.c
+char			*read_inputline(void);
 
 // expand_env_utils_1.c
 int				count_len_until_env(char *subtoken, char *env);
