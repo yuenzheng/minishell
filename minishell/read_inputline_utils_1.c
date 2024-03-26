@@ -5,123 +5,64 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 01:20:16 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/27 01:21:09 by ychng            ###   ########.fr       */
+/*   Created: 2024/03/27 01:39:11 by ychng             #+#    #+#             */
+/*   Updated: 2024/03/27 01:42:35 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-bool	has_openquotes(char *input)
-{
-	bool	escaped;
-	bool	inquote;
-	char	quote_t;
 
-	escaped = false;
-	inquote = false;
-	quote_t = '\0';
-	while (*input)
+bool	has_logicaloperr(char *token, int *openlogicalops)
+{
+	if (is_logicalop(token) == true)
 	{
-		if (escaped == false)
+		(*openlogicalops)++;
+		if (*openlogicalops > 0)
 		{
-			if ((is_singlequote(quote_t) == false) && is_backslash(*input))
-				escaped = true;
-			else if (is_quote(*input))
-				toggle_inquote(*input, &inquote, &quote_t);
+			printf(
+				"syntax error near unexpected token `%c%c'\n", \
+				token[0], token[1]);
+			return (true);
 		}
-		else
-			escaped = false;
-		input++;
 	}
-	return (inquote);
-}
-
-char	*format_joininput(char *joininput)
-{
-	if (*joininput == '\0')
-	{
-		free(joininput);
-		return (ft_strdup("\n"));
-	}
-	return (joininput);
-}
-
-bool	has_openbrackets(char *input)
-{
-	char	*start;
-	bool	escaped;
-	bool	inquote;
-	char	quote_t;
-	int		open_count;
-
-	start = input;
-	escaped = false;
-	inquote = false;
-	quote_t = '\0';
-	open_count = 0;
-	while (*input)
-	{
-		if (!escaped && !is_singlequote(quote_t) && is_backslash(*input))
-			escaped = true;
-		else if (!escaped && is_quote(*input))
-			toggle_inquote(*input, &inquote, &quote_t);
-		else if (!escaped && !inquote && is_bracket(*input) \
-				&& (open_count || is_validpos(start, input)))
-			open_count += update_open_count(*input);
-		else if (escaped)
-			escaped = false;
-		input++;
-	}
-	return (open_count > 0);
-}
-
-bool	empty_bracket(char *input)
-{
-	char	*innermost_adr;
-	int		i;
-
-	innermost_adr = ft_rstrchr(input, ')');
-	if (innermost_adr == NULL)
-		return (false);
-	i = innermost_adr - input;
-	while (--i > 0)
-	{
-		if (is_leftbracket(input[i]) || (is_space(input[i]) == false))
-			break ;
-	}
-	if (is_leftbracket(input[i]))
-	{
-		printf("syntax error near unexpected token `)'\n");
-		return (true);
-	}
+	else if (ft_strspn(token, " ") != ft_strlen(token))
+		(*openlogicalops)--;
 	return (false);
 }
 
-bool	has_openlogicalops(char *input)
-{
-	bool	escaped;
-	bool	inquote;
-	char	quote_t;
-	bool	inoperator;
+// bool	is_empty(char *start, char *token)
+// {
+// 	while (token >= start)
+// 	{
+// 		if (is_leftbracket(*token))
+// 			return (true);
+// 		if (!is_space(*token) && !is_rightbracket(*token))
+// 			return (false);
+// 		token--;
+// 	}
+// 	return (true);
+// }
 
-	escaped = false;
-	inquote = false;
-	quote_t = '\0';
-	inoperator = false;
-	while (*input)
-	{			
-		if (!escaped && !is_singlequote(quote_t) && is_backslash(*input))
-			escaped = true;
-		else if (!escaped && is_quote(*input))
-			toggle_inquote(*input, &inquote, &quote_t);
-		else if (!escaped && !inquote && !inoperator && is_logical_op_n(input))
-			input += set_inoperator_true(&inoperator);
-		else if (!escaped && inoperator && !is_space(*input))
-			inoperator = false;
-		else if (escaped)
-			escaped = false;
-		input++;
+bool	has_bracketerr(char *token, int *openbrackets)
+{
+	char	*start;
+
+	token += ft_strspn(token, " ");
+	start = token;
+	while (*token)
+	{
+		if (((start == token) || *openbrackets > 0) && is_leftbracket(*token))
+			(*openbrackets)++;
+		else if (((start != token) && *openbrackets > 0) && is_rightbracket(*token))
+			(*openbrackets)--;
+		else if (((start == token) && is_rightbracket(*token)) \
+			|| ((start != token) && is_bracket(*token)))
+		{
+			printf("syntax error near unexpected token `%c'\n", *token);
+			return (true);
+		}
+		token++;
 	}
-	return (inoperator);
+	return (false);
 }

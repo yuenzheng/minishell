@@ -30,6 +30,7 @@ SRCS := character_check_1.c \
 		string_utils.c \
 		read_inputline_utils_1.c \
 		read_inputline_utils_2.c \
+		read_inputline_utils_3.c \
 		read_inputline_helper.c \
 		read_inputline.c \
 		expand_env_utils_1.c \

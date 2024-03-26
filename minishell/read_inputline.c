@@ -6,83 +6,11 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/27 01:35:38 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/27 01:51:54 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-static char	*closequotes(char *input)
-{
-	char	*joininput;
-
-	if (has_openquotes(input))
-		input = custom_strjoin(input, "\n");
-	while (has_openquotes(input))
-	{
-		joininput = readline("join> ");
-		if (!joininput)
-		{
-			printf("Ctrl+D was pressed in closequotes\n");
-			free(input);
-			exit(-1);
-		}
-		joininput = format_joininput(joininput);
-		input = custom_strjoin(input, joininput);
-		free(joininput);
-	}
-	return (input);
-}
-
-static char	*closebrackets(char *input)
-{
-	char	*joininput;
-	char	*triminput;
-
-	// while (has_openbrackets(input) == true)
-	// {
-		// if (empty_bracket(input))
-		// 	break ;
-		joininput = readline("join> ");
-		if (joininput == NULL)
-		{
-			printf("Ctrl+D was pressed in closebrackets\n");
-			free(input);
-			exit(-1);
-		}
-		triminput = ft_strtrim(input, "\n");
-		free(input);
-		input = triminput;
-		if (*joininput != '\0')
-			input = custom_strjoin(input, " ");
-		input = custom_strjoin(input, joininput);
-		input = closequotes(input);
-		free(joininput);
-		// if (empty_bracket(input))
-			// break ;
-	// }
-	return (input);
-}
-
-static char	*closelogicalops(char *input)
-{
-	char	*joininput;
-
-	while (has_openlogicalops(input) == true)
-	{
-		joininput = readline("join> ");
-		if (joininput == false)
-		{
-			printf("Ctrl+D was pressed in closelogicalops\n");
-			free(input);
-			exit(-1);
-		}
-		input = custom_strjoin(input, " ");
-		input = custom_strjoin(input, joininput);
-		free(joininput);
-	}
-	return (input);
-}
 
 char	*handle_maininput(void)
 {
@@ -103,60 +31,6 @@ char	*handle_maininput(void)
 		}
 	}
 	return (maininput);
-}
-
-bool	has_logicaloperr(char *token, int *openlogicalops)
-{
-	if (is_logicalop(token) == true)
-	{
-		(*openlogicalops)++;
-		if (*openlogicalops > 0)
-		{
-			printf(
-				"syntax error near unexpected token `%c%c'\n", \
-				token[0], token[1]);
-			return (true);
-		}
-	}
-	else if (ft_strspn(token, " ") != ft_strlen(token))
-		(*openlogicalops)--;
-	return (false);
-}
-
-// bool	is_empty(char *start, char *token)
-// {
-// 	while (token >= start)
-// 	{
-// 		if (is_leftbracket(*token))
-// 			return (true);
-// 		if (!is_space(*token) && !is_rightbracket(*token))
-// 			return (false);
-// 		token--;
-// 	}
-// 	return (true);
-// }
-
-bool	has_bracketerr(char *token, int *openbrackets)
-{
-	char	*start;
-
-	token += ft_strspn(token, " ");
-	start = token;
-	while (*token)
-	{
-		if (((start == token) || *openbrackets > 0) && is_leftbracket(*token))
-			(*openbrackets)++;
-		else if (((start != token) && *openbrackets > 0) && is_rightbracket(*token))
-			(*openbrackets)--;
-		else if (((start == token) && is_rightbracket(*token)) \
-			|| ((start != token) && is_bracket(*token)))
-		{
-			printf("syntax error near unexpected token `%c'\n", *token);
-			return (true);
-		}
-		token++;
-	}
-	return (false);
 }
 
 bool	has_no_error(char *input)
@@ -200,7 +74,6 @@ char	*read_inputline(void)
 		input = closebrackets(input);
 		input = closelogicalops(input);
 	}
-
 	update_history(input);
 	// printf("%s\n", input);
 	return (input);
