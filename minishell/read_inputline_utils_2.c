@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 01:20:16 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/27 01:38:55 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/27 06:02:56 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,11 @@ bool	has_openquotes(char *input)
 	quote_t = '\0';
 	while (*input)
 	{
-		if (escaped == false)
-		{
-			if ((is_singlequote(quote_t) == false) && is_backslash(*input))
-				escaped = true;
-			else if (is_quote(*input))
-				toggle_inquote(*input, &inquote, &quote_t);
-		}
-		else
+		if (!escaped && !is_singlequote(quote_t) && is_backslash(*input))
+			escaped = true;
+		else if (!escaped && is_quote(*input))
+			toggle_inquote(*input, &inquote, &quote_t);
+		else if (escaped)
 			escaped = false;
 		input++;
 	}
@@ -87,7 +84,7 @@ bool	empty_bracket(char *input)
 	i = innermost_adr - input;
 	while (--i > 0)
 	{
-		if (is_leftbracket(input[i]) || (is_space(input[i]) == false))
+		if (is_leftbracket(input[i]) || !is_space(input[i]))
 			break ;
 	}
 	if (is_leftbracket(input[i]))
