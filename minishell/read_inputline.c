@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/27 05:58:09 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/27 06:49:45 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ bool	has_no_error(char *input)
 		free(token);
 		token = get_next_token(NULL, false);
 	}
-	free(token);
 	return (true);
 }
 
