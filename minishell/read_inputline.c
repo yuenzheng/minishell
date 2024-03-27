@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/28 00:30:56 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/28 01:00:09 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,11 @@ char	*read_inputline(void)
 	while (has_noerror(input) && has_openblock(input))
 	{
 		input = closequotes(input);
+		if (!has_noerror(input))
+			break ;
 		input = closebrackets(input);
+		if (!has_noerror(input))
+			break ;
 		input = closelogicalops(input);
 		update_history(input);
 	}
