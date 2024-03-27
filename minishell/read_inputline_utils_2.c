@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 01:20:16 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/27 06:02:56 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/28 02:18:30 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ bool	has_openlogicalops(char *input)
 			escaped = true;
 		else if (!escaped && is_quote(*input))
 			toggle_inquote(*input, &inquote, &quote_t);
-		else if (!escaped && !inquote && !inoperator && is_logical_op_n(input))
+		else if (!escaped && !inquote && !inoperator && is_logicalop_n(input))
 			input += set_inoperator_true(&inoperator);
 		else if (!escaped && inoperator && !is_space(*input))
 			inoperator = false;

@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 06:09:32 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/27 01:38:58 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/28 02:18:30 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ bool	is_validpos(char *start, char *input)
 		return (true);
 	while (*start)
 	{
-		if (!inoperator && is_logical_op_n(start))
+		if (!inoperator && is_logicalop_n(start))
 		{
 			inoperator = true;
 			start++;

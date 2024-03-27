@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/28 01:00:09 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/28 02:35:28 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,57 @@ char	*handle_maininput(void)
 	return (maininput);
 }
 
+bool	is_validdelim(char *subtoken)
+{
+	if (is_logicalop_n(subtoken) || is_redirection_n(subtoken))
+		return (false);
+	return (true);
+}
+
+bool	has_redirerr(char *token, int *openredir)
+{
+	char	*subtoken;
+
+	if (*openredir > 0 && is_logicalop(token))
+	{
+		printf("syntax error near unexpected token `%s'\n", token);
+		return (true);
+	}
+	else if (is_logicalop(token))
+		return (false);
+	subtoken = get_next_subtoken(token);
+	while (subtoken)
+	{
+		if (*openredir == 0 && is_redirection(subtoken))
+			(*openredir)++;
+		else if (*openredir > 0 && is_validdelim(subtoken))
+			(*openredir)--;
+		else if (*openredir > 0)
+		{
+			printf("syntax error near unexpected token `%s'\n", subtoken);
+			return (true);
+		}
+		subtoken = get_next_subtoken(NULL);
+	}
+	return (false);
+}
+
 bool	has_noerror(char *input)
 {
 	int		openlogicalops;
 	int		openbrackets;
+	int		openredir;
 	char	*token;
 
 	openlogicalops = 0;
 	openbrackets = 0;
+	openredir = 0;
 	token = get_next_token(input, false);
 	while (token)
 	{
 		if (has_logicaloperr(token, &openlogicalops) \
-			|| has_bracketerr(token, &openbrackets))
+			|| has_bracketerr(token, &openbrackets) \
+			|| has_redirerr(token, &openredir))
 		{
 			free(token);
 			return (false);
