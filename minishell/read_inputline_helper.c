@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 01:20:21 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/27 01:45:31 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/27 22:48:38 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ char	*closequotes(char *input)
 {
 	char	*joininput;
 
-	if (has_openquotes(input))
-		input = custom_strjoin(input, "\n");
-	while (has_openquotes(input))
+	if (has_openquotes(input) == true)
 	{
+		input = custom_strjoin(input, "\n");
 		joininput = readline("join> ");
 		if (!joininput)
 		{
@@ -39,21 +38,24 @@ char	*closebrackets(char *input)
 	char	*joininput;
 	char	*triminput;
 
-	joininput = readline("join> ");
-	if (joininput == NULL)
+	if (has_openbrackets(input) == true)
 	{
-		printf("Ctrl+D was pressed in closebrackets\n");
+		joininput = readline("join> ");
+		if (joininput == NULL)
+		{
+			printf("Ctrl+D was pressed in closebrackets\n");
+			free(input);
+			exit(-1);
+		}
+		triminput = ft_strtrim(input, "\n");
 		free(input);
-		exit(-1);
+		input = triminput;
+		if (*joininput != '\0')
+			input = custom_strjoin(input, " ");
+		input = custom_strjoin(input, joininput);
+		input = closequotes(input);
+		free(joininput);
 	}
-	triminput = ft_strtrim(input, "\n");
-	free(input);
-	input = triminput;
-	if (*joininput != '\0')
-		input = custom_strjoin(input, " ");
-	input = custom_strjoin(input, joininput);
-	input = closequotes(input);
-	free(joininput);
 	return (input);
 }
 
@@ -61,7 +63,7 @@ char	*closelogicalops(char *input)
 {
 	char	*joininput;
 
-	while (has_openlogicalops(input) == true)
+	if (has_openlogicalops(input) == true)
 	{
 		joininput = readline("join> ");
 		if (joininput == false)
@@ -70,8 +72,11 @@ char	*closelogicalops(char *input)
 			free(input);
 			exit(-1);
 		}
-		input = custom_strjoin(input, " ");
-		input = custom_strjoin(input, joininput);
+		if (*joininput != '\0')
+		{
+			input = custom_strjoin(input, " ");
+			input = custom_strjoin(input, joininput);
+		}
 		free(joininput);
 	}
 	return (input);
