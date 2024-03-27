@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/27 22:45:34 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/28 00:30:56 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,20 +105,40 @@ char	*extract_heredoc(char *input, int joinedlen)
 		free(input);
 		exit(-1);
 	}
-	subtoken = get_next_subtoken(joinedtokens);
-	while (subtoken)
-	{
-		if (is_heredoc(subtoken))
-		{
-			result = custom_strjoin(result, subtoken);
-			// i was planning to just joined each heredoc with their name
-			// problem im facing
-			// what if no name exist or name is an error
-			// <<, << ||, << (.
-		}
-		subtoken = get_next_subtoken(NULL);
-	}
+	// subtoken = get_next_subtoken(joinedtokens);
+	// while (subtoken)
+	// {
+	// 	if (is_heredoc(subtoken))
+	// 	{
+	// 		result = custom_strjoin(result, subtoken);
+	// 		// i was planning to just joined each heredoc with their name
+	// 		// problem im facing
+	// 		// what if no name exist or name is an error
+	// 		// <<, << ||, << (.
+	// 	}
+	// 	subtoken = get_next_subtoken(NULL);
+	// }
 	return (ft_strndup(input, joinedlen));
+}
+
+int	validlen(char *token, int *openbrackets)
+{
+	char	*start;
+
+	token += ft_strspn(token, " ");
+	start = token;
+	while (*token)
+	{
+		if (((start == token) || *openbrackets > 0) && is_leftbracket(*token))
+			(*openbrackets)++;
+		else if (((start != token) && *openbrackets > 0) && is_rightbracket(*token))
+			(*openbrackets)--;
+		else if (((start == token) && is_rightbracket(*token)) \
+			|| ((start != token) && is_bracket(*token)))
+			break ;
+		token++;
+	}
+	return (token - start);
 }
 
 char	*trim_errorpart(char *input)
@@ -134,10 +154,14 @@ char	*trim_errorpart(char *input)
 	token = get_next_token(input, false);
 	while (token)
 	{
-		if (has_logicaloperr(token, &openlogicalops) \
-			|| has_bracketerr(token, &openbrackets))
+		if (has_logicaloperr(token, &openlogicalops))
 		{
-			joinedlen += ft_strlen(token);
+			free(token);
+			break ;
+		}
+		else if (has_bracketerr(token, &openbrackets))
+		{
+			joinedlen += validlen(token, &openbrackets);
 			free(token);
 			break ;
 		}
