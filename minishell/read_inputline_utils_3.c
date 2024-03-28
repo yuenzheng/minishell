@@ -5,50 +5,77 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/24 06:09:32 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/28 02:18:30 by ychng            ###   ########.fr       */
+/*   Created: 2024/03/27 01:39:11 by ychng             #+#    #+#             */
+/*   Updated: 2024/03/28 23:59:58 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int	set_inoperator_true(bool *inoperator)
+bool	has_logicaloperr(char *token, int *openlogicalops)
 {
-	*inoperator = true;
-	return (1);
+	if (is_logicalop(token) == true)
+	{
+		(*openlogicalops)++;
+		if (*openlogicalops > 0)
+		{
+			printf(
+				"syntax error near unexpected token `%c%c'\n", \
+				token[0], token[1]);
+			return (true);
+		}
+	}
+	else if (ft_strspn(token, " ") != ft_strlen(token))
+		(*openlogicalops)--;
+	return (false);
 }
 
-bool	is_validpos(char *start, char *input)
+bool	has_bracketerr(char *token, int *openbrackets)
 {
-	bool	inoperator;
+	char	*start;
 
-	inoperator = false;
-	start += ft_strspn(start, " ");
-	if (start == input)
-		return (true);
-	while (*start)
+	token += ft_strspn(token, " ");
+	start = token;
+	while (*token)
 	{
-		if (!inoperator && is_logicalop_n(start))
+		if (((start == token) || *openbrackets > 0) && is_leftbracket(*token))
+			(*openbrackets)++;
+		else if (((start != token) && *openbrackets > 0) && is_rightbracket(*token))
+			(*openbrackets)--;
+		else if (((start == token) && is_rightbracket(*token)) \
+			|| ((start != token) && is_bracket(*token)))
 		{
-			inoperator = true;
-			start++;
+			printf("syntax error near unexpected token `%c'\n", *token);
+			return (true);
 		}
-		else if (inoperator && !is_space(*start))
-		{
-			if (is_leftbracket(*start))
-				return (true);
-			break ;
-		}
-		start++;
+		token++;
 	}
 	return (false);
 }
 
-int	update_open_count(char c)
+bool	has_redirerr(char *token, int *openredir)
 {
-	if (is_leftbracket(c))
-		return (1);
-	if (is_rightbracket(c))
-		return (-1);
-	return (0);
+	while (*token && !is_logicalop(token))
+	{
+		if (is_redirection_n(token) && (*openredir == 0))
+		{
+			token += redirlen(token);
+			(*openredir)++;
+			continue ;
+		}
+		else if (!is_space(*token) && (*openredir > 0))
+		{
+			if (is_notvalidname(token))
+				return (true);
+			else
+				(*openredir)--;
+		}
+		token++;
+	}
+	if (is_logicalop(token) && (*openredir > 0))
+	{
+		printf("syntax error near unexpetec token `%s'\n", token);
+		return (true);
+	}
+	return (false);
 }

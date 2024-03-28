@@ -1,124 +1,92 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_inputline_utils_2.c                           :+:      :+:    :+:   */
+/*   read_inputline_utils_3.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 01:20:16 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/28 02:18:30 by ychng            ###   ########.fr       */
+/*   Created: 2024/03/24 06:09:32 by ychng             #+#    #+#             */
+/*   Updated: 2024/03/28 23:54:35 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-bool	has_openquotes(char *input)
+int	dup_stdoutfd(char *input)
 {
-	bool	escaped;
-	bool	inquote;
-	char	quote_t;
+	int	stdoutfd;
 
-	escaped = false;
-	inquote = false;
-	quote_t = '\0';
-	while (*input)
+	stdoutfd = dup(STDOUT_FILENO);
+	if (stdoutfd == -1)
 	{
-		if (!escaped && !is_singlequote(quote_t) && is_backslash(*input))
-			escaped = true;
-		else if (!escaped && is_quote(*input))
-			toggle_inquote(*input, &inquote, &quote_t);
-		else if (escaped)
-			escaped = false;
-		input++;
+		printf("dup failed for stdoutfd\n");
+		free(input);
+		exit(-1);
 	}
-	return (inquote);
+	return (stdoutfd);
 }
 
-char	*format_joininput(char *joininput)
+int	dup_nullfd(char *input)
 {
-	if (*joininput == '\0')
+	int	nullfd;
+
+	nullfd = open("/dev/null", O_WRONLY);
+	if (nullfd == -1)
 	{
-		free(joininput);
-		return (ft_strdup("\n"));
+		printf("open failed for nullfd\n");
+		free(input);
+		exit(-1);
 	}
-	return (joininput);
+	return (nullfd);
 }
 
-bool	has_openbrackets(char *input)
+char	*trim_errorpart(char *input)
 {
-	char	*start;
-	bool	escaped;
-	bool	inquote;
-	char	quote_t;
-	int		open_count;
+	int		openlogicalops;
+	int		openbrackets;
+	int		openredirs;
+	int		joinedlen;
+	char	*token;
 
-	start = input;
-	escaped = false;
-	inquote = false;
-	quote_t = '\0';
-	open_count = 0;
-	while (*input)
+	openlogicalops = 0;
+	openbrackets = 0;
+	joinedlen = 0;
+	token = get_next_token(input, false);
+	while (token)
 	{
-		if (!escaped && !is_singlequote(quote_t) && is_backslash(*input))
-			escaped = true;
-		else if (!escaped && is_quote(*input))
-			toggle_inquote(*input, &inquote, &quote_t);
-		else if (!escaped && !inquote && is_bracket(*input) \
-				&& (open_count || is_validpos(start, input)))
-			open_count += update_open_count(*input);
-		else if (escaped)
-			escaped = false;
-		input++;
-	}
-	return (open_count > 0);
-}
-
-bool	empty_bracket(char *input)
-{
-	char	*innermost_adr;
-	int		i;
-
-	innermost_adr = ft_rstrchr(input, ')');
-	if (innermost_adr == NULL)
-		return (false);
-	i = innermost_adr - input;
-	while (--i > 0)
-	{
-		if (is_leftbracket(input[i]) || !is_space(input[i]))
+		if (has_logicaloperr(token, &openlogicalops))
+		{
+			free(token);
 			break ;
+		}
+		else if (has_bracketerr(token, &openbrackets))
+		{
+			joinedlen += validlen(token, &openbrackets);
+			free(token);
+			break ;
+		}
+		else if (has_redirerr(token, &openredirs) || openredirs > 0)
+		{
+			joinedlen += validlenredir(token);
+			free(token);
+			break ;
+		}
+		joinedlen += ft_strlen(token);
+		free(token);
+		token = get_next_token(NULL, false);
 	}
-	if (is_leftbracket(input[i]))
-	{
-		printf("syntax error near unexpected token `)'\n");
-		return (true);
-	}
-	return (false);
+	return (extract_heredoc(input, joinedlen));
 }
 
-bool	has_openlogicalops(char *input)
-{
-	bool	escaped;
-	bool	inquote;
-	char	quote_t;
-	bool	inoperator;
 
-	escaped = false;
-	inquote = false;
-	quote_t = '\0';
-	inoperator = false;
-	while (*input)
-	{			
-		if (!escaped && !is_singlequote(quote_t) && is_backslash(*input))
-			escaped = true;
-		else if (!escaped && is_quote(*input))
-			toggle_inquote(*input, &inquote, &quote_t);
-		else if (!escaped && !inquote && !inoperator && is_logicalop_n(input))
-			input += set_inoperator_true(&inoperator);
-		else if (!escaped && inoperator && !is_space(*input))
-			inoperator = false;
-		else if (escaped)
-			escaped = false;
-		input++;
-	}
-	return (inoperator);
-}
+
+
+
+
+
+
+
+
+
+
+
