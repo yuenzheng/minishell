@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/28 18:46:50 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/28 23:01:14 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,24 +92,29 @@ bool	has_noerror(char *input)
 {
 	int		openlogicalops;
 	int		openbrackets;
-	int		openredir;
+	int		openredirs;
 	char	*token;
 
 	openlogicalops = 0;
 	openbrackets = 0;
-	openredir = 0;
+	openredirs = 0;
 	token = get_next_token(input, false);
 	while (token)
 	{
 		if (has_logicaloperr(token, &openlogicalops) \
 			|| has_bracketerr(token, &openbrackets) \
-			|| has_redirerr(token, &openredir))
+			|| has_redirerr(token, &openredirs))
 		{
 			free(token);
 			return (false);
 		}
 		free(token);
 		token = get_next_token(NULL, false);
+	}
+	if (openredirs > 0)
+	{
+		printf("syntax error near unexpected `newline'\n");
+		return (false);
 	}
 	return (true);
 }
@@ -199,10 +204,42 @@ int	validlen(char *token, int *openbrackets)
 	return (token - start);
 }
 
+int	validlenredir(char *token)
+{
+	char		*start;
+	char		*lastredir;
+	int			openredirs;
+
+	openredirs = 0;
+	start = token;
+	while (*token)
+	{
+		if (is_redirection_n(token) && (openredirs == 0))
+		{
+			lastredir = token;
+			openredirs++;
+			token += redirlen(token);
+			continue ;
+		}
+		else if (!is_space(*token) && (openredirs > 0))
+		{
+			if (is_notvalidname(token))
+				return (lastredir - start);
+			else
+				openredirs--;
+		}
+		token++;
+	}
+	if (openredirs > 0)
+		return (lastredir - start);
+	return (token - start);
+}
+
 char	*trim_errorpart(char *input)
 {
 	int		openlogicalops;
 	int		openbrackets;
+	int		openredirs;
 	int		joinedlen;
 	char	*token;
 
@@ -220,6 +257,12 @@ char	*trim_errorpart(char *input)
 		else if (has_bracketerr(token, &openbrackets))
 		{
 			joinedlen += validlen(token, &openbrackets);
+			free(token);
+			break ;
+		}
+		else if (has_redirerr(token, &openredirs) || openredirs > 0)
+		{
+			joinedlen += validlenredir(token);
 			free(token);
 			break ;
 		}
