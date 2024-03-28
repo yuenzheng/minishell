@@ -6,7 +6,7 @@
 /*   By: ychng <ychng@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:39:08 by ychng             #+#    #+#             */
-/*   Updated: 2024/03/28 17:23:57 by ychng            ###   ########.fr       */
+/*   Updated: 2024/03/28 18:46:50 by ychng            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,6 @@ char	*handle_maininput(void)
 	return (maininput);
 }
 
-bool	is_validname(char *token)
-{
-	if (is_space(*token) || is_redirection_n(token))
-		return (false);
-	return (true);
-}
-
 int	redirlen(char *token)
 {
 	if (ft_strncmp(token, "<<<", 3) == 0)
@@ -54,44 +47,43 @@ int	redirlen(char *token)
 	return (0);
 }
 
+bool	is_notvalidname(char *token)
+{
+	char	*subtoken;
+
+	if (is_redirection_n(token))
+	{
+		subtoken = get_next_subtoken(token);
+		printf("syntax error near unexpected token `%s'\n", subtoken);
+		free(subtoken);
+		return (true);
+	}
+	return (false);
+}
+
 bool	has_redirerr(char *token, int *openredir)
 {
-	static char	*lastredirop;
-	char		*subtoken;
-
-	if (is_logicalop(token))
+	while (*token && !is_logicalop(token))
 	{
-		if (*openredir > 0)
+		if (is_redirection_n(token) && (*openredir == 0))
 		{
-			printf("syntax error near unexpected token `%s'\n", token);
-			return (true);
-		}
-		return (false);
-	}
-	while (*token)
-	{
-		if (*openredir == 0 && is_redirection_n(token))
-		{
-			lastredirop = token;
 			token += redirlen(token);
 			(*openredir)++;
+			continue ;
 		}
-		else if (*openredir > 0 && !is_space(*token))
+		else if (!is_space(*token) && (*openredir > 0))
 		{
-			if (is_redirection_n(token))
-			{
-				subtoken = get_next_subtoken(token);
-				printf("syntax error near unexpected token `%s'\n", subtoken);
-				return (free(subtoken), true);
-			}
+			if (is_notvalidname(token))
+				return (true);
 			else
-			{
-				lastredirop = NULL;
 				(*openredir)--;
-			}
 		}
-		else
-			token++;
+		token++;
+	}
+	if (is_logicalop(token) && (*openredir > 0))
+	{
+		printf("syntax error near unexpetec token `%s'\n", token);
+		return (true);
 	}
 	return (false);
 }
